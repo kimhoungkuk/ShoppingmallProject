@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:lang="http://www.springframework.org/schema/lang"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <context:spring-configured />
+
+    <!-- context:load-time-weaver / -->
+
+	<!-- 
+		어플리케이션 컨텍스트안에 이미 등록된 빈들의 어노테이션을 활성화를 위해 사용된다
+		이미 스프링 컨텍스트에 의해 생성되어 저장된  빈들에 대해서  @Autowired and @Qualifier 어노테이션을 해석
+		@Required 어노테이션 처리
+		@Autowired 어노테이션 처리
+		@Resource, @PostConstruct, @PreDestroy 어노테이션 처리
+ 		@Configuration 어노테이션 처리
+	 -->
+    <context:annotation-config />
+
+	<!-- 
+		특정 패키지(com.project.shop) 안의 클래스들을 스캔하고 , 빈 인스턴스를 생성한다.
+		@Repository
+		@Service
+		@Controller
+	-->
+    <context:component-scan base-package="com.project.shop"/>
+
+    <aop:aspectj-autoproxy/>
+    
+    <!-- 아노테이션 기반의 트랜잭션을 사용합니다. --> 
+    <tx:annotation-driven transaction-manager="transactionManager"/>    
+
+    <aop:config>
+        <aop:pointcut id="servicePointcut" expression="execution(* *..service.*Service.*(..))" />
+        <aop:pointcut id="daoPointcut" expression="execution(* *..dao.*Dao.*(..))" />
+        <aop:advisor id="managerTx" advice-ref="txAdviceForWebDb" pointcut-ref="servicePointcut" />
+        <aop:aspect id="logging" ref="loggingAspect">
+            <aop:around pointcut-ref="servicePointcut" method="serviceChecker" />
+            <aop:around pointcut-ref="daoPointcut" method="serviceChecker" />
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="loggingAspect" class="com.project.shop.site.aop.LoggingAspect" />
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="/WEB-INF/config/database.properties"/>
+    </bean>
+
+    <!-- 데이터베이스 연결 --> 
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
+        <property name="driverClassName">
+            <value>${driverClassName}</value>
+        </property>
+        <property name="url">
+            <value>${connectionStringForWebDb}</value>
+        </property>
+        <property name="username">
+            <value>${databaseUserForWebDb}</value>
+        </property>
+        <property name="password">
+            <value>${databasePasswordForWebDb}</value>
+        </property>
+    </bean> 
+
+    <!-- SqlSession --> 
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+	    <property name="dataSource" ref="dataSource" /> 
+	    <!-- MyBatis 설정 파일의 위치를 지정합니다. --> 
+	    <property name="configLocation" value="classpath:sql/sqlmap-config-webdb.xml" /> 
+	    <!-- SQL 파일의 위치를 지정합니다. --> 
+	    <property name="mapperLocations" value="classpath:sql/mapper/*SQL.xml" /> 
+    </bean> 
+
+	<!-- SqlSession --> 
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache"> 
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" /> 
+	</bean>
+ 
+	 <!-- 지정된 베이스 패키지에서 DAO(Mapper) 를 검색하여 등록합니다. -->
+ 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> 
+ 		<property name="basePackage" value="com.project.shop.dao.ibatis" /> 
+ 	</bean>
+
+	<!-- 트랜잭션 매니저 bean 을 등록합니다. --> 
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
+		<property name="dataSource" ref="dataSource" /> 
+	</bean> 
+
+    <tx:advice id="txAdviceForWebDb" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true" propagation="SUPPORTS"/>
+            <tx:method name="select*" read-only="true" propagation="SUPPORTS"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>/WEB-INF/config/messages</value>
+            </list>
+        </property>
+        <property name="cacheSeconds">
+            <value>-1</value>
+        </property>
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
+    </bean>
+
+    <bean id="messageSourceAccessor" class="org.springframework.context.support.MessageSourceAccessor">
+        <constructor-arg>
+            <ref bean="messageSource"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="config" class="com.project.shop.config.Config">
+        <constructor-arg index="0" value="/WEB-INF/config/shopConfig.xml"/>
+    </bean>
+
+    <task:annotation-driven scheduler="myScheduler" executor="myExecutor"/>
+    <task:scheduler id="myScheduler" pool-size="10"/>
+    <task:scheduler id="myExecutor" pool-size="10"/>
+</beans>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>shop설정</comment>
+    <entry key="hello">world</entry>
+    <entry key="cookie.domain">.shop.co.kr</entry>
+    <entry key="server.charset">MS949</entry>
+    <entry key="server.host">local.abcmart.co.kr</entry>
+    <entry key="server.port">8080</entry>
+</properties>

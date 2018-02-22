@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/pages/decorators">
+    <excludes>
+        <pattern>/shop/*</pattern>
+        <pattern>/scripts/*</pattern>
+        <pattern>/images/*</pattern>
+    	<pattern>/WEB-INF/template/*</pattern>
+        <pattern>/abc/user/nameCheckReturn</pattern>
+        <pattern>/publish/*</pattern>
+    </excludes>
+</decorators>
