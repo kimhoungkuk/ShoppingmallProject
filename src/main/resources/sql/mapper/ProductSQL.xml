@@ -5,9 +5,12 @@
 	
 	<select id="selectProductList" resultType="com.project.shop.model.Product"> 
 		SELECT 
-			'A' productName
+			PRODUCT_SEQ,
+			PRODUCT_NAME,
+			PRODUCT_PRICE,
+			PRODUCT_CONTENTS
 		FROM 
-		 	DUAL
+		 	TB_PRODUCT
 	</select> 
 	
 </mapper>

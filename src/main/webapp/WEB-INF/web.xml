@@ -6,10 +6,20 @@
     <param-name>webAppRootKey</param-name>
     <param-value>shop.webapp.root</param-value>
   </context-param>
-  <context-param>
+<!--   <context-param>
     <param-name>log4jConfigLocation</param-name> 
     <param-value>/WEB-INF/config/log4j.properties</param-value>
-  </context-param>
+  </context-param> -->
+   <context-param>
+        <param-name>log4jConfigLocation</param-name>
+    	<param-value>classpath:log/log4j.xml</param-value>
+   </context-param>
+   <!-- log4jRefreshInterval 을 세팅하면 log4j.xml 에서 level 이나 
+        로그출력 패턴 변경을 하면 자동 리프레쉬 된다. -->
+   <context-param>
+       <param-name>log4jRefreshInterval</param-name>
+       <param-value>60000</param-value>
+   </context-param>      
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>/WEB-INF/config/applicationContext.xml</param-value>
@@ -34,14 +44,6 @@
       <param-name>eucEncoding</param-name>
       <param-value>euc_kr</param-value>
     </init-param>
-    <init-param>
-      <param-name>eucUrl1</param-name>
-      <param-value>/abc/order/cvsResult</param-value>
-    </init-param>
-    <init-param>
-      <param-name>eucUrl2</param-name>
-      <param-value>/mobile/order/cvsResult</param-value>
-    </init-param>
   </filter>
   <filter-mapping>
     <filter-name>sitemesh</filter-name>
@@ -52,6 +54,8 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   <listener>
+     <!-- listener-class에 등록되어 있는 Log4jConfigListener는 log4j라는 로깅 프레임워크를 초기화 하는 클래스이다.
+         이 클래스를 초기화 할 때 log4jConfigLocation context-param을 넘겨준다. --> 
     <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
   </listener>
   <listener>
@@ -73,14 +77,14 @@
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
-  <error-page>
+<!--   <error-page>
     <error-code>404</error-code>
     <location>/common/pageNotFound</location>
   </error-page>
   <error-page>
     <error-code>500</error-code>
     <location>/common/pageNotFound</location>
-  </error-page>  
+  </error-page>   -->
    <security-constraint>
        <display-name>Http Method Non-use</display-name>
        <web-resource-collection>

@@ -19,9 +19,8 @@ import org.apache.commons.logging.LogFactory;
 @Controller 
 public class ProductController {
 
-	
     private Log log = LogFactory.getLog(this.getClass());
-
+    
     @Autowired
     private ProductService productService;
 
@@ -35,7 +34,7 @@ public class ProductController {
 
     	log.debug(product);
     	
-    	System.out.println(Config.getStrings("hello"));
+    	System.out.println(Config.getString("hello"));
     	
     	return new ModelAndView("home");
     }

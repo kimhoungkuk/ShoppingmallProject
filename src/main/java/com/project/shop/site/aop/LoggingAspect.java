@@ -20,8 +20,9 @@ import org.springframework.util.StopWatch;
  *
 */
 public class LoggingAspect {
-    private final Log log = LogFactory.getLog(LoggingAspect.class);
-
+	
+    private Log log = LogFactory.getLog(this.getClass());
+    
     public Object serviceChecker(ProceedingJoinPoint joinPoint) throws Throwable {
 
         String className = joinPoint.getSignature().getDeclaringType().getName();

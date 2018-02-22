@@ -3,21 +3,29 @@ package com.project.shop.security;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class BackOfficeInterceptor extends HandlerInterceptorAdapter {
 
-    /* 
-     * 어드민 시스템 시작하기전에 체크 로직
-     * @see org.springframework.web.servlet.handler.HandlerInterceptorAdapter#preHandle(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object)
-     */
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        
-        System.out.println("============컨ㅌ==========");
+       private Log log = LogFactory.getLog(this.getClass());
     
-        return true;
-    }
+	   @Override
+	   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+	       if (log.isDebugEnabled()) {
+	           log.info("======================================          START         ======================================");
+	           log.info(" Request URI \t:  " + request.getRequestURI());
+	       }
+	       return super.preHandle(request, response, handler);
+	   }
+	    
+	   @Override
+	   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+	       if (log.isDebugEnabled()) {
+	           log.info("======================================           END          ======================================\n");
+	       }
+	   }
     
 }

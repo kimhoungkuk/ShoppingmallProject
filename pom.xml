@@ -169,6 +169,7 @@
 		    <groupId>log4j</groupId>
 		    <artifactId>log4j</artifactId>
 		    <version>1.2.17</version>
+		    <scope>runtime</scope>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
@@ -221,23 +222,6 @@
         </configuration>
       </plugin>
     </plugins>
-	<resources>
-	    <resource>
-	        <directory>src/main/java</directory>
-	        <includes>
-	            <include>**/*.xml</include>
-	        </includes>
-	    </resource>
-	    <resource>
-	        <directory>src/main/resources</directory>
-	        <includes>
-	            <include>**/*.xml</include>
-	            <include>**/*.properties</include>
-	            <include>**/*.setting</include>
-	        </includes>
-	    </resource>
-	</resources>    
   </build>
-  
   
 </project>
