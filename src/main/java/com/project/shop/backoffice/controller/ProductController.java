@@ -13,14 +13,14 @@ import com.project.shop.model.Product;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller 
 public class ProductController {
 
-    private Log log = LogFactory.getLog(this.getClass());
-    
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
+	
     @Autowired
     private ProductService productService;
 
@@ -30,9 +30,11 @@ public class ProductController {
     @RequestMapping(value = "/admin/product")
     public ModelAndView productList(ModelMap modelMap) throws SQLException{
     	
+    	LOGGER.info("hello SLF4J");
+    	
     	List<Product>  product = productService.getProductList();
 
-    	log.debug(product);
+    	Product product2 = product.get(0);
     	
     	System.out.println(Config.getString("hello"));
     	
