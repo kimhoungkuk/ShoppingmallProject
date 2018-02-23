@@ -60,34 +60,42 @@
 		    <version>1.2</version>
 		</dependency>
         
-		<!--  -->                        
-      	<dependency>
-        	<groupId>org.apache.logging.log4j</groupId>
-        	<artifactId>log4j-api</artifactId>
-        	<version>2.5</version>
-      	</dependency>
-      	<dependency>
-        	<groupId>org.apache.logging.log4j</groupId>
-        	<artifactId>log4j-core</artifactId>
-        	<version>2.5</version>
-      	</dependency>
+		<!-- logback 적용 -->                        
 		<dependency>
-			<groupId>org.bgee.log4jdbc-log4j2</groupId>
-			<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
-			<version>1.16</version>
-		</dependency>
-
-        <dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-slf4j-impl</artifactId>
-		    <version>2.5</version>
-	  	</dependency>
-
- 		<dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.18</version>
-        </dependency>
+		<groupId>ch.qos.logback</groupId>
+		<artifactId>logback-access</artifactId>
+		<version>1.0.13</version>
+		 </dependency>
+		 <dependency>
+		<groupId>ch.qos.logback</groupId>
+		    <artifactId>logback-core</artifactId>
+		    <version>1.0.13</version>
+		 </dependency>
+		 <dependency>
+		    <groupId>ch.qos.logback</groupId>
+		    <artifactId>logback-classic</artifactId>
+		    <version>1.0.13</version>
+		 </dependency>
+		 <dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-api</artifactId>
+		    <version>1.7.5</version>
+		 </dependency>
+		 <dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>jcl-over-slf4j</artifactId>
+		    <version>1.7.5</version>
+		 </dependency>
+		 <dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>log4j-over-slf4j</artifactId>
+		    <version>1.7.5</version>
+		 </dependency>
+		 <dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-jcl</artifactId>
+		    <version>1.7.5</version>
+		 </dependency>
 		      
         <!-- 스프링에서 JDBC 를 사용하기 위한 라이브러리 입니다. -->                 
 		<dependency>
