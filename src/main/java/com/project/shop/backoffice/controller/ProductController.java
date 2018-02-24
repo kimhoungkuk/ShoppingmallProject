@@ -30,7 +30,7 @@ public class ProductController {
     @RequestMapping(value = "/admin/product")
     public ModelAndView productList(ModelMap modelMap) throws SQLException{
     	
-    	LOGGER.info("hello SLF4J");
+    	LOGGER.info("hello SLF4J"); 
     	
     	List<Product>  product = productService.getProductList();
 
