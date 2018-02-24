@@ -22,7 +22,7 @@ public class ProductController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 	
     @Autowired
-    private ProductService productService;
+    private ProductService productService; 
 
     /**
      * 상품 리스트.
