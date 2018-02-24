@@ -6,9 +6,9 @@
 </head>
 <body>
 <h1>
-	Hello world!  
+	Hello world!
 </h1>
 
-<P></P>
+<P>test</P>
 </body>
 </html>
