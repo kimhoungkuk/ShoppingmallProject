@@ -1,0 +1,45 @@
+tb_product_option
+
+product_code
+product_color_code
+product_size_code
+product_lave_color
+
+tb_code
+
+code_class  aa
+code_name   빨강
+
+
+product_code
+
+color 그룹
+첫번째 컬러의 사이즈
+
+컬러를 선택할때마다 ajax로 사이즈 가져와서 뿌리고
+재고가 없으면 재고알림버튼
+재고가 있으면 주문가능버튼
+
+tb_product
+
+product_code
+product_name
+brand_id
+category_id
+product_sell_price
+product_comment
+product_top_image
+prduct_reg_date
+product_reg_id
+product_mod_date
+product_mod_id
+
+tb_admin_history
+
+
+tb_product_image
+
+product_code
+product_orign_image_name
+product_image_name
+
