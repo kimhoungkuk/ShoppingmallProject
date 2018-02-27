@@ -9,7 +9,7 @@
   <name>board</name>
   <url>http://maven.apache.org</url>
 
-    <repositories>
+   <repositories>
 	  <repository>
 	   <id>oracle</id>
 	   <url>http://maven.jahia.org/maven2</url>
@@ -208,11 +208,26 @@
 		    <version>2.3.4.726</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/opensymphony/sitemesh -->
-		<dependency>
-		    <groupId>opensymphony</groupId>
-		    <artifactId>sitemesh</artifactId>
-		    <version>2.4.2</version>
+		<!-- Apache Tiles --> 
+		<dependency> 
+			<groupId>org.apache.tiles</groupId> 
+			<artifactId>tiles-core</artifactId> 
+			<version>3.0.5</version> 
+		</dependency> 
+		<dependency>  
+			<groupId>org.apache.tiles</groupId> 
+			<artifactId>tiles-api</artifactId> 
+			<version>3.0.5</version> 
+		</dependency> 
+		<dependency> 
+			<groupId>org.apache.tiles</groupId> 
+			<artifactId>tiles-servlet</artifactId> 
+			<version>3.0.5</version> 
+		</dependency> 
+		<dependency>  
+			<groupId>org.apache.tiles</groupId> 
+			<artifactId>tiles-jsp</artifactId> 
+			<version>3.0.5</version> 
 		</dependency>
 
     </dependencies>

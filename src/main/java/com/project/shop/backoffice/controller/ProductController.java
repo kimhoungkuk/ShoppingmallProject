@@ -2,12 +2,11 @@ package com.project.shop.backoffice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.shop.service.ProductService;
-import com.project.shop.config.Config;
 import com.project.shop.model.Product;
 
 import java.sql.SQLException;
@@ -27,18 +26,14 @@ public class ProductController {
     /**
      * 상품 리스트.
      */
-    @RequestMapping(value = "/admin/product")
-    public ModelAndView productList(ModelMap modelMap) throws SQLException{
+    @RequestMapping(value = "/admin/productList")
+    public ModelAndView productList(Model model) throws SQLException{
     	
-    	LOGGER.info("hello SLF4J"); 
-    	
-    	List<Product>  product = productService.getProductList();
+    	List<Product>  productList = productService.getProductList();
 
-    	Product product2 = product.get(0);
+    	model.addAttribute("productList", productList);
     	
-    	System.out.println(Config.getString("hello"));
-    	
-    	return new ModelAndView("home");
+    	return new ModelAndView("backoffice/product/productList");
     }
 
 }
