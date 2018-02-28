@@ -14,6 +14,10 @@
     <param-name>velocityConfigLocation</param-name>
     <param-value>/WEB-INF/config/velocity.properties</param-value>
   </context-param>
+  <context-param>
+     <param-name>logbackConfigLocation</param-name>
+     <param-value>classpath:logback.xml</param-value>
+  </context-param>     
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>com.project.shop.http.MultiCharacterEncodingFilter</filter-class>
@@ -32,9 +36,7 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   <listener>
-     <!-- listener-class에 등록되어 있는 Log4jConfigListener는 log4j라는 로깅 프레임워크를 초기화 하는 클래스이다.
-         이 클래스를 초기화 할 때 log4jConfigLocation context-param을 넘겨준다. --> 
-    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+     <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
   </listener>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

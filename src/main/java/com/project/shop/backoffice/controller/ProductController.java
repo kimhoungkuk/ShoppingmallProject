@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 @Controller 
 public class ProductController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
     @Autowired
     private ProductService productService; 
@@ -32,6 +32,8 @@ public class ProductController {
     	List<Product>  productList = productService.getProductList();
 
     	model.addAttribute("productList", productList);
+    	
+    	logger.info("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa : " + productList.get(0).getProductName());
     	
     	return new ModelAndView("backoffice/product/productList");
     }
