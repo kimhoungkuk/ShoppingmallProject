@@ -180,6 +180,11 @@ COMMENT ON COLUMN SHOP_PRODUCT_OPTION.MOD_ID IS '수정자 아이디';
 
 alter table SHOP_PRODUCT_OPTION
 add (color_name VARCHAR2(20));
+<<<<<<< HEAD
+=======
+
+COMMENT ON COLUMN SHOP_PRODUCT_OPTION.COLOR_NAME IS '컬러명';
+>>>>>>> branch 'master' of https://github.com/kimhoungkuk/ShoppingmallProject
 
 COMMENT ON COLUMN SHOP_PRODUCT_OPTION.COLOR_NAME IS '컬러명';
 
