@@ -23,7 +23,7 @@ public class JunitTest {
 		
 		List<Product>  productList = productService.getProductList();
 		
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa : " + productList.get(0).getProductName());
+		//System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa : " + productList.get(0).getProductName());
 
 	}
 }

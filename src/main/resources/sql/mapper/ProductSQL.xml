@@ -5,12 +5,18 @@
 	
 	<select id="selectProductList" resultType="com.project.shop.model.Product"> 
 		SELECT 
-			PRODUCT_SEQ,
-			PRODUCT_NAME,
-			PRODUCT_PRICE,
-			PRODUCT_CONTENTS
+			  PRDT_CODE,
+			  PRDT_KOR_NAME,
+			  PRDT_ENG_NAME,
+			  PRDT_SELL_PRICE,
+			  PRDT_BRAND_ID,
+			  PRDT_DISP_YN,
+			  PRDT_REG_ID,
+			  PRDT_REG_DT,
+			  PRDT_MOD_ID,
+			  PRDT_MOD_DT
 		FROM 
-		 	TB_PRODUCT
+		 	SHOP_PRODUCT
 	</select> 
 	
 </mapper>

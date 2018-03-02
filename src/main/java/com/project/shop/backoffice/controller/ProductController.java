@@ -15,6 +15,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 상품 관리 컨트롤러
+ * @author kimhk0
+ *
+ */
 @Controller 
 public class ProductController {
 
@@ -32,10 +37,19 @@ public class ProductController {
     	List<Product>  productList = productService.getProductList();
 
     	model.addAttribute("productList", productList);
-    	
-    	logger.info("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa : " + productList.get(0).getProductName());
-    	
+
     	return new ModelAndView("backoffice/product/productList");
+    	
+    }
+    
+    /**
+     * 상품 등록.
+     */
+    @RequestMapping(value = "/admin/productRegister")
+    public ModelAndView productForm(Model model) throws SQLException{
+
+    	return new ModelAndView("backoffice/product/productRegister");
+    	
     }
 
 }

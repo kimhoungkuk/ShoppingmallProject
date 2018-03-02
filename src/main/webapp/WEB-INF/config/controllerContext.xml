@@ -30,6 +30,8 @@
     
     <mvc:default-servlet-handler/>
     
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/pages/" p:suffix=".jsp"/>
 
 	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" >
