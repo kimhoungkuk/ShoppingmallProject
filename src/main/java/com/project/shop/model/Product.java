@@ -24,7 +24,7 @@ public class Product {
 	/**
 	 * 상품 판매가
 	 */
-	private int prdtSellPrice;
+	private Integer prdtSellPrice;
 	/**
 	 * 상품 브랜드 아이디
 	 */
@@ -33,6 +33,10 @@ public class Product {
 	 * 상품 전시여부
 	 */
 	private String prdtDispYn;
+	/**
+	 * 상품 상세 
+	 */
+	private String productDetail;	
 	/**
 	 * 상품 등록자
 	 */
@@ -70,11 +74,11 @@ public class Product {
 	public void setPrdtEngName(String prdtEngName) {
 		this.prdtEngName = prdtEngName;
 	}
-	
-	public int getPrdtSellPrice() {
+		
+	public Integer getPrdtSellPrice() {
 		return prdtSellPrice;
 	}
-	public void setPrdtSellPrice(int prdtSellPrice) {
+	public void setPrdtSellPrice(Integer prdtSellPrice) {
 		this.prdtSellPrice = prdtSellPrice;
 	}
 	
@@ -90,6 +94,13 @@ public class Product {
 	}
 	public void setPrdtDispYn(String prdtDispYn) {
 		this.prdtDispYn = prdtDispYn;
+	}
+	
+	public String getProductDetail() {
+		return productDetail;
+	}
+	public void setProductDetail(String productDetail) {
+		this.productDetail = productDetail;
 	}
 	
 	public String getPrdtRegId() {
