@@ -9,9 +9,15 @@
 	          lang: 'ko-KR' // default: 'en-US'
         });
 		 
-	    $('.btn-primary').click(function() {
+	    $('#register').click(function() {
 	    	frmSubmit();
 	    });
+	    
+	    $('#list').click(function() {
+	    	var decodingUrl = decodeURIComponent("${param.listUrl}");
+	    	document.location.href="${param.listUrl}";
+	    });
+	    
 	}); 
 
 	function frmSubmit(){
@@ -28,7 +34,7 @@
 	}
 </script>
 		<div class="col-sm-10">
-			<form action="/shop/admin/product/productRegister" method="post"  id="prdtForm" name="prdtForm">
+			<form action="/admin/product/productRegister" method="post"  id="prdtForm" name="prdtForm">
 				<table class="table table-bordered">
 					<tr>
 						<th>상품한글명</th>
@@ -64,6 +70,7 @@
 						</td>
 					</tr>																		
 				</table>
-				<button type="button" class="btn btn-primary">작성하기</button>
+				<button type="button" class="btn btn-primary" id="list">목록</button>
+				<button type="button" class="btn btn-primary" id="register">작성하기</button>
 			</form>
 		</div>
