@@ -28,7 +28,7 @@
 	}
 </script>
 		<div class="col-sm-10">
-			<form action="/shop/admin/productRegister" method="post"  id="prdtForm" name="prdtForm">
+			<form action="/shop/admin/product/productRegister" method="post"  id="prdtForm" name="prdtForm">
 				<table class="table table-bordered">
 					<tr>
 						<th>상품한글명</th>
@@ -58,9 +58,9 @@
 						</td>
 					</tr>
 					<tr>
-						<th>상품정보</th>
+						<th>상품상세정보</th>
 						<td>
-							<textarea name="productDetail" class="summernote" id="productDetail"></textarea>
+							<textarea name="prdtDetail" class="summernote" id="prdtDetail"></textarea>
 						</td>
 					</tr>																		
 				</table>

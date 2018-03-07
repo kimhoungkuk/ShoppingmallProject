@@ -13,7 +13,10 @@ import com.project.shop.service.ProductService;
 import com.project.shop.model.Product;
 
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,12 +40,16 @@ public class ProductController {
     /**
      * 상품 리스트.
      */
-    @RequestMapping(value = "/admin/productList")
-    public ModelAndView productList(Model model) throws SQLException{
+    @RequestMapping(value = "/admin/product/productList")
+    public ModelAndView productList(Model model, Product product, HttpServletRequest request) throws SQLException{
     	
-    	List<Product>  productList = productService.getProductList();
+    	product.setTotalCount(productService.getProductListTotalCount()); 
+    	product.setPagingUrl(request);
+    	
+    	List<Product>  productList = productService.getProductList(product);
 
     	model.addAttribute("productList", productList);
+    	model.addAttribute("product", product);
 
     	return new ModelAndView("backoffice/product/productList");
     	
@@ -51,7 +58,7 @@ public class ProductController {
     /**
      * 상품 등록폼.
      */
-    @RequestMapping(value = "/admin/productRegisterForm")
+    @RequestMapping(value = "/admin/product/productRegisterForm")
     public ModelAndView productRegisterForm(Model model) throws SQLException{
 
     	return new ModelAndView("backoffice/product/productRegisterForm");
@@ -61,16 +68,16 @@ public class ProductController {
     /**
      * 상품 등록.
      */
-    @RequestMapping(value = "/admin/productRegister",method=RequestMethod.POST)
+    @RequestMapping(value = "/admin/product/productRegister",method=RequestMethod.POST)
     public String productRegister(Product product) throws SQLException{
     	
-    	logger.debug("===============================1"+product.getProductDetail());
-     	logger.info("===============================2"+product.getProductDetail());
-    	System.out.println("===============================3"+product.getProductDetail());
- 
-    	System.out.println("1");
-    	
-    	return ("redirect:/admin/productRegisterForm");
+    	int num = productService.createProduct(product);
+
+        if(num < 1){
+            throw new RuntimeException("상품 등록시 오류 발생했습니다.");
+        }
+        
+    	return ("redirect:/admin/productList");
     	
     }
 
