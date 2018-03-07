@@ -29,7 +29,7 @@
     <mvc:annotation-driven/>
     
     <mvc:default-servlet-handler/>
-    
+
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/pages/" p:suffix=".jsp"/>
 
 	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" >
