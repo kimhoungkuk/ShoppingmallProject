@@ -47,9 +47,9 @@ public class ProductController {
      */
     @RequestMapping(value = "/admin/productRegister")
     public ModelAndView productForm(Model model) throws SQLException{
-
     	return new ModelAndView("backoffice/product/productRegister");
     	
     }
 
+    
 }
