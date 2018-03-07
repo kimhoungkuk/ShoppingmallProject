@@ -2,15 +2,85 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. --> 
 <mapper namespace="ProductSQL"> 
-	
-	<select id="selectProductList" resultType="com.project.shop.model.Product"> 
+
+	<sql id="pagingHeaderSql">
 		SELECT 
-			PRODUCT_SEQ,
-			PRODUCT_NAME,
-			PRODUCT_PRICE,
-			PRODUCT_CONTENTS
+			* 
 		FROM 
-		 	TB_PRODUCT
+		( 
+			SELECT 
+				ROWNUM AS RNUM
+				, A.*
+			FROM 
+			( 
+	</sql>
+	
+	<sql id="pagingFooterSql">
+			) A 
+			WHERE ROWNUM <![CDATA[ <= ]]> #{endRownum}
+		) 
+		WHERE RNUM <![CDATA[ >  ]]> #{startRownum} 
+	</sql>    
+	
+	<select id="getProductListTotalCount" resultType="int"> 
+			SELECT
+				COUNT(*)
+			FROM 
+			 	SHOP_PRODUCT
 	</select> 
+	
+    <select id="selectProductList" resultType="com.project.shop.model.Product" parameterType="com.project.shop.model.Product"> 
+		<include refid="pagingHeaderSql"/>
+			SELECT 
+				  PRDT_CODE,
+				  PRDT_KOR_NAME,
+				  PRDT_ENG_NAME,
+				  PRDT_SELL_PRICE,
+				  PRDT_BRAND_ID,
+				  PRDT_DISP_YN,
+				  PRDT_DETAIL,
+				  PRDT_REG_ID,
+				  PRDT_REG_DT,
+				  PRDT_MOD_ID,
+				  PRDT_MOD_DT
+			FROM 
+			 	SHOP_PRODUCT
+ 	    <include refid="pagingFooterSql"/>
+	</select> 
+	
+    <insert id="createProduct" parameterType="com.project.shop.model.Product"> 
+		<selectKey keyProperty="prdtCode" resultType="string" order="BEFORE">		
+			SELECT
+				SUBSTR('0000000',LENGTH(TO_NUMBER(PRDT_CODE)+1)+1)||TO_CHAR(TO_NUMBER(PRDT_CODE)+1)
+			FROM 
+			(
+				SELECT
+					MAX(PRDT_CODE) PRDT_CODE
+				FROM SHOP_PRODUCT
+			)
+		</selectKey> 
+		INSERT INTO  SHOP_PRODUCT
+		(
+			  PRDT_CODE,
+			  PRDT_KOR_NAME,
+			  PRDT_ENG_NAME,
+			  PRDT_SELL_PRICE,
+			  PRDT_BRAND_ID,
+			  PRDT_DISP_YN,
+			  PRDT_DETAIL,
+			  PRDT_REG_ID
+	   )
+	   VALUES
+	   (
+			#{prdtCode}
+			,#{prdtKorName}
+			,#{prdtEngName}
+			,#{prdtSellPrice}
+			,'000'
+			,#{prdtDispYn}
+			,#{prdtDetail}
+			,'kimhk0'
+	   )
+	</insert> 
 	
 </mapper>
