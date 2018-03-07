@@ -12,10 +12,24 @@ import com.project.shop.model.Product;
 public interface ProductService {
 
     /**
+     * 상품목록 총 카운트
+     * @param criteria
+     * @return
+     */
+	int getProductListTotalCount();
+
+    /**
      * 상품목록 
      * @param criteria
      * @return
      */
-	List<Product> getProductList();
+	List<Product> getProductList(Product product);
+
+    /**
+     * 상품정보 등록
+     * @param Product
+     * @return
+     */
+	int createProduct(Product product);
     
 }

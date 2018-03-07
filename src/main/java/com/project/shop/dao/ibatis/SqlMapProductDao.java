@@ -22,8 +22,28 @@ public class SqlMapProductDao implements ProductDao{
      * @return
      */
 	@Override
-	public List<Product> selectProductList(){
-		return sqlSession.selectList("ProductSQL.selectProductList");
+	public List<Product> selectProductList(Product product){
+		return sqlSession.selectList("ProductSQL.selectProductList",product);
+	}
+	
+    /**
+     * 상품등록
+     * @param Product
+     * @return
+     */
+	@Override
+	public int getProductListTotalCount(){
+		return sqlSession.selectOne("ProductSQL.getProductListTotalCount");
+	}
+	
+    /**
+     * 상품등록
+     * @param Product
+     * @return
+     */
+	@Override
+	public int createProduct(Product product){
+		return sqlSession.insert("ProductSQL.createProduct",product);
 	}
 	
 }

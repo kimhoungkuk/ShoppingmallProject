@@ -20,13 +20,39 @@ public class ProductServiceImpl implements ProductService{
     private ProductDao productDao;
     
     /**
+     * 상품목록 총 카운트
+     * @param criteria
+     * @return
+     */
+    @Override
+	public int getProductListTotalCount(){
+   		return this.productDao.getProductListTotalCount();
+	}
+ 
+    /**
      * 상품목록 
      * @param criteria
      * @return
      */
     @Override
-	public List<Product> getProductList(){
-   		return this.productDao.selectProductList();
+	public List<Product> getProductList(Product product){
+   		return this.productDao.selectProductList(product);
+	}
+    
+    /**
+     * 상품등록
+     * @param Product
+     * @return
+     */
+    @Override
+	public int createProduct(Product product){
+    	try
+    	{
+    		return this.productDao.createProduct(product);
+    	}catch(Exception e){
+    		log.error(e.getMessage());
+    		throw new RuntimeException(e.getMessage());
+    	}
 	}
 
 }

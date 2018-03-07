@@ -2,12 +2,14 @@ package com.project.shop.model;
 
 import java.util.Date;
 
+import com.project.shop.common.PageVO;
+
 /**
  * 상품 정보 
  * @author kimhk0 
  *
  */
-public class Product {
+public class Product extends PageVO{
 
 	/**
 	 * 상품 코드
@@ -33,6 +35,10 @@ public class Product {
 	 * 상품 전시여부
 	 */
 	private String prdtDispYn;
+	/**
+	 * 상품 상세 
+	 */
+	private String prdtDetail;	
 	/**
 	 * 상품 등록자
 	 */
@@ -70,7 +76,7 @@ public class Product {
 	public void setPrdtEngName(String prdtEngName) {
 		this.prdtEngName = prdtEngName;
 	}
-	
+		
 	public int getPrdtSellPrice() {
 		return prdtSellPrice;
 	}
@@ -90,6 +96,13 @@ public class Product {
 	}
 	public void setPrdtDispYn(String prdtDispYn) {
 		this.prdtDispYn = prdtDispYn;
+	}
+	
+	public String getPrdtDetail() {
+		return prdtDetail;
+	}
+	public void setPrdtDetail(String prdtDetail) {
+		this.prdtDetail = prdtDetail;
 	}
 	
 	public String getPrdtRegId() {
