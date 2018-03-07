@@ -54,8 +54,7 @@
 }
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <script>
 	//필수이미지 선택할때 사용할 변수
