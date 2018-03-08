@@ -169,6 +169,7 @@
 		    <version>1.2.2</version>
 		</dependency>
 		 
+		<!--  json, xml 응답을 편하게 할수 있도록 도와 주는 라이브러리 -->
         <!-- json request -->        
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

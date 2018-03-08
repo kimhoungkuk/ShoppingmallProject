@@ -2,6 +2,12 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<script type="text/javascript">
+function goRegister(){
+	var encodingUrl = encodeURIComponent("${product.pagegUrl}${product.pageNo}");
+	document.location.href = "/admin/product/productRegisterForm?listUrl="+encodingUrl;
+}
+</script>
 	<div class="col-sm-10">
 		<table class="table table-bordered table-hover"> 
 			<tr>
@@ -42,7 +48,7 @@
 			</c:forEach>
 		</table>
 
-		<a href="/shop/admin/product/productRegister" class="btn btn-default pull-right">작성하기</a>
+		<a href="javascript:goRegister();" class="btn btn-default pull-right">작성하기</a>
 
          <c:import url="/admin/common/paging" charEncoding="utf-8">
              <c:param name="startPageNo" value="${product.startPageNo}" />

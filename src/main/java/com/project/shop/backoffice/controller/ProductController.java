@@ -77,7 +77,7 @@ public class ProductController {
             throw new RuntimeException("상품 등록시 오류 발생했습니다.");
         }
         
-    	return ("redirect:/admin/productList");
+    	return ("redirect:/admin/product/productList");
     	
     }
 

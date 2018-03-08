@@ -21,7 +21,7 @@ public class JunitTest {
 	@Test
 	public void test(){
 		
-		List<Product>  productList = productService.getProductList();
+		//List<Product>  productList = productService.getProductList();
 		
 		//System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa : " + productList.get(0).getProductName());
 

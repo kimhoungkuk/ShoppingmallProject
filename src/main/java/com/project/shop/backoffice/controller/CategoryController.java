@@ -19,39 +19,39 @@ import com.project.shop.model.Category;
 import com.project.shop.service.CategoryService;
 
 /**
- * @author ParkSY
- * 카테고리 컨트롤러
+ * @author ParkSY 카테고리 컨트롤러
  * 
  */
 @Controller
 @RequestMapping("/admin/category")
 public class CategoryController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
 	@Autowired
 	private CategoryService categoryService;
-	
-	@RequestMapping(value="/list")
+
+	@RequestMapping(value = "/list")
 	public ModelAndView list(Model model) throws Exception {
-		
+
 		logger.info("CategoryController > list");
-		
+
 		ArrayList<Category> categoryList = categoryService.selectCategoryList();
 		model.addAttribute("categoryList", categoryList);
-		
+
 		return new ModelAndView("backoffice/category/list");
 	}
-	
-	@RequestMapping(value="/register")
+
+	@RequestMapping(value = "/register")
 	@ResponseBody
-	public HashMap<String, String> register(@ModelAttribute Category category, HttpServletResponse response) throws Exception {
+	public HashMap<String, String> register(@ModelAttribute Category category, HttpServletResponse response)
+			throws Exception {
 		logger.info("CategoryController > register");
-		
+
 		HashMap<String, String> resultMap = new HashMap<String, String>();
 		String resultYn = "";
 		String resultMsg = "";
-		
+
 		try {
 			resultYn = "Y";
 			resultMsg = "SUCCESS";
@@ -59,7 +59,7 @@ public class CategoryController {
 			resultYn = "N";
 			resultMsg = "처리 중 오류가 발생하였습니다.";
 		}
-		
+
 		resultMap.put("ctgrId", category.getCtgrName() + "1234");
 		resultMap.put("ctgrName", category.getCtgrName());
 		resultMap.put("resultYn", resultYn);
@@ -67,26 +67,27 @@ public class CategoryController {
 
 		return resultMap;
 	}
-	
-	@RequestMapping(value="/update/{ctgrId}")
-	public HashMap<String, String> udpate(@ModelAttribute Category category, HttpServletResponse response) throws Exception {
+
+	@RequestMapping(value = "/update/{ctgrId}")
+	public HashMap<String, String> udpate(@ModelAttribute Category category, HttpServletResponse response)
+			throws Exception {
 		logger.info("CategoryController > update");
-		
+
 		HashMap<String, String> resultMap = new HashMap<String, String>();
 		String resultYn = "";
 		String resultMsg = "";
-		
+
 		try {
 			resultYn = "Y";
 			resultMsg = "SUCCESS";
-			
+
 			// TODO :: UPDATE CATEGORY
-			
+
 		} catch (Exception e) {
 			resultYn = "N";
 			resultMsg = "처리 중 오류가 발생하였습니다.";
 		}
-		
+
 		resultMap.put("categoryId", category.getCtgrName() + " UPDATE " + System.currentTimeMillis());
 		resultMap.put("categoryName", category.getCtgrName() + " UPDATE " + System.currentTimeMillis());
 		resultMap.put("resultYn", resultYn);
