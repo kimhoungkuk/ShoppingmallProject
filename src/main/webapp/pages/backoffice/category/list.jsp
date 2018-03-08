@@ -64,7 +64,7 @@
 					} else if (operation == 'create_node') {
 						// 노드 생성 시
 						$.ajax({
-							url: '/shop/admin/category/register'
+							url: '/admin/category/register'
 							, type: 'POST'
 							, dataType: 'JSON'
 							, data: {
@@ -198,7 +198,7 @@
 						  , false);
 		
 		/* $.ajax({
-			url: '/shop/admin/category/register'
+			url: '/admin/category/register'
 			, type: 'POST'
 			, dataType: 'JSON'
 			, data: {
