@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="DiscountSQL"> 
+
+	<sql id="pagingHeaderSql">
+		SELECT 
+			* 
+		FROM 
+		( 
+			SELECT 
+				ROWNUM AS RNUM
+				, A.*
+			FROM 
+			( 
+	</sql>
+	
+	<sql id="pagingFooterSql">
+			) A 
+			WHERE ROWNUM <![CDATA[ <= ]]> #{endRownum}
+		) 
+		WHERE RNUM <![CDATA[ >  ]]> #{startRownum} 
+	</sql>    
+	
+	<select id="getDiscountListTotalCount" resultType="int"> 
+			SELECT
+				COUNT(*)
+			FROM 
+			 	SHOP_PRODUCT_DISCOUNT
+	</select> 
+	
+    <select id="selectDiscountList" resultType="com.project.shop.model.Discount" parameterType="com.project.shop.model.Discount"> 
+		<include refid="pagingHeaderSql"/>
+			SELECT 
+				DCNT_ID,
+				DCNT_PRICE,
+				DCNT_START_DATE,
+				DCNT_END_DATE,
+				DCNT_REGID,
+				DCNT_REGDATE,
+				DCNT_MODID,
+				DCNT_MODDATE,
+				DCNT_NAME,
+				DCNT_TYPE
+			FROM 
+			 	SHOP_PRODUCT_DISCOUNT
+ 	    <include refid="pagingFooterSql"/>
+	</select> 
+	
+</mapper>
