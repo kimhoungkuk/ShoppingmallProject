@@ -66,8 +66,8 @@ public class ProductImageController {
   		//상세이미지 혹은 대표이미지의 캐러셀 이미지 리스트
   		List<MultipartFile> mFiles2 = multipartRequest.getFiles("input_imgs");
   		
-  		productImageService.insertProductImage(request, mFiles);  		
-  		productImageService.insertProductImage2(request, mFiles2);
+  		productImageService.insertProductImage(request, mFiles, prdtCode);  		
+  		productImageService.insertProductImage2(request, mFiles2, prdtCode);
   		
   		String img1=mFiles.get(0).getOriginalFilename();
   		String img2=mFiles.get(1).getOriginalFilename();

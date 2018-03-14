@@ -20,7 +20,7 @@ public interface ProductService {
 
     /**
      * 상품목록 
-     * @param criteria
+     * @param Product
      * @return
      */
 	List<Product> getProductList(Product product);
@@ -31,5 +31,19 @@ public interface ProductService {
      * @return
      */
 	int createProduct(Product product);
+	
+    /**
+     * 상품정보 
+     * @param String prdtCode
+     * @return
+     */
+	Product selectProductInfo(String prdtCode);
+	
+    /**
+     * 상품정보 수정
+     * @param Product
+     * @return
+     */
+	int updateProduct(Product product);
     
 }

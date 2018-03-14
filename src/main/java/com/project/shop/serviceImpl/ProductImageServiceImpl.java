@@ -98,10 +98,10 @@ public class ProductImageServiceImpl implements ProductImageService{
 	 * @see com.project.shop.service.ProductImageService#insertProductImage(javax.servlet.http.HttpServletRequest, java.util.List)
 	 */
 	@Override
-	public void insertProductImage(HttpServletRequest request, List<MultipartFile> mFiles) {
+	public void insertProductImage(HttpServletRequest request, List<MultipartFile> mFiles, String prdtCode) {
 		//파일을 저장할 폴더의 절대 경로를 얻어온다.
 		String realPath=request.getSession()
-				.getServletContext().getRealPath("/upload");
+				.getServletContext().getRealPath("/resources/images/product");
 		//콘솔에 경로 출력해보기
 		System.out.println(realPath);
 		
@@ -133,16 +133,14 @@ public class ProductImageServiceImpl implements ProductImageService{
 			
 			dto.setPrdtOrgImageName(orgFileName);
 			dto.setPrdtSaveImageName(saveFileName);
-			dto.setPrdtCode(request.getParameter("prdtCode"));
+			dto.setPrdtCode(prdtCode);
 			//이미지 코드
 			dto.setPrdtImageCode(Integer.toString(index));
 			System.out.println("next index"+(index++));
 			//세션에서 작성자 정보를 얻어온다.
 			//String id=(String)request.getSession().getAttribute("id");
 			//ImageDto 객체에 작성자 정보를 담는다.
-			String path=
-					request.getServletContext().getRealPath("/upload")+
-					File.separator+dto.getPrdtSaveImageName();
+			String path=filePath+saveFileName;
 			dto.setPrdtImagePath(path);
 			//ImageDao 객체를 이용해서 DB 에 저장하기
 			productImageDao.insertProductImageDao(dto);
@@ -155,11 +153,11 @@ public class ProductImageServiceImpl implements ProductImageService{
 	 * @see com.project.shop.service.ProductImageService#insertProductImage2(javax.servlet.http.HttpServletRequest, java.util.List)
 	 */
 	@Override
-	public void insertProductImage2(HttpServletRequest request, List<MultipartFile> mFiles) {
+	public void insertProductImage2(HttpServletRequest request, List<MultipartFile> mFiles, String prdtCode) {
 		// TODO Auto-generated method stub
 		//파일을 저장할 폴더의 절대 경로를 얻어온다.
 		String realPath=request.getSession()
-				.getServletContext().getRealPath("/upload");
+				.getServletContext().getRealPath("/resources/images/product");
 		//콘솔에 경로 출력해보기
 		System.out.println(realPath);
 		
@@ -190,16 +188,14 @@ public class ProductImageServiceImpl implements ProductImageService{
 			ProductImage dto = new ProductImage();
 			dto.setPrdtOrgImageName(orgFileName);
 			dto.setPrdtSaveImageName(saveFileName);
-			dto.setPrdtCode(request.getParameter("prdtCode"));
+			dto.setPrdtCode(prdtCode);
 			//이미지 코드
 			dto.setPrdtImageCode(Integer.toString(index));
 			System.out.println("next index"+(index++));
 			//세션에서 작성자 정보를 얻어온다.
 			//String id=(String)request.getSession().getAttribute("id");
 			//ImageDto 객체에 작성자 정보를 담는다.
-			String path=
-					request.getServletContext().getRealPath("/upload")+
-					File.separator+dto.getPrdtSaveImageName();
+			String path=filePath+saveFileName;
 			dto.setPrdtImagePath(path);
 			//ImageDao 객체를 이용해서 DB 에 저장하기
 			productImageDao.insertProductImageDao(dto);
