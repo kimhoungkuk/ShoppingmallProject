@@ -7,6 +7,12 @@ function goRegister(){
 	var encodingUrl = encodeURIComponent("${product.pagegUrl}${product.pageNo}");
 	document.location.href = "/admin/product/productRegisterForm?listUrl="+encodingUrl;
 }
+
+function goModify(prdtCode){
+	var encodingUrl = encodeURIComponent("${product.pagegUrl}${product.pageNo}");
+	document.location.href = "/admin/product/productModify/"+prdtCode+"?listUrl="+encodingUrl;
+}
+
 </script>
 	<div class="col-sm-10">
 		<table class="table table-bordered table-hover"> 
@@ -22,7 +28,7 @@ function goRegister(){
 			<c:forEach items="${productList}" var="product" varStatus="prdtIdx">
 				<tr>
 					<td>
-						<a href="/admin/products/detail/1">
+						<a href="javascript:goModify('${product.prdtCode}');">
 							${product.prdtCode}
 						</a>
 					</td>

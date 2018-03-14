@@ -29,8 +29,8 @@ public interface ProductImageService {
 	 * 상품이미지 등록
 	 * @param list
 	 */
-	void insertProductImage(HttpServletRequest request,List<MultipartFile> mFiles);
-	void insertProductImage2(HttpServletRequest request,List<MultipartFile> mFiles);
+	void insertProductImage(HttpServletRequest request,List<MultipartFile> mFiles, String prdtCode);
+	void insertProductImage2(HttpServletRequest request,List<MultipartFile> mFiles, String prdtCode);
 	
 	
 	

@@ -46,4 +46,24 @@ public class SqlMapProductDao implements ProductDao{
 		return sqlSession.insert("ProductSQL.createProduct",product);
 	}
 	
+    /**
+     * 상품정보
+     * @param String prdtCode
+     * @return
+     */
+	@Override
+	public Product selectProductInfo(String prdtCode){
+		return sqlSession.selectOne("ProductSQL.selectProductInfo",prdtCode);
+	}
+
+    /**
+     * 상품수정
+     * @param product
+     * @return
+     */
+	@Override
+	public int updateProduct(Product product){
+		return sqlSession.update("ProductSQL.updateProduct",product);
+	}
+	
 }
