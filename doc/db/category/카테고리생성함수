@@ -1,0 +1,170 @@
+create or replace FUNCTION FUNC_CREATE_CTGR_ID (
+	I_PRNT_CTGR_ID IN VARCHAR2)
+    
+/********************************************************************************
+* Author: ParkSY
+* Date:  -
+* Description: 카테고리 ID 생성 함수
+* Reference Table (Column): SHOP_TABLE (CTGR_ID)
+* Etc: ASCII Code Refer..
+** 10진수 0 ~ 9 : 48 ~ 57
+** A ~ Z (대문자) : 65 ~ 90
+*********************************************************************************/
+	
+RETURN VARCHAR IS
+	
+	REAL_1 NUMBER(2);
+	REAL_2 NUMBER(2);
+    REAL_3 NUMBER(2);
+    REAL_4 NUMBER(2);
+
+	TEMP_1 NUMBER(2);
+	TEMP_2 NUMBER(2);
+    TEMP_3 NUMBER(2);
+
+	LAST_CODE VARCHAR2(100);
+
+BEGIN
+
+	REAL_1 := 0;
+	REAL_2 := 0;
+    REAL_3 := 0;
+    REAL_4 := 0;
+
+	TEMP_1 := 0;
+	TEMP_2 := 0;
+    TEMP_3 := 0;
+    
+    -- 현재 카테고리의 MAX 값 조회
+    IF I_PRNT_CTGR_ID = '9999' THEN
+        SELECT	MAX(CTGR_ID) INTO LAST_CODE
+        FROM	SHOP_CATEGORY
+        WHERE	PRNT_CTGR_ID = '9999';
+    ELSE 
+        SELECT	MAX(SUBSTR(CTGR_ID, -2)) INTO LAST_CODE
+        FROM	SHOP_CATEGORY
+        WHERE	PRNT_CTGR_ID = I_PRNT_CTGR_ID;
+    END IF;
+    
+    -- DBMS_OUTPUT.PUT_LINE('LAST_CODE = ' || LAST_CODE);
+    
+    -- 문자를 -> ASCII 코드로 변환.
+    REAL_1 := ASCII(SUBSTR(LAST_CODE, 1, 1));
+    REAL_2 := ASCII(SUBSTR(LAST_CODE, 2, 1));
+    
+   -- DBMS_OUTPUT.PUT_LINE('REAL_1 = ' || REAL_1 || ', REAL_2 = ' || REAL_2);
+        
+    /*
+        부모카테고리의 경우 4자리이기 때문에 3, 4 번째 자리도 체크
+        그렇지 않을 경우 TEMP_1 의 값을 1로 줘서 무조건 로직을 타도록
+    */
+    IF I_PRNT_CTGR_ID = '9999' THEN
+        REAL_3 := ASCII(SUBSTR(LAST_CODE, 3, 1));
+        REAL_4 := ASCII(SUBSTR(LAST_CODE, 4, 1));
+        
+        -- DBMS_OUTPUT.PUT_LINE('REAL_3 = ' || REAL_3 || ', REAL_4 = ' || REAL_4);
+        
+        --4번째 자리가 10진수 0 ~ 8 일 시 +1 하여 9 까지
+        IF (REAL_4 > 47) AND (REAL_4 < 57) THEN
+            REAL_4 := REAL_4+1;
+    
+        -- 4번째 자리가 10진수 9 또는 특수문자 :, ;, <, =, >, ?, @ 일 시 대문자 A 로.
+        ELSIF (REAL_4 > 56) AND (REAL_4 < 65) THEN
+            REAL_4 := 65;
+    
+        -- 4번째 자리가 A ~ Y 일 시 Z 로
+        ELSIF (REAL_4 > 64) AND (REAL_4 < 90) THEN
+            REAL_4 := REAL_4+1;
+    
+        -- 위의 3가지 조건이 아닐 시
+        ELSE
+            -- 4 번째 자리는 0
+            -- TEMP_1 의 변수 값 1로 --> 3 번째 자리수를 컨트롤 하기 위해.
+            REAL_4 := 48;
+            TEMP_3 := 1;
+        END IF;
+        
+        -- DBMS_OUTPUT.PUT_LINE('REAL_4 CHECKED, REAL_4 = ' || REAL_4 || ', TEMP_3 = ' || TEMP_3);
+        
+        -- 3번째 자리 체크
+        IF TEMP_3 > 0 THEN
+                -- 3번째 자리가 10진수 0 ~ 8 일 시 +1 하여 9 까지
+                IF (REAL_3 > 47) AND (REAL_3 < 57) THEN
+                    REAL_3 := REAL_3+1;
+    
+                -- 3번째 자리가 10진수 9 또는 특수문자 :, ;, <, =, >, ?, @ 일 시 대문자 A 로.
+                ELSIF (REAL_3 > 56) AND (REAL_3 < 65) THEN
+                    REAL_3 := 65;
+    
+                -- 3번째 자리가 A ~ Y 일 시 Z 로
+                ELSIF (REAL_3 > 64) AND (REAL_3 < 90) THEN
+                    REAL_3 := REAL_3+1;
+               -- 위의 3가지 조건이 아닐 시
+                ELSE
+                    -- 3 번째 자리는 0
+                    -- TEMP_2 의 변수 값 1로 --> 2 번째 자리수를 컨트롤 하기 위해.
+                    REAL_3 := 48;
+                    TEMP_2 := 1;
+                END IF;
+        END IF;
+        
+        -- DBMS_OUTPUT.PUT_LINE('REAL_3 CHECKED, REAL_3 = ' || REAL_3 || ', TEMP_2 = ' || TEMP_2);
+        
+    ELSE
+        TEMP_2 := 1;
+    END IF;
+        
+    -- 2번째 자리 체크
+    IF TEMP_2 > 0 THEN
+        -- 2번째 자리가 10진수 0 ~ 8 일 시 +1 하여 9 까지
+        IF (REAL_2 > 47) AND (REAL_2 < 57) THEN
+            REAL_2 := REAL_2+1;
+
+        -- 2번째 자리가 10진수 9 또는 특수문자 :, ;, <, =, >, ?, @ 일 시 대문자 A 로.
+        ELSIF (REAL_2 > 56) AND (REAL_2 < 65) THEN
+            REAL_2 := 65;
+
+        -- 2번째 자리가 A ~ Y 일 시 Z 로
+        ELSIF (REAL_2 > 64) AND (REAL_2 < 90) THEN
+            REAL_2 := REAL_2+1;
+       -- 위의 3가지 조건이 아닐 시
+        ELSE
+            -- 2 번째 자리는 0
+            -- TEMP_1 의 변수 값 1로 --> 2 번째 자리수를 컨트롤 하기 위해.
+            REAL_2 := 48;
+            TEMP_1 := 1;
+        END IF;
+    END IF;
+    
+    -- DBMS_OUTPUT.PUT_LINE('REAL_2 CHECKED, REAL_2 = ' || REAL_2 || ', TEMP_1 = ' || TEMP_1);
+    
+    -- 1번째 자리 체크
+    IF TEMP_1 > 0 THEN
+        -- 1번째 자리가 10진수 0 ~ 8 일 시 +1 하여 9 까지
+        IF (REAL_1 > 47) AND (REAL_1 < 57) THEN
+            REAL_1 := REAL_1+1;
+
+        -- 1번째 자리가 10진수 9 또는 특수문자 :, ;, <, =, >, ?, @ 일 시 대문자 A 로.
+        ELSIF (REAL_1 > 56) AND (REAL_1 < 65) THEN
+            REAL_1 := 65;
+
+        -- 1번째 자리가 A ~ Y 일 시 Z 로
+        ELSIF (REAL_1 > 64) AND (REAL_1 < 90) THEN
+            REAL_1 := REAL_2+1;
+       -- 위의 3가지 조건이 아닐 시
+        END IF;
+    END IF;
+    
+    -- DBMS_OUTPUT.PUT_LINE('REAL_1 CHECKED, REAL_1 = ' || REAL_1);
+    
+    -- CHAR 형으로 변환하여 이어 붙임
+    -- 최상위 카테고리일 경우 뒤의 2 자리 붙이기
+    IF I_PRNT_CTGR_ID = '9999' THEN
+        LAST_CODE := CHR(REAL_1) || CHR(REAL_2) || CHR(REAL_3) || CHR(REAL_4);
+    ELSE
+        -- 하위 카테고리일 경우 PRNT_CTGR_ID 붙여서 리턴
+        LAST_CODE := I_PRNT_CTGR_ID || CHR(REAL_1) || CHR(REAL_2);
+    END IF;
+    
+	RETURN LAST_CODE;
+END;

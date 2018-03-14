@@ -28,4 +28,42 @@ public class SqlMapCategoryDao implements CategoryDao {
 		return sqlSession.selectList("CategorySQL.selectCategoryList");
 	}
 	
+	/**
+	 * 카테고리 생성
+	 * @param category
+	 * @return
+	 */
+	@Override
+	public void insertCategory(Category category) {
+		sqlSession.insert("CategorySQL.insertCategory", category);
+	}
+	
+	/**
+	 * 카테고리 조회
+	 * @param category
+	 * @return
+	 */
+	@Override
+	public Category getCategory(Category category) {
+		return (Category) sqlSession.selectOne("CategorySQL.getCategory", category);
+	}
+
+	/**
+	 * 카테고리 순서 변경
+	 * @param category
+	 * @return
+	 */
+	public int updateCategoryDispOrder(Category category) {
+		return sqlSession.update("CategorySQL.updateCategoryDispOrder", category);
+	}
+	
+	/**
+	 * 카테고리 수정 (이름 변경, 삭제 처리, 사용 유무)
+	 * @param category
+	 * @return
+	 */
+	public int updateCategory(Category category) {
+		return sqlSession.update("CategorySQL.updateCategory", category);
+	}
+	
 }
