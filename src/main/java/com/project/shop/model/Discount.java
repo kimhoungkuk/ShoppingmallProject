@@ -13,11 +13,19 @@ public class Discount extends PageVO{
 	/*
 	 * 상품 할인 ID
 	 */
-	private String dcntId;
+	private int dcntSeq;
+	/*
+	 * 상품 할인명
+	 */
+	private String dcntName;
 	/*
 	 * 상품 할인 가격
 	 */
 	private int dcntPrice;
+	/*
+	 * 상품 할인 타입
+	 */
+	private String dcntType;
 	/*
 	 * 상품 할인 시작일
 	 */
@@ -29,39 +37,43 @@ public class Discount extends PageVO{
 	/*
 	 * 상품 할인 등록자
 	 */
-	private String dcntRegid;
+	private String dcntRegId;
 	/*
 	 * 상품 할인 등록일
 	 */
-	private Date dcntRegdate;
+	private Date dcntRegDate;
 	/*
 	 * 상품 할인 수정자
 	 */
-	private String dcntModid;
+	private String dcntModId;
 	/*
 	 * 상품 할인 수정일
 	 */
-	private Date dcntModdate;
-	/*
-	 * 상품 할인명
-	 */
-	private String dcntName;
-	/*
-	 * 상품 할인 타입
-	 */
-	private String dcntType;
+	private Date dcntModDate;
 	
-	public String getDcntId() {
-		return dcntId;
+	public int getDcntSeq() {
+		return dcntSeq;
 	}
-	public void setDcntId(String dcntId) {
-		this.dcntId = dcntId;
+	public void setDcntSeq(int dcntSeq) {
+		this.dcntSeq = dcntSeq;
+	}
+	public String getDcntName() {
+		return dcntName;
+	}
+	public void setDcntName(String dcntName) {
+		this.dcntName = dcntName;
 	}
 	public int getDcntPrice() {
 		return dcntPrice;
 	}
 	public void setDcntPrice(int dcntPrice) {
 		this.dcntPrice = dcntPrice;
+	}
+	public String getDcntType() {
+		return dcntType;
+	}
+	public void setDcntType(String dcntType) {
+		this.dcntType = dcntType;
 	}
 	public Date getDcntStartDate() {
 		return dcntStartDate;
@@ -75,40 +87,29 @@ public class Discount extends PageVO{
 	public void setDcntEndDate(Date dcntEndDate) {
 		this.dcntEndDate = dcntEndDate;
 	}
-	public String getDcntRegid() {
-		return dcntRegid;
+	public String getDcntRegId() {
+		return dcntRegId;
 	}
-	public void setDcntRegid(String dcntRegid) {
-		this.dcntRegid = dcntRegid;
+	public void setDcntRegId(String dcntRegId) {
+		this.dcntRegId = dcntRegId;
 	}
-	public Date getDcntRegdate() {
-		return dcntRegdate;
+	public Date getDcntRegDate() {
+		return dcntRegDate;
 	}
-	public void setDcntRegdate(Date dcntRegdate) {
-		this.dcntRegdate = dcntRegdate;
+	public void setDcntRegDate(Date dcntRegDate) {
+		this.dcntRegDate = dcntRegDate;
 	}
-	public String getDcntModid() {
-		return dcntModid;
+	public String getDcntModId() {
+		return dcntModId;
 	}
-	public void setDcntModid(String dcntModid) {
-		this.dcntModid = dcntModid;
+	public void setDcntModId(String dcntModId) {
+		this.dcntModId = dcntModId;
 	}
-	public Date getDcntModdate() {
-		return dcntModdate;
+	public Date getDcntModDate() {
+		return dcntModDate;
 	}
-	public void setDcntModdate(Date dcntModdate) {
-		this.dcntModdate = dcntModdate;
+	public void setDcntModDate(Date dcntModDate) {
+		this.dcntModDate = dcntModDate;
 	}
-	public String getDcntName() {
-		return dcntName;
-	}
-	public void setDcntName(String dcntName) {
-		this.dcntName = dcntName;
-	}
-	public String getDcntType() {
-		return dcntType;
-	}
-	public void setDcntType(String dcntType) {
-		this.dcntType = dcntType;
-	}
+
 }

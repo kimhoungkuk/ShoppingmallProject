@@ -26,24 +26,24 @@
 			SELECT
 				COUNT(*)
 			FROM 
-			 	SHOP_PRODUCT_DISCOUNT
+			 	SHOP_DISCOUNT
 	</select> 
 	
     <select id="selectDiscountList" resultType="com.project.shop.model.Discount" parameterType="com.project.shop.model.Discount"> 
 		<include refid="pagingHeaderSql"/>
 			SELECT 
-				DCNT_ID,
+				DCNT_SEQ,
+				DCNT_NAME,
 				DCNT_PRICE,
+				DCNT_TYPE,
 				DCNT_START_DATE,
 				DCNT_END_DATE,
-				DCNT_REGID,
-				DCNT_REGDATE,
-				DCNT_MODID,
-				DCNT_MODDATE,
-				DCNT_NAME,
-				DCNT_TYPE
+				DCNT_REG_ID,
+				DCNT_REG_DATE,
+				DCNT_MOD_ID,
+				DCNT_MOD_DATE
 			FROM 
-			 	SHOP_PRODUCT_DISCOUNT
+			 	SHOP_DISCOUNT
  	    <include refid="pagingFooterSql"/>
 	</select> 
 	
