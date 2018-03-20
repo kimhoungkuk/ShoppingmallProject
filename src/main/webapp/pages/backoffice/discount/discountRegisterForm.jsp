@@ -3,16 +3,33 @@
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript">
 	$(function($) {
-		$("input[name='datepicker']").datepicker({
+		/* $("input[name='datepicker']").datepicker({
             dateFormat: "yyyy-mm-dd",
         	calendarWeeks: false,
             todayHighlight: true,
             autoclose: true,
             language: "kr"
 	    });
-	    $("input[name='datepicker']").datepicker('setDate', new Date());
+	    $("input[name='datepicker']").datepicker('setDate', new Date()); */
 
+	    $('#register').click(function() {
+	    	frmSubmit();
+	    });
 	});
+	
+	function frmSubmit(){
+		
+        /* validation check
+        if(isEmpty($("#prdtKorName").val())) {
+            alert("상품한글명을 입력해주세요.");
+            $("#prdtKorName").focus();
+            return;
+        }
+        */
+		console.log(document.dcntForm)
+        document.dcntForm.submit();
+        
+	}
 </script>
 <div class="col-sm-10">
 	<div class="page-header" style="margin-top:6px">
@@ -35,9 +52,9 @@
 			<label for="dcntPrice" class="col-sm-2 control-label">할인가격</label>
 			<div class="col-sm-10 form-inline">
 				<input type="text" name="dcntPrice" id="dcntPrice" class="form-control" />
-				<select class="form-control">
-				  <option>%</option>
-				  <option>-</option>
+				<select class="form-control" name="dcntType" id="dcntType">
+				  <option value="1">%</option>
+				  <option value="2">-</option>
 				</select>
 			 </div>
 		</div>
@@ -45,16 +62,19 @@
 			<label for="dcntPrice" class="col-sm-2 control-label">상품선택</label>
 			<div class="col-sm-10 ">
 				<label class="radio-inline">
-				  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 전체상품
+				  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 미등록
 				</label>
 				<label class="radio-inline">
-				  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 특정상품
+				  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 전체상품
 				</label>
 				<label class="radio-inline">
-				  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 제외상품
+				  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 특정상품
 				</label>
 				<label class="radio-inline">
-				  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 카테고리
+				  <input type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4"> 제외상품
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5"> 카테고리
 				</label>
 			 </div>
 		</div>

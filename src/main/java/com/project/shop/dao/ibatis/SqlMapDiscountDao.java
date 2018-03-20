@@ -34,9 +34,9 @@ public class SqlMapDiscountDao implements DiscountDao{
 
 	@Override
 	public int createDiscount(Discount discount) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+		System.out.println(discount.getDcntName());
+		return sqlSession.insert("DiscountSQL.createDiscount",discount);
+		}
 
 	
 }

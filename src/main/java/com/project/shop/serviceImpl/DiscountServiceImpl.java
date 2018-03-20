@@ -40,8 +40,13 @@ public class DiscountServiceImpl implements DiscountService{
 
 	@Override
 	public int createDiscount(Discount discount) {
-		// TODO Auto-generated method stub
-		return 0;
+    	try
+    	{
+    		return this.discountDao.createDiscount(discount);
+    	}catch(Exception e){
+    		log.error(e.getMessage());
+    		throw new RuntimeException(e.getMessage());
+    	}
 	}
     
 

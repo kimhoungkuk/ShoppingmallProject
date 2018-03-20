@@ -47,4 +47,36 @@
  	    <include refid="pagingFooterSql"/>
 	</select> 
 	
+	<insert id="createDiscount" parameterType="com.project.shop.model.Discount"> 
+		<!-- <selectKey keyProperty="dcntSeq" resultType="int" order="BEFORE">
+		    select DCNT_SEQ.nextval FROM DCNT_SEQUENCE
+	  	</selectKey> -->
+		INSERT INTO  SHOP_DISCOUNT
+		(
+			DCNT_SEQ,
+			DCNT_NAME,
+			DCNT_PRICE,
+			DCNT_TYPE,
+			DCNT_START_DATE,
+			DCNT_END_DATE,
+			DCNT_REG_ID,
+			DCNT_REG_DATE,
+			DCNT_MOD_ID,
+			DCNT_MOD_DATE
+	   )
+	   VALUES
+	   (
+			2
+			,1
+			,1
+			,1
+			,SYSDATE
+			,SYSDATE
+			,'yerim'
+			,SYSDATE
+			,'yerim'
+			,SYSDATE
+	   )
+	</insert> 
+	
 </mapper>
