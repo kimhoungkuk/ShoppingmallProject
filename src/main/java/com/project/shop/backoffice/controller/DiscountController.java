@@ -29,7 +29,7 @@ public class DiscountController {
 	private DiscountService discountService;
 
 	/**
-	 * 상품 리스트.
+	 * 상품 할인 리스트.
 	 */
 	@RequestMapping(value = "/discountList")
 	public ModelAndView discountList(Model model, Discount discount, HttpServletRequest request) throws SQLException {
@@ -45,5 +45,15 @@ public class DiscountController {
 		return new ModelAndView("backoffice/discount/discountList");
 
 	}
+	
+	 /**
+     * 상품 할인 등록폼.
+     */
+    @RequestMapping(value = "/discountRegisterForm")
+    public ModelAndView discountRegisterForm(Model model) throws SQLException{
+
+    	return new ModelAndView("backoffice/discount/discountRegisterForm");
+    	
+    }
 
 }

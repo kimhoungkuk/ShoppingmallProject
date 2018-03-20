@@ -45,7 +45,7 @@
 			</c:forEach>
 		</table>
 
-		<a href="javascript:goRegister();" class="btn btn-default pull-right">작성하기</a>
+		<a  href="/admin/discount/discountRegisterForm" class="btn btn-default pull-right">작성하기</a>
 
          <c:import url="/admin/common/paging" charEncoding="utf-8">
              <c:param name="startPageNo" value="${discount.startPageNo}" />
