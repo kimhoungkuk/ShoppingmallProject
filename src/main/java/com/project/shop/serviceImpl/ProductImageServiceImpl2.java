@@ -19,7 +19,7 @@ import com.project.shop.dao.ProductImageDao;
 import com.project.shop.model.ProductImage;
 
 @Service
-public class ProductImageServiceImpl implements ProductImageService{
+public class ProductImageServiceImpl2 implements ProductImageService{
 	
     Log log = LogFactory.getLog(this.getClass());
     
