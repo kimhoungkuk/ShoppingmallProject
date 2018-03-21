@@ -1,3 +1,7 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <style>
@@ -83,28 +87,9 @@
 		//상세이미지 선택했을때(multiFile)
 		$("#input_imgs").on("change", handleImgFilesSelect);
 
-		//사진 전송
-		$("#sendBtn").click(function() {
-			//사진 세장 모두 등록되어있으면
-			if ($(".imgs").size() == 3) {
-				$("#imgform").submit();
-			} else {//사진이 모두 등록되어 있지 않다면
-				alert("상품 대표 이미지를 모두 등록해 주세요");
-			}
-		});
+
 	});
 
-	/*
-
-	 //삭제 기능 보류
-	 function button_click(num){
-	 	$("#img_wrap"+num).closest("tr").append("<td><div class='box box2' id='img_wrap9'><i class='glyphicon glyphicon-camera'></i></div></td>")
-	 	$("#img_wrap"+num).closest("td").remove();
-		var eventDiv = this.closest("div");
-		$("#img_wrap"+num).empty().append("<i class='glyphicon glyphicon-camera'></i>");
-	 }
-
-	 */
 
 	//사진 미리보기
 	function handleImgFileSelect(e) {
@@ -160,30 +145,39 @@
 			alert("상세사진은 5장 까지만 첨부 가능합니다.");
 		}
 	}
+	
+	function goDelete(){
+		document.delfrm.submit();
+	}
 </script>
 
 
 <div class="col-sm-10 container fileDiv">
-	<form action="post" enctype="multipart/form-data" id="imgform" method="POST">
+	<form:form action="/admin/productImage/${list[0].prdtCode}" id="delfrm" name="delfrm" method="DELETE">
+		<button type="button" class="btn btn-default" onClick="javascript:goDelete();">상품코드 ${list[0].prdtCode}번 이미지 삭제</button>
+	</form:form>
+	<form:form action="/admin/productImage/update/${list[0].prdtCode}" enctype="multipart/form-data" id="imgform" method="POST">
 		<table class="table table-board">
 			<thead>
 				<tr>
-					<th colspan='3'>상품 대표 이미지 등록</th>
+					<th colspan='3'>상품 대표 이미지 수정</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td>
 					<div class='box' id='img_wrap1'>
-							<i class="glyphicon glyphicon-camera"></i>
+						<img height='100px' width='100px' src="${pageContext.request.contextPath}/upload/${list[0].prdtSaveImageName}"/>
 					</div>
 					</td>
-					<td><div class='box' id='img_wrap2'>
-							<i class="glyphicon glyphicon-camera"></i>
-						</div></td>
+					<td>
+						<div class='box' id='img_wrap2'>
+							<img height='100px' width='100px' src="${pageContext.request.contextPath}/upload/${list[1].prdtSaveImageName}"/>
+						</div>
+					</td>
 
 					<td><div class='box' id='img_wrap3'>
-							<i class="glyphicon glyphicon-camera"></i>
+							<img height='100px' width='100px' src="${pageContext.request.contextPath}/upload/${list[2].prdtSaveImageName}"/>
 						</div></td>
 				</tr>
 				<tr>
@@ -196,19 +190,18 @@
 					<td><footer>권장 300px*300px</footer></td>
 					<td><footer>권장 100px*100px</footer></td>
 				</tr>
-
-				<input type="hidden" name="prdtCode" value="01"/>
-				<!--상품 코드 넘겨주기-->
-				<!--	<input type="hidden" name="prdtImageCode" value="11">상품 이미지 코드 넘겨주기-->
+				<!--상품 코드&이미지코드 넘겨주기-->
+				<input type="hidden" name="prdtCode" value="${list[0].prdtCode}"/>
+				<input type="hidden" name="prdtImageCode" value="${list[0].prdtImageCode}"/>
 				<tr>
-					<td><span class="btn btn-primary btn-xs btn-file"> 사진등록
-							<input name="input_img" type="file" id="input_img1"/>
+					<td><span class="btn btn-primary btn-xs btn-file"> 사진수정
+							<input name="input_img1" type="file" id="input_img1"/>
 					</span></td>
-					<td><span class="btn btn-primary btn-xs btn-file"> 사진등록
-							<input name="input_img" type="file" id="input_img2"/>
+					<td><span class="btn btn-primary btn-xs btn-file"> 사진수정
+							<input name="input_img2" type="file" id="input_img2"/>
 					</span></td>
-					<td><span class="btn btn-primary btn-xs btn-file"> 사진등록
-							<input name="input_img" type="file" id="input_img3"/>
+					<td><span class="btn btn-primary btn-xs btn-file"> 사진수정
+							<input name="input_img3" type="file" id="input_img3"/>
 					</span></td>
 				</tr>
 			</tbody>
@@ -222,19 +215,56 @@
 			<tbody>
 				<tr>
 					<td><div class='box box2' id='img_wrap5'>
-							<i class="glyphicon glyphicon-camera"></i>
+					<c:choose>
+					<c:when test="${empty list[3].prdtSaveImageName}">
+						<i class="glyphicon glyphicon-camera"></i>					
+					</c:when>
+					<c:otherwise>
+						<img height='100px' width='100px' src="${pageContext.request.contextPath}/upload/${list[3].prdtSaveImageName}"/>
+					</c:otherwise>
+					</c:choose>
 						</div></td>
 					<td><div class='box box2' id='img_wrap6'>
-							<i class="glyphicon glyphicon-camera"></i>
+					<c:choose>
+					<c:when test="${empty list[4].prdtSaveImageName}">
+						<i class="glyphicon glyphicon-camera"></i>					
+					</c:when>
+					<c:otherwise>
+						<img height='100px' width='100px' src="${pageContext.request.contextPath}/upload/${list[4].prdtSaveImageName}"/>
+					</c:otherwise>
+					</c:choose>
+
 						</div></td>
 					<td><div class='box box2' id='img_wrap7'>
-							<i class="glyphicon glyphicon-camera"></i>
+					<c:choose>
+					<c:when test="${empty list[5].prdtSaveImageName}">
+						<i class="glyphicon glyphicon-camera"></i>					
+					</c:when>
+					<c:otherwise>
+						<img height='100px' width='100px' src="${pageContext.request.contextPath}/upload/${list[5].prdtSaveImageName}"/>
+					</c:otherwise>
+					</c:choose>
 						</div></td>
 					<td><div class='box box2' id='img_wrap8'>
-							<i class="glyphicon glyphicon-camera"></i>
+					<c:choose>
+					<c:when test="${empty list[6].prdtSaveImageName}">
+						<i class="glyphicon glyphicon-camera"></i>					
+					</c:when>
+					<c:otherwise>
+						<img height='100px' width='100px' src="${pageContext.request.contextPath}/upload/${list[6].prdtSaveImageName}"/>
+					</c:otherwise>
+					</c:choose>
 						</div></td>
 					<td><div class='box box2' id='img_wrap9'>
-							<i class="glyphicon glyphicon-camera"></i>
+					<c:choose>
+					<c:when test="${empty list[7].prdtSaveImageName}">
+						<i class="glyphicon glyphicon-camera"></i>					
+					</c:when>
+					<c:otherwise>
+						<img height='100px' width='100px' src="${pageContext.request.contextPath}/upload/${list[7].prdtSaveImageName}"/>
+					</c:otherwise>
+					</c:choose>
+
 						</div></td>
 				</tr>
 				<tr>
@@ -242,17 +272,17 @@
 				</tr>
 				<tr>
 					<td colspan='5'><span class="btn btn-primary btn-xs btn-file">
-							사진등록 
+							사진 수정 
 						<input name="input_imgs" type="file" id="input_imgs" multiple />
 					</span></td>
 				</tr>
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan='5'><input type="button" class="btn btn-default"
+					<td colspan='5'><input type="submit" class="btn btn-default"
 						id="sendBtn" value="전송" /></td>
 				</tr>
 			</tfoot>
 		</table>
-	</form>
+	</form:form>
 </div>

@@ -19,6 +19,7 @@ public class ProductImage {
 	private String prdtSaveImageName;
 	//스프링에서 멀티파일 업로드 위해
 	private MultipartFile file;
+	
 	public String getPrdtCode() {
 		return prdtCode;
 	}
