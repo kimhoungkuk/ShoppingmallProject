@@ -21,9 +21,13 @@ public class SqlMapProductImageDao implements ProductImageDao{
 	 * @see com.project.shop.dao.ProductImageDao#selectProductImageList(java.lang.String)
 	 */
 	@Override
-	public List<ProductImage> selectProductImageList(String num) {
-		sqlSession.selectList("ProductImageSQL.selectProductImage",num);
-		return sqlSession.selectList("ProductImageSQL.selectProductImage",num);
+	public List<ProductImage> selectProductImageList(String prdtCode) {
+		return sqlSession.selectList("ProductImageSQL.selectProductImage",prdtCode);
+	}
+
+	@Override
+	public List<ProductImage> selectProductImageList2(String prdtCode) {
+		return sqlSession.selectList("ProductImageSQL.selectProductImage2",prdtCode);
 	}
 
 	/* 상품 이미지 등록
@@ -33,6 +37,25 @@ public class SqlMapProductImageDao implements ProductImageDao{
 	@Override
 	public void insertProductImageDao(ProductImage dto) {
 		sqlSession.insert("ProductImageSQL.insertProductImage", dto);
+	}
+
+	/* 상품 이미지 삭제
+	 * (non-Javadoc)
+	 * @see com.project.shop.dao.ProductImageDao#deleteProductImage(com.project.shop.model.ProductImage)
+	 */
+	@Override
+	public void deleteProductImage(ProductImage dto) {
+		sqlSession.delete("ProductImageSQL.deleteProductImage", dto);
+	}
+
+	/* 상품 코드에 해당하는 이미지 삭제
+	 * (non-Javadoc)
+	 * @see com.project.shop.dao.ProductImageDao#deleteProductImage(java.lang.String)
+	 */
+	@Override
+	public void deleteProductImage(String prdtCode) {
+		// TODO Auto-generated method stub
+		sqlSession.delete("ProductImageSQL.deleteProductImage2",prdtCode);
 	} 
 
 

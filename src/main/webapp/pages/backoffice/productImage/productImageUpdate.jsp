@@ -164,7 +164,7 @@
 
 
 <div class="col-sm-10 container fileDiv">
-	<form action="post" enctype="multipart/form-data" id="imgform" method="POST">
+	<form action="productImage" enctype="multipart/form-data" id="imgform" method="POST">
 		<table class="table table-board">
 			<thead>
 				<tr>

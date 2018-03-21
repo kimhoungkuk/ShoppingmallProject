@@ -23,17 +23,26 @@ public interface ProductImageService {
      * @param criteria
      * @return
      */
-	ModelAndView getProductImageList(String num);
+	ModelAndView productImageDetail(String prdtCode);
 	
 	/**
 	 * 상품이미지 등록
 	 * @param list
 	 */
-	void insertProductImage(HttpServletRequest request,List<MultipartFile> mFiles);
-	void insertProductImage2(HttpServletRequest request,List<MultipartFile> mFiles);
+	void ProductImageInsert(HttpServletRequest request,List<MultipartFile> mFiles);
+	void ProductImageInsert2(HttpServletRequest request,List<MultipartFile> mFiles);
 	
+	/**상품 수정
+	 * @param request
+	 * @param dto
+	 */
+	void ProductImageUpdate2(HttpServletRequest request, MultipartFile mFile, String prdtImgCode);
+	void ProductImageUpdate(HttpServletRequest request, List<MultipartFile> mFiles);
 	
-	
-	
+	/**상품코드에 해당하는 이미지 삭제
+	 * @param request
+	 * @param prdtCode
+	 */
+	void ProductImageDelete(HttpServletRequest request, String prdtCode);
  
  }
