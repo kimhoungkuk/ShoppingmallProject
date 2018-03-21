@@ -51,7 +51,7 @@
 		<!-- <selectKey keyProperty="dcntSeq" resultType="int" order="BEFORE">
 		    select DCNT_SEQ.nextval FROM DCNT_SEQUENCE
 	  	</selectKey> -->
-		INSERT INTO  SHOP_DISCOUNT
+		INSERT INTO SHOP_DISCOUNT
 		(
 			DCNT_SEQ,
 			DCNT_NAME,
@@ -67,11 +67,11 @@
 	   VALUES
 	   (
 			2
-			,1
-			,1
-			,1
-			,SYSDATE
-			,SYSDATE
+			,#{dcntName}
+			,#{dcntPrice}
+			,#{dcntType}
+			,#{dcntStartDate}
+			,#{dcntEndDate}
 			,'yerim'
 			,SYSDATE
 			,'yerim'

@@ -31,6 +31,10 @@ response.setDateHeader("Expires",0);
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!--폰트어섬추가 -->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--jquery-ui 추가 -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/jquery.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
 </head>
 <tiles:insertAttribute name="header" /> 

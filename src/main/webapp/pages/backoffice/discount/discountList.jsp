@@ -36,10 +36,10 @@
 						<fmt:formatDate value="${discount.dcntEndDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 					</td>
 					<td>
-						${discount.dcntRegid}
+						${discount.dcntRegId}
 					</td>										    								      
 					<td>
-						<fmt:formatDate value="${discount.dcntRegdate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+						<fmt:formatDate value="${discount.dcntRegDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 					</td>										    								      
 				</tr>  
 			</c:forEach>
