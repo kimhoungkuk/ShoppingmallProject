@@ -36,9 +36,9 @@ import org.slf4j.LoggerFactory;
  */
 @Controller
 @RequestMapping("/admin/productImage")
-public class ProductImageController2{
+public class ProductImageController{
 
-	private static final Logger logger = LoggerFactory.getLogger(ProductImageController2.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProductImageController.class);
 	
     @Autowired
     private ProductImageService productImageService;
