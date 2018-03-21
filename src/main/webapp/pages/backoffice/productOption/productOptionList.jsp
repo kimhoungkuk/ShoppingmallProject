@@ -2,14 +2,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!-- /* 	$(document).ready(function(){
-	 $('.modify').click(function () {
-    	 $('form').attr('action','pomForm').submit(); });
-             
-    
-    $('.delete').click(function () {
-    	$('form').attr('action','delForm').submit(); });
-});  */ -->
 
 <script>
 
@@ -20,23 +12,15 @@
  
  $(document).ready(function(){
 	 
-	 /* var list = new Array('${option.prdtColorCode }');
-
-	 for(var a = 0 ; a < list.length; a++){
-		 alert(list[a]);
-	 } */
 	 var set = $('.colorset2').val();
-	
 	
 	/* $('.colorset').css('background-color', set); */
 	
-	$('.colorset').each(function() {
-
-		alert( $('.colorset2').val());
-
+	 $('.colorset').each(function(idx, obj) {
+		 $('.colorset').css('background-color', $(this).val());
 		});
 	
-	
+	 
 	
  });
  
@@ -63,8 +47,8 @@
 				
 					<td>${option.prdtCode }</td>
 					
-					<td> <div class="colorset" style="border:1px solid black; width:15px; height:15px">
-					<input class="colorset2" type="hidden" value="${option.prdtColorCode }"></div>${option.prdtColorCode }</td>
+					<td> <button class="colorset" value="${option.prdtColorCode }" style="border:1px solid black; width:15px; height:15px"></button>
+					<input class="colorset2" type="hidden" value="${option.prdtColorCode }">${option.prdtColorCode }</td>
 					
 					<td>${option.colorName }</td>
 					<td>${option.prdtSize }</td> 
