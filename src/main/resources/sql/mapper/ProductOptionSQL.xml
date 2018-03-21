@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="ProductOptionSQL">
+
+
+	<insert id="insertProductOption" parameterType="com.project.shop.model.ProductOption">
+
+	 	INSERT INTO SHOP_PRODUCT_OPTION (PRDT_CODE, PRDT_COLOR_CODE, PRDT_SIZE, 
+			PRDT_LAVE_COUNT, REGT_DTM, RGS_ID, COLOR_NAME ) VALUES (#{prdtCode},#{prdtColorCode},#{prdtSize},#{prdtLaveCount},SYSDATE,#{rgsId},#{colorName})
+		<!-- declare
+		vtest varray_test;
+
+		begin
+		vtest := varray_test<foreach collection="prdtColorCode" item="prdtColorCode" index="index"  open="(" close=");" separator=",">
+            #{prdtColorCode}</foreach>
+		
+	
+		INSERT INTO SHOP_PRODUCT_OPTION
+		(PRDT_CODE, PRDT_COLOR_CODE, PRDT_SIZE,	PRDT_LAVE_COUNT, REGT_DTM, RGS_ID, COLOR_NAME )
+		VALUES
+		(#{prdtCode},vtest,#{prdtSize},#{prdtLaveCount},SYSDATE,#{rgsId},#{colorName});
+
+		end; -->
+
+
+	</insert>
+	
+	<select id="selectProductOption" resultType="com.project.shop.model.ProductOption">
+	
+		<!-- SELECT * FROM SHOP_PRODUCT_OPTION -->
+		
+		 SELECT * FROM SHOP_PRODUCT_OPTION 
+		
+	
+	</select>
+	
+	<select id="selectProductOptionModify" resultType="com.project.shop.model.ProductOption" parameterType="String">
+	
+		SELECT * FROM SHOP_PRODUCT_OPTION WHERE PRDT_CODE = #{modifydelete}
+	</select>
+	
+	<update id="updateProductOption" parameterType="com.project.shop.model.ProductOption">
+	
+		UPDATE 
+		  SHOP_PRODUCT_OPTION
+		SET
+		  <!-- PRDT_CODE = #{prdtCode},??? -->
+		  PRDT_COLOR_CODE = #{prdtColorCode},
+		  PRDT_SIZE = #{prdtSize},
+		  PRDT_LAVE_COUNT = #{prdtLaveCount},
+		  MOD_DTM = SYSDATE,
+		  MOD_ID = #{modId},
+		  COLOR_NAME = #{colorName}
+		  
+		  <!-- PRDT_MOD_ID = '보류' -->
+	   WHERE
+	   	  PRDT_CODE = #{prdtCode}
+	
+	</update>
+
+</mapper>
