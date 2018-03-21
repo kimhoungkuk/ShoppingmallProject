@@ -87,5 +87,40 @@ outline:0;
 </div>
 
 
+<<<<<<< HEAD
+=======
+
+
+
+		
+		
+		<!-- !!옵션!!
+		상품컬러 : <select name="prdtColorCode" multiple>
+					<option value="b">black</option>
+					<option value="r">red</option>
+					<option value="w">white</option>
+				</select>
+		<br>
+		컬러고르기 html : <input type="color">
+		<br>
+		컬러고르기 plugin : <button id="colorSelector"></button>	<input id="getcode" type="text">
+		
+		  <br>
+		
+		컬러명 : <input type="text" name="colorName"> <br>
+	
+		상품 사이즈 s m l : <input type="text" name="prdtSize"> <br>
+		
+		상품 재고 : <input type="number" name="prdtLaveCount"> <br>
+		
+		생성자 세션 아이디 받아오기 <input type="hidden" name="rgsId" value="idddd"> <br> -->
+		
+		생성일은 리스트 & 디테일 에서 & 모디파이에서 최초생성일로 <br>
+		수정일/수정자는 리스트 & 모디파이 ----> 리스트로보여주기<br>
+		  <br>
+		
+		
+
+>>>>>>> branch 'master' of https://github.com/kimhoungkuk/ShoppingmallProject
 	
 

@@ -2,6 +2,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<<<<<<< HEAD
 
 <script>
 
@@ -49,6 +50,71 @@
 					
 					<td> <button class="colorset" value="${option.prdtColorCode }" style="border:1px solid black; width:15px; height:15px"></button>
 					<input class="colorset2" type="hidden" value="${option.prdtColorCode }">${option.prdtColorCode }</td>
+=======
+<!-- /* 	$(document).ready(function(){
+	 $('.modify').click(function () {
+    	 $('form').attr('action','pomForm').submit(); });
+             
+    
+    $('.delete').click(function () {
+    	$('form').attr('action','delForm').submit(); });
+});  */ -->
+
+<script>
+
+ function goModify(prdtCode){
+		
+		document.location.href = "/admin/pomForm/"+prdtCode;
+	}
+ 
+ $(document).ready(function(){
+	 
+	 /* var list = new Array('${option.prdtColorCode }');
+
+	 for(var a = 0 ; a < list.length; a++){
+		 alert(list[a]);
+	 } */
+	 var set = $('.colorset2').val();
+	
+	
+	/* $('.colorset').css('background-color', set); */
+	
+	$('.colorset').each(function() {
+
+		alert( $('.colorset2').val());
+
+		});
+	
+	
+	
+ });
+ 
+
+</script>
+
+<div class="col-sm-10">
+		<table class="table table-bordered table-hover"> 
+			<tr>
+				<th>상품코드</th>
+				<th>색상 코드</th>
+				<th>생상 이름</th>
+				<th>사이즈</th>
+				<th colspan="3">재고</th>
+				<th>상품등록일</th>			
+				<th>생성자</th>		
+				<th>수정/삭제</th>
+						
+			</tr>
+			
+			 <c:forEach items="${productOptionList}" var="option">
+			 
+				<tr>
+				
+					<td>${option.prdtCode }</td>
+					
+					<td> <div class="colorset" style="border:1px solid black; width:15px; height:15px">
+					<input class="colorset2" type="hidden" value="${option.prdtColorCode }"></div>${option.prdtColorCode }</td>
+>>>>>>> branch 'master' of https://github.com/kimhoungkuk/ShoppingmallProject
 					
 					<td>${option.colorName }</td>
 					<td>${option.prdtSize }</td> 
