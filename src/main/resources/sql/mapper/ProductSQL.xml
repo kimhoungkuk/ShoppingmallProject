@@ -1,26 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. --> 
-<mapper namespace="ProductSQL"> 
-
-	<sql id="pagingHeaderSql">
-		SELECT 
-			* 
-		FROM 
-		( 
-			SELECT 
-				ROWNUM AS RNUM
-				, A.*
-			FROM 
-			( 
-	</sql>
-	
-	<sql id="pagingFooterSql">
-			) A 
-			WHERE ROWNUM <![CDATA[ <= ]]> #{endRownum}
-		) 
-		WHERE RNUM <![CDATA[ >  ]]> #{startRownum} 
-	</sql>    
+<mapper namespace="ProductSQL">  
 	
 	<select id="getProductListTotalCount" resultType="int"> 
 			SELECT
@@ -30,7 +11,7 @@
 	</select> 
 	
     <select id="selectProductList" resultType="com.project.shop.model.Product" parameterType="com.project.shop.model.Product"> 
-		<include refid="pagingHeaderSql"/>
+		<include refid="PageSQL.pagingHeaderSql"/>
 			SELECT 
 				  PRDT_CODE,
 				  PRDT_KOR_NAME,
@@ -45,13 +26,14 @@
 				  PRDT_MOD_DT
 			FROM 
 			 	SHOP_PRODUCT
- 	    <include refid="pagingFooterSql"/>
+			 ORDER BY PRDT_REG_DT DESC
+ 	    <include refid="PageSQL.pagingFooterSql"/>
 	</select> 
 	
     <insert id="createProduct" parameterType="com.project.shop.model.Product"> 
 		<selectKey keyProperty="prdtCode" resultType="string" order="BEFORE">		
 			SELECT
-				SUBSTR('0000000',LENGTH(TO_NUMBER(PRDT_CODE)+1)+1)||TO_CHAR(TO_NUMBER(PRDT_CODE)+1)
+				NVL(SUBSTR('0000000',LENGTH(TO_NUMBER(PRDT_CODE)+1)+1)||TO_CHAR(TO_NUMBER(PRDT_CODE)+1),'0000001')
 			FROM 
 			(
 				SELECT
@@ -82,5 +64,40 @@
 			,'kimhk0'
 	   )
 	</insert> 
+
+	<select id="selectProductInfo" resultType="com.project.shop.model.Product" parameterType="string"> 
+			SELECT 
+				  PRDT_CODE,
+				  PRDT_KOR_NAME,
+				  PRDT_ENG_NAME,
+				  PRDT_SELL_PRICE,
+				  PRDT_BRAND_ID,
+				  PRDT_DISP_YN,
+				  PRDT_DETAIL,
+				  PRDT_REG_ID,
+				  PRDT_REG_DT,
+				  PRDT_MOD_ID,
+				  PRDT_MOD_DT
+			FROM 
+			 	SHOP_PRODUCT
+			WHERE
+				PRDT_CODE = #{prdtCode}
+	</select> 
+	
+	<update id="updateProduct" parameterType="com.project.shop.model.Product"> 
+		UPDATE 
+		  SHOP_PRODUCT
+		SET
+		  PRDT_KOR_NAME = #{prdtKorName},
+		  PRDT_ENG_NAME = #{prdtEngName},
+		  PRDT_SELL_PRICE = #{prdtSellPrice},
+		  PRDT_BRAND_ID = '000',
+		  PRDT_DISP_YN = #{prdtDispYn},
+		  PRDT_DETAIL = #{prdtDetail},
+		  PRDT_MOD_DT = SYSDATE,
+		  PRDT_MOD_ID = 'KIMHK0'
+	   WHERE
+	   	  PRDT_CODE = #{prdtCode}
+	</update> 
 	
 </mapper>

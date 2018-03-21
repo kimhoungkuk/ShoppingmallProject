@@ -2,29 +2,48 @@ package com.project.shop.model;
 
 import java.util.Date;
 
+/**
+ * 카테고리 VO
+ * @author ParkSY
+ *
+ */
 public class Category {
 	
+	/** 카테고리 시퀀스 */
 	private long ctgrSeq;
 	
+	/** 카테고리 ID */
 	private String ctgrId;
 	
+	/** 부모 카테고리 ID */
 	private String prntCtgrId;
 	
+	/** 카테고리 명 */
 	private String ctgrName;
 	
+	/** 사용 유무 */
 	private String useYn;
 	
+	/** 노출 순위 */
 	private int dispOrder;
 	
-	private String ctgrImgUrl;
+	/** 카테고리 이미지 경로 */
+	private String ctgrImgUrl = "";
 	
+	/** 등록자 */
 	private String regId;
 	
+	/** 등록일 */
 	private Date regDt;
 	
+	/** 수정자 */
 	private String modId;
 	
+	/** 수정일 */
 	private Date modDt;
+	
+	/** 수정시 사용 : 변경 될 노출 순위 */
+	private int destDispOrder;
 
 	public long getCtgrSeq() {
 		return ctgrSeq;
@@ -113,5 +132,13 @@ public class Category {
 	public void setModDt(Date modDt) {
 		this.modDt = modDt;
 	}
-	
+
+	public int getDestDispOrder() {
+		return destDispOrder;
+	}
+
+	public void setDestDispOrder(int destDispOrder) {
+		this.destDispOrder = destDispOrder;
+	}
+
 }

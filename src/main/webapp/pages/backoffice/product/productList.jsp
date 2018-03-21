@@ -2,6 +2,18 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<script type="text/javascript">
+function goRegister(){
+	var encodingUrl = encodeURIComponent("${product.pagegUrl}${product.pageNo}");
+	document.location.href = "/admin/product/productRegisterForm?listUrl="+encodingUrl;
+}
+
+function goModify(prdtCode){
+	var encodingUrl = encodeURIComponent("${product.pagegUrl}${product.pageNo}");
+	document.location.href = "/admin/product/productModify/"+prdtCode+"?listUrl="+encodingUrl;
+}
+
+</script>
 	<div class="col-sm-10">
 		<table class="table table-bordered table-hover"> 
 			<tr>
@@ -16,7 +28,7 @@
 			<c:forEach items="${productList}" var="product" varStatus="prdtIdx">
 				<tr>
 					<td>
-						<a href="/admin/products/detail/1">
+						<a href="javascript:goModify('${product.prdtCode}');">
 							${product.prdtCode}
 						</a>
 					</td>
@@ -42,7 +54,7 @@
 			</c:forEach>
 		</table>
 
-		<a href="/admin/product/productRegister" class="btn btn-default pull-right">작성하기</a>
+		<a href="javascript:goRegister();" class="btn btn-default pull-right">작성하기</a>
 
          <c:import url="/admin/common/paging" charEncoding="utf-8">
              <c:param name="startPageNo" value="${product.startPageNo}" />

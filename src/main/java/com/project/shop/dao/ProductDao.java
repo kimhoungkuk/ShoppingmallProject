@@ -27,4 +27,18 @@ public interface ProductDao{
      */
 	public int createProduct(Product product);
 	
+    /**
+     * 상품정보
+     * @param String prdtCode
+     * @return
+     */
+	public Product selectProductInfo(String prdtCode);
+	
+    /**
+     * 상품수정
+     * @param Product
+     * @return
+     */
+	public int updateProduct(Product product);
+	
 }

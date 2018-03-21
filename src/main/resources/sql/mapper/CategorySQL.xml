@@ -2,7 +2,66 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="CategorySQL"> 
+
 	<select id="selectCategoryList" resultType="com.project.shop.model.Category">
+		SELECT	CTGR_SEQ
+		        , A.CTGR_ID
+		        , DECODE(A.PRNT_CTGR_ID, '9999', '', A.PRNT_CTGR_ID) PRNT_CTGR_ID
+		        , CTGR_NAME
+		        , USE_YN
+		        , DISP_ORDER
+		        , CTGR_IMG_URL
+		        , REG_ID
+		        , REG_DT
+		        , MOD_ID
+		        , MOD_DT
+		FROM	SHOP_CATEGORY A
+		        , (
+			        SELECT  CTGR_ID
+			        FROM    SHOP_CATEGORY
+			        WHERE   USE_YN = 'Y'
+			        GROUP BY CTGR_ID
+		        ) B
+		WHERE   A.CTGR_ID = B.CTGR_ID
+		START WITH A.PRNT_CTGR_ID = '9999'
+		CONNECT BY PRIOR A.CTGR_ID = A.PRNT_CTGR_ID
+		ORDER SIBLINGS BY A.DISP_ORDER
+	</select>
+	
+	<insert id="insertCategory" parameterType="com.project.shop.model.Category">
+		<selectKey keyProperty="ctgrSeq" resultType="Integer" order="BEFORE" >
+            SELECT SEQ_SC_CTGR.NEXTVAL FROM DUAL
+        </selectKey>
+		INSERT INTO SHOP_CATEGORY
+		(	CTGR_SEQ
+			, CTGR_ID
+			, PRNT_CTGR_ID
+			, CTGR_NAME
+			, USE_YN
+			, DISP_ORDER
+			, CTGR_IMG_URL
+			, REG_ID
+			, REG_DT
+			, MOD_ID
+			, MOD_DT
+		)
+		VALUES
+		(
+			#{ctgrSeq }
+			, FUNC_CREATE_CTGR_ID(#{prntCtgrId })
+			, #{prntCtgrId }
+			, #{ctgrName }
+			, 'Y'
+			, (SELECT CASE WHEN COUNT(*) > 0 THEN MAX(DISP_ORDER)+1 ELSE 0 END FROM SHOP_CATEGORY WHERE PRNT_CTGR_ID = #{prntCtgrId })
+			, #{ctgrImgUrl }
+			, #{regId }
+			, SYSDATE
+			, #{modId }
+			, SYSDATE
+		)
+	</insert>
+	
+	<select id="getCategory" resultType="com.project.shop.model.Category">
 		SELECT	CTGR_SEQ
 				, CTGR_ID
 				, PRNT_CTGR_ID
@@ -15,7 +74,62 @@
 				, MOD_ID
 				, MOD_DT
 		FROM	SHOP_CATEGORY
-		START WITH CTGR_ID IN (SELECT CTGR_ID FROM SHOP_CATEGORY WHERE PRNT_CTGR_ID IS NULL)
-		CONNECT BY PRIOR CTGR_ID = PRNT_CTGR_ID
-	</select> 
+		WHERE	1=1
+		<if test="ctgrSeq > 0">
+			AND	CTGR_SEQ = #{ctgrSeq }
+		</if>
+		<if test="ctgrId != null and ctgrId != ''">
+			AND CTGR_ID = #{ctgrId }
+		</if>
+		<if test="prntCtgrId != null and prntCtgrId != ''">
+			AND PRNT_CTGR_ID = #{prntCtgrId }
+		</if>
+		<if test="useYn != null and useYn != ''">
+			AND USE_YN = #{useYn }
+		</if>
+	</select>
+	
+	<update id="updateCategoryDispOrder">
+		UPDATE	SHOP_CATEGORY
+		SET		DISP_ORDER = CASE WHEN CTGR_ID = #{ctgrId } 
+								  THEN #{destDispOrder } 
+								  ELSE 
+								  <choose>
+									  <when test="dispOrder > destDispOrder">
+									  	DISP_ORDER + 1
+									  </when>
+									  <otherwise>
+									  	DISP_ORDER - 1
+									  </otherwise> 	
+								  </choose>
+								  END
+		WHERE	
+	    PRNT_CTGR_ID = #{prntCtgrId }
+       	<choose>
+			<when test="dispOrder > destDispOrder">
+				AND DISP_ORDER BETWEEN #{destDispOrder } AND #{dispOrder }
+			</when>
+			<otherwise>
+				AND DISP_ORDER BETWEEN #{dispOrder } AND #{destDispOrder }
+			</otherwise>
+		</choose>
+	</update>
+	
+	<delete id="updateCategory">
+		UPDATE	SHOP_CATEGORY
+		SET		
+		<if test="ctgrName != null and ctgrName != ''">
+			CTGR_NAME = #{ctgrName }
+		</if>
+		<if test="useYn != null and useYn != ''">
+			USE_YN = #{useYn }
+		</if>
+		WHERE	CTGR_ID = #{ctgrId }
+		<if test="ctgrSeq > 0">
+			AND	CTGR_SEQ = #{ctgrSeq }
+		</if>
+		<if test="prntCtgrId != null and prntCtgrId != ''">
+			AND PRNT_CTGR_ID = #{prntCtgrId }
+		</if>
+	</delete> 
 </mapper>

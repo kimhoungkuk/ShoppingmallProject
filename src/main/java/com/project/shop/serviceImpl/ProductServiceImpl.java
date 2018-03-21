@@ -54,5 +54,37 @@ public class ProductServiceImpl implements ProductService{
     		throw new RuntimeException(e.getMessage());
     	}
 	}
+    
+    /**
+     * 상품정보 
+     * @param String prdtCode
+     * @return
+     */
+    @Override
+	public Product selectProductInfo(String prdtCode){
+    	try
+    	{
+    		return this.productDao.selectProductInfo(prdtCode);
+    	}catch(Exception e){
+    		log.error(e.getMessage());
+    		throw new RuntimeException(e.getMessage());
+    	}
+	}
 
+    /**
+     * 상품수정
+     * @param Product
+     * @return
+     */
+    @Override
+	public int updateProduct(Product product){
+    	try
+    	{
+    		return this.productDao.updateProduct(product);
+    	}catch(Exception e){
+    		log.error(e.getMessage());
+    		throw new RuntimeException(e.getMessage());
+    	}
+	}
+    
 }

@@ -48,9 +48,15 @@
 				 	그렇기에 수정, 삭제, 이동 등에 대한 validation 체크는 이곳에서 체크해야 한다.
 				 	return true :: 해당 이벤트 적용. operation 에 bind 되어진 함수 호출
 				 	return false :: 해당 이벤트 미적용. operation 에 bind 되어진 함수 호출 하지 않는다.
+				 	operation : tree method name
+				 	node : get to node info from first argument
+				 	parent : parent info for node
+				 	position : custom information (second argument)
 				*/
 				"check_callback": function(operation, node, parent, position, more) {
-					console.log('callback', operation);
+					
+					/* console.log('callback', operation);
+					console.log('node', node); */
 					
 					// drag & drop
 					if (operation == 'move_node') {
@@ -58,44 +64,93 @@
 						if (node.parent != parent.id) {
 							return false;
 						} else {
+							// 노드 D&D 중에는 타켓 노드를 알 수 없음므로 bind method 에서 실제 업데이트 처리한다.
 							return true;
 						}
 						
 					} else if (operation == 'create_node') {
+						
+						var _is_success = false;
+						
 						// 노드 생성 시
 						$.ajax({
-							url: '/shop/admin/category/register'
+							url: '/admin/category/register'
 							, type: 'POST'
 							, dataType: 'JSON'
+							, async: false
 							, data: {
 								ctgrName: node.text
-								, prntCtgrId: (parent.id == '#') ? '' : parent.id
+								, prntCtgrId: (parent.id == '#') ? '9999' : parent.id
 							}, success: function(payload) {
 								if (payload && payload.resultYn == 'Y' && payload.ctgrId != '' && payload.ctgrName != '') {
+									console.log('return true');
 									alert('카테고리가 생성되었습니다.');
 									node.id = payload.ctgrId;
-									return true;
+									_is_success = true;
 								} else {
+									console.log('return false');
 									alert('카테고리 생성 중 오류가 발생하였습니다.');
-									return false;
 								}
 							}, error: function(xhr, status, text) {
+								console.log('return false');
 								alert(status);
-								return false;
 							}
 						});
+						
+						return _is_success;
 						
 					} else if (operation == 'edit') {
 						// F2 클릭 시 
 						return true;
 						
 					} else if (operation == 'rename_node') {
-						// 이름 변경 시
-						/*
-							TODO :: ajax 처리
-						*/
+						
+						var _is_success = false;
+						
+						$.ajax({
+							url: '/admin/category/update/rename/' + node.id
+							, type: 'GET'
+							, dataType: 'JSON'
+							, async: false
+							, data: {
+								ctgrName: encodeURIComponent(position)
+							}, success: function(payload) {
+								if (payload && payload.resultYn == 'Y') {
+									alert('카테고리명이 수정되었습니다.');
+									_is_success = true;
+								} else {
+									alert((payload && payload.resultMsg) ? payload.resultMsg : '처리 중 오류가 발생하였습니다.');
+								}
+							}, error: function(xhr, status, text) {
+								alert(text);
+							}
+						});
+						
+						return _is_success;
+						
 					} else if (operation == 'delete_node') {
-						// TODO :: ajax 처리
+						var _is_success = false;
+						
+						$.ajax({
+							url: '/admin/category/update/useYn/' + node.id
+							, type: 'GET'
+							, dataType: 'JSON'
+							, async: false
+							, data: {
+								useYn: 'N'
+							}, success: function(payload) {
+								if (payload && payload.resultYn == 'Y') {
+									alert('카테고리가 삭제되었습니다.');
+									_is_success = true;
+								} else {
+									alert((payload && payload.resultMsg) ? payload.resultMsg : '처리 중 오류가 발생하였습니다.');
+								}
+							}, error: function(xhr, status, text) {
+								alert(text);
+							}
+						});
+						
+						return _is_success;
 						
 					} else {
 						return false;
@@ -114,10 +169,7 @@
 			console.log("loaded.jstree");
 		})
 		.on("select_node.jstree", function(event, data) {
-			console.log(event);
 			console.log("select_node.jstree");
-			console.log(data);
-			// $('#td-category-detail').text(data.node.text);
 			$('#text-ctgr-name').val(data.node.text);
 		})
 		.on("open_node.jstree", function(event, data) {
@@ -139,10 +191,34 @@
 		})
 		.bind("rename_node.jstree", function(e, data) {
 			console.log("rename_node.jstree");
+			console.log(data);
 		})
 		.bind("move_node.jstree", function(e, data) {
 			console.log("move_node.jstree");
 			console.log(data);
+			
+			if (data.old_position == data.position) return;
+			
+			// 노출 순서 변경
+			$.ajax({
+				url: '/admin/category/update/dispOrder/' + data.node.id
+				, type: 'POST'
+				, dataType: 'JSON'
+				, async: false
+				, data: {
+					prntCtgrId: (data.parent == '#') ? '9999' : data.parent
+					, dispOrder: data.old_position
+					, destDispOrder: data.position
+				}, success: function(payload) {
+					if (payload && payload.success == 'Y') {
+						console.log('success');
+					}
+					if (!payload || payload.success == 'N') alert('카테고리 순서 변경 중 오류가 발생하였습니다.');
+					
+				}, error: function(xhr, status, text) {
+					alert(text);
+				}
+			});
 		});
 		
 		$tree = $target.jstree();
@@ -168,10 +244,10 @@
 	
 	// add node
 	function create_node() {
-		var $parent = $tree.get_selected();
-		$parent = (!$parent[0] || $parent[0].length == 0) ? '#' : $parent[0];
+		var _parent_ = $tree.get_selected();
+		_parent_ = (!_parent_[0] || _parent_[0].length == 0) ? '#' : _parent_[0];
 		
-		var paths = $parent == '#' ? '' : get_paths($tree.get_node($parent));
+		var paths = _parent_ == '#' ? '' : get_paths($tree.get_node(_parent_));
 		
 		if (paths == '') {
 			paths = '최상위 카테고리로 등록할 카테고리 명을 입력해 주세요.';
@@ -179,41 +255,38 @@
 			paths += '의 하위 카테고리로 등록할 카테고리 명을 입력해 주세요.';
 		}
 		
-		var ctgrName = $('#text-ctgr-name').val();
+		var ctgrName = $.trim($('#text-ctgr-name').val());
 		
 		if (ctgrName == '' || !ctgrName) {
 			alert('카테고리 명을 입력해 주세요.');
 			return;
 		}
-		
-		$tree.create_node($parent
-						  , {"id": (1000+idx)
+		// create_node definition :: ([parent, node, pos, callback, is_loaded])]
+		$tree.create_node(_parent_
+						  , {"id": ''
 							  , "text": ctgrName
 						  }
 						  , "last"
-						  , function() {
-							  ++idx;
-							  // SOMETHING TODO
-						  }
+						  , function() {}
 						  , false);
 		
 		/* $.ajax({
-			url: '/shop/admin/category/register'
+			url: '/admin/category/register'
 			, type: 'POST'
 			, dataType: 'JSON'
 			, data: {
 				ctgrName: ctgrName
-				, prntCtgrId: ($parent == '#') ? '' : $parent
+				, prntCtgrId: (_parent_ == '#') ? '' : _parent_
 			}, success: function(payload) {
 				if (payload && payload.resultYn == 'Y' && payload.ctgrId != '' && payload.ctgrName != '') {
 					alert('카테고리가 생성되었습니다.');
 					
-					$tree.create_node($parent, {"id": payload.ctgrId
+					$tree.create_node(_parent_, {"id": payload.ctgrId
 						, "text": payload.ctgrName
 					   }, "last", function(payload) { console.log(payload); idx++; console.log('success node')}, false);
 						
-					if ($parent != '#') {
-						$tree.open_node($parent);
+					if (_parent_ != '#') {
+						$tree.open_node(_parent_);
 					}
 				} else {
 					alert('카테고리 생성 중 오류가 발생하였습니다.');
@@ -224,10 +297,35 @@
 		}); */
 	}
 	
+	// rename_node node
+	function rename_node() {
+		var _current_ = $tree.get_selected();
+		_current_ = (!_current_[0] || _current_[0].length == 0) ? '#' : _current_[0];
+		
+		var ctgrName = $('#text-ctgr-name').val();
+		
+		if (ctgrName == '' || !ctgrName) {
+			alert('카테고리 명을 입력해 주세요.');
+			return;
+		}
+		
+		if (confirm('카테고리명을 수정하시겠습니까?')) {
+			// rename_node definition :: (obj, val)
+			$tree.rename_node(_current_
+							  , ctgrName);
+		}
+	}
+	
 	// delete node
 	function delete_node() {
-		var $selected_node = $tree.get_selected();
-		$tree.delete_node($tree.get_selected(), function() {});
+		var _current_ = $tree.get_selected();
+		_current_ = (!_current_[0] || _current_[0].length == 0) ? '#' : _current_[0];
+		
+		if (confirm('미사용 처리 하시겠습니까?')) {
+			// delete_node definition :: (obj)
+			$tree.delete_node(_current_);
+		}
+		
 	}
 			
 </script>
@@ -246,7 +344,7 @@
 				<input type="hidden" value="" id="hidden-ctgr-id" name="hidden-ctgr-id" />
 				<input type="hidden" value="" id="hidden-prnt-ctgr-id" name="hidden-prnt-ctgr-id" />
 				<a href="javascript:create_node();" class="btn btn-danger">하위 카테고리 등록</a>
-				<a href="javascript:modify_node();" class="btn btn-danger">수정</a>
+				<a href="javascript:rename_node();" class="btn btn-danger">수정</a>
 				<a href="javascript:delete_node();" class="btn btn-danger">삭제</a>
 			</td>
 		</tr>
