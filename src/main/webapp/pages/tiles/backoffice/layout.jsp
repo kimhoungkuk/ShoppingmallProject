@@ -35,7 +35,10 @@ response.setDateHeader("Expires",0);
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	<script src="//code.jquery.com/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-
+		<!-- colorpicker -->
+	<link rel="stylesheet" media="screen" type="text/css" href="/resources/component/colorpicker/css/colorpicker.css" />
+	<script type="text/javascript" src="/resources/component/colorpicker/js/colorpicker.js" ></script>
+	
 </head>
 <tiles:insertAttribute name="header" /> 
 <tiles:insertAttribute name="menu" />  
