@@ -120,6 +120,12 @@
 		    <artifactId>slf4j-jcl</artifactId>
 		    <version>1.7.5</version>
 		 </dependency>
+		<dependency>
+		    <groupId>org.bgee.log4jdbc-log4j2</groupId>
+		    <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+		    <version>1.16</version>
+		</dependency>
+		 
 		      
         <!-- 스프링에서 JDBC 를 사용하기 위한 라이브러리 입니다. -->                 
 		<dependency>
