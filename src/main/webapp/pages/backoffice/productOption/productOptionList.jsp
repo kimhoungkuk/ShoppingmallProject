@@ -16,10 +16,8 @@
 	/* $('.colorset').css('background-color', set); */
 	
 	 $('.colorset').each(function(idx, obj) {
-		 $('.colorset').css('background-color', $(this).val());
+		 $(this).css('background-color', $(this).val());
 		});
-	
-	 
 	
  });
  
