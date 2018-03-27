@@ -62,8 +62,8 @@ public class DiscountController {
      * 상품 할인 등록.
      */
     @RequestMapping(value = "/discountRegister",method=RequestMethod.POST)
-    public String discountRegister(@ModelAttribute Discount discount , HttpServletRequest request) throws SQLException{
-    	
+    public String discountRegister(Discount discount, HttpServletRequest request) throws SQLException{
+    	System.out.println(discount.getDcntStartDate());
     	int num = discountService.createDiscount(discount);
 
         if(num < 1){

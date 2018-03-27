@@ -41,7 +41,10 @@
             return;
         }
         */
-		console.log(document.dcntForm)
+		console.log($("#dcntStartDate").datepicker({ dateFormat: 'dd,MM,yyyy' }).val());
+        $('#dcntStartDate').val($("#dcntStartDate").datepicker({ dateFormat: 'dd,MM,yyyy' }).val());
+        //$('#dcntEndDate').val($("#dcntEndDate").datepicker({ dateFormat: 'dd,MM,yyyy' }).val());
+        $('#dcntName').val('ddddddddddddddd');
         document.dcntForm.submit();
         
 	}
