@@ -3,6 +3,7 @@ package com.project.shop.service;
 import java.util.List;
 
 import com.project.shop.model.Discount;
+import com.project.shop.model.Product;
 
 /**
  * 상품할인
@@ -30,5 +31,12 @@ public interface DiscountService {
      * @return
      */
 	int createDiscount(Discount discount);
+
+	/**
+	 * 상품할인 정보 
+	 * @param prdtCode
+	 * @return
+	 */
+	Discount selectDiscountInfo(int dcntSeq);
     
 }

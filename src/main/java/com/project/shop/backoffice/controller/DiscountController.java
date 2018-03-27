@@ -11,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.shop.model.Discount;
+import com.project.shop.model.Product;
 import com.project.shop.service.DiscountService;
 
 /**
@@ -71,6 +73,20 @@ public class DiscountController {
         }
         
     	return ("redirect:/admin/discount/discountList");
+    	
+    }
+    
+    /**
+     * 상품 할인 수정폼.
+     */
+    @RequestMapping(value = "/discountModify/{dcntSeq}")
+    public ModelAndView discountModifyForm(@PathVariable int dcntSeq, Model model) throws SQLException{
+
+    	Discount discount = discountService.selectDiscountInfo(dcntSeq);
+    	
+    	model.addAttribute("discount",discount);
+    	
+    	return new ModelAndView("backoffice/discount/discountModifyForm");
     	
     }
 

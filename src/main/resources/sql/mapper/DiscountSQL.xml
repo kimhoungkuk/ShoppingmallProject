@@ -48,9 +48,11 @@
 	</select> 
 	
 	<insert id="createDiscount" parameterType="com.project.shop.model.Discount"> 
-		<!-- <selectKey keyProperty="dcntSeq" resultType="int" order="BEFORE">
-		    select DCNT_SEQ.nextval FROM DCNT_SEQUENCE
-	  	</selectKey> -->
+		<selectKey keyProperty="dcntSeq" resultType="int" order="BEFORE">
+		   SELECT
+				NVL(MAX(DCNT_SEQ+1), 1)
+			FROM SHOP_DISCOUNT
+	  	</selectKey>
 		INSERT INTO SHOP_DISCOUNT
 		(
 			DCNT_SEQ,
@@ -66,7 +68,7 @@
 	   )
 	   VALUES
 	   (
-			2
+			#{dcntSeq}
 			,#{dcntName}
 			,#{dcntPrice}
 			,#{dcntType}
@@ -78,5 +80,23 @@
 			,SYSDATE
 	   )
 	</insert> 
+	
+	<select id="selectDiscountInfo" resultType="com.project.shop.model.Discount" parameterType="int"> 
+			SELECT 
+				 DCNT_SEQ,
+				DCNT_NAME,
+				DCNT_PRICE,
+				DCNT_TYPE,
+				DCNT_START_DATE,
+				DCNT_END_DATE,
+				DCNT_REG_ID,
+				DCNT_REG_DATE,
+				DCNT_MOD_ID,
+				DCNT_MOD_DATE
+			FROM 
+			 	SHOP_DISCOUNT
+			WHERE
+				DCNT_SEQ = #{dcntSeq}
+	</select> 
 	
 </mapper>

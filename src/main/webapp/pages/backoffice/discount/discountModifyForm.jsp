@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<script type="text/javascript" src="/js/common.js"></script>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<script type="text/javascript" src="/resources/js/common.js"></script>
 <script type="text/javascript">
 	$(function($) {
 		/*
@@ -30,8 +29,8 @@
 		}
 		$("input[name='dcntStartDateStr']").datepicker(dpOption);
 		$("input[name='dcntEndDateStr']").datepicker(dpOption);
-	    $("input[name='dcntStartDateStr']").datepicker('setDate', new Date()); 
-	    $("input[name='dcntEndDateStr']").datepicker('setDate', new Date()); 
+	    $("input[name='dcntStartDateStr']").datepicker('setDate', new Date('${discount.dcntStartDate}')); 
+	    $("input[name='dcntEndDateStr']").datepicker('setDate', new Date('${discount.dcntEndDate}')); 
 	    
 	    /*
 	    * form submit
@@ -45,47 +44,30 @@
 	    	document.location.href="${param.listUrl}";
 	    });
 	    
-	    $("input[name='inlineRadioOptions']").change(function(){
-	        if ($("#inlineRadio1").is(':checked')) {
-				console.log('inlineRadio1');
-	        } else if($("#inlineRadio2").is(':checked')) {
-	        	console.log('inlineRadio2');
-			}
-	    });
-	});
-	
-	/*
-	* form submit
-	*/
+	}); 
+
 	function frmSubmit(){
-		
-        /* validation check
+		 /* validation check
         if(isEmpty($("#prdtKorName").val())) {
             alert("상품한글명을 입력해주세요.");
             $("#prdtKorName").focus();
             return;
         }
         */
-        document.dcntForm.submit();
+        document.prdtForm.submit();
         
 	}
-	
-    /*
-    * 상품목록 ajax
-    */
-    function getProductList(){
-    	
-    }
 </script>
-<div class="col-sm-10">
-	<div class="page-header" style="margin-top:6px">
+		<div class="col-sm-10">
+<div class="page-header" style="margin-top:6px">
 	  <h4>상품할인 등록</h1>
 	</div>
-	<form class="form-horizontal" action="/admin/discount/discountRegister" method="post" id="dcntForm" name="dcntForm">
+	<form class="form-horizontal" action="/admin/discount/discountModify" method="post" id="dcntForm" name="dcntForm">
+		<input type="hidden" id="dcntSeq" name="dcntSeq" value="${discount.dcntSeq}">
 		<div class="form-group">
 			<label for="dcntName" class="col-sm-2 control-label">할인명</label>
 			<div class="col-sm-10">
-				<input type="text" name="dcntName" id="dcntName" class="form-control" />
+				<input type="text" name="dcntName" id="dcntName" value="${discount.dcntName}" class="form-control" />
 			</div>
 		</div>
 		<div class="form-group">
@@ -98,8 +80,8 @@
 		<div class="form-group">
 			<label for="dcntPrice" class="col-sm-2 control-label">할인가격</label>
 			<div class="col-sm-10 form-inline">
-				<input type="text" name="dcntPrice" id="dcntPrice" class="form-control" />
-				<select class="form-control" name="dcntType" id="dcntType">
+				<input type="text" name="dcntPrice" id="dcntPrice" value="${discount.dcntPrice}" class="form-control" />
+				<select class="form-control" name="dcntType" id="dcntType" value="${discount.dcntType}">
 				  <option value="1">%</option>
 				  <option value="2">-</option>
 				</select>
