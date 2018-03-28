@@ -4,25 +4,15 @@
 <mapper namespace="ProductOptionSQL">
 
 
-	<insert id="insertProductOption" parameterType="com.project.shop.model.ProductOption">
+	<insert id="insertProductOption" parameterType="java.util.List">
 
-	 	INSERT INTO SHOP_PRODUCT_OPTION (PRDT_CODE, PRDT_COLOR_CODE, PRDT_SIZE, 
-			PRDT_LAVE_COUNT, REGT_DTM, RGS_ID, COLOR_NAME ) VALUES (#{prdtCode},#{prdtColorCode},#{prdtSize},#{prdtLaveCount},SYSDATE,#{rgsId},#{colorName})
-		<!-- declare
-		vtest varray_test;
-
-		begin
-		vtest := varray_test<foreach collection="prdtColorCode" item="prdtColorCode" index="index"  open="(" close=");" separator=",">
-            #{prdtColorCode}</foreach>
-		
-	
-		INSERT INTO SHOP_PRODUCT_OPTION
-		(PRDT_CODE, PRDT_COLOR_CODE, PRDT_SIZE,	PRDT_LAVE_COUNT, REGT_DTM, RGS_ID, COLOR_NAME )
-		VALUES
-		(#{prdtCode},vtest,#{prdtSize},#{prdtLaveCount},SYSDATE,#{rgsId},#{colorName});
-
-		end; -->
-
+	 	<foreach collection="list" item="list" open="INSERT ALL " close="SELECT * FROM DUAL"> 
+        INTO SHOP_PRODUCT_OPTION 
+        (PRDT_CODE, PRDT_COLOR_CODE, PRDT_SIZE, PRDT_LAVE_COUNT, RGS_ID, REGT_DTM, COLOR_NAME)
+        values 
+        (#{list.prdtCode},#{list.prdtColorCode},#{list.prdtSize},#{list.prdtLaveCount},#{list.rgsId},SYSDATE,#{list.colorName})
+        
+        </foreach>
 
 	</insert>
 	
@@ -30,33 +20,32 @@
 	
 		<!-- SELECT * FROM SHOP_PRODUCT_OPTION -->
 		
-		 SELECT * FROM SHOP_PRODUCT_OPTION 
+		 SELECT * FROM SHOP_PRODUCT_OPTION ORDER BY REGT_DTM DESC
 		
 	
 	</select>
 	
-	<select id="selectProductOptionModify" resultType="com.project.shop.model.ProductOption" parameterType="String">
+	<select id="selectProductOptionModify" resultType="com.project.shop.model.ProductOption" parameterType="com.project.shop.model.ProductOption">
 	
 		SELECT * FROM SHOP_PRODUCT_OPTION WHERE PRDT_CODE = #{modifydelete}
 	</select>
 	
-	<update id="updateProductOption" parameterType="com.project.shop.model.ProductOption">
-	
-		UPDATE 
-		  SHOP_PRODUCT_OPTION
+	<update id="updateProductOption" parameterType="java.util.List">
+	DECLARE BEGIN
+	<foreach collection="list" item="list">
+		UPDATE SHOP_PRODUCT_OPTION
 		SET
-		  <!-- PRDT_CODE = #{prdtCode},??? -->
-		  PRDT_COLOR_CODE = #{prdtColorCode},
-		  PRDT_SIZE = #{prdtSize},
-		  PRDT_LAVE_COUNT = #{prdtLaveCount},
-		  MOD_DTM = SYSDATE,
-		  MOD_ID = #{modId},
-		  COLOR_NAME = #{colorName}
-		  
-		  <!-- PRDT_MOD_ID = '보류' -->
-	   WHERE
-	   	  PRDT_CODE = #{prdtCode}
-	
+		PRDT_CODE = #{list.prdtCode},
+		PRDT_COLOR_CODE = #{list.prdtColorCode},
+		PRDT_SIZE = #{list.prdtSize},
+		PRDT_LAVE_COUNT = #{list.prdtLaveCount},
+		MOD_DTM = SYSDATE,
+		MOD_ID = #{list.modId},
+		COLOR_NAME = #{list.colorName}
+		WHERE 
+		PRDT_CODE = #{list.mdprdtCode} AND PRDT_COLOR_CODE = #{list.mdprdtColorCode} AND PRDT_SIZE = #{list.mdprdtSize};
+	</foreach>
+	END;
 	</update>
 
 </mapper>

@@ -14,12 +14,12 @@ import com.project.shop.model.ProductOption;
 public interface ProductOptionDao {
 
 
-	public void insertProductOption(ProductOption dto);
+	public void insertProductOption(List<ProductOption> list);
 	
 	public List<ProductOption> selectProductOption();
 	
-	public ProductOption selectProductOptionModify(String prdtCode);
+	public List<ProductOption> selectProductOptionModify(String modifydelete);
 	
-	public void updateProductOption(ProductOption dto);
+	public void updateProductOption(List<ProductOption> list);
 	
 }

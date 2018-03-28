@@ -1,87 +1,94 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="EUC-KR"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <style>
-button{
-border:0;
-outline:0;
+.after input{
+width:80px;
 }
-
 </style>
+<script>
+$(document).ready(function() {
+		//옵션추가 
+		$('.addoption').click(function() {
 
- <script>
- $(document).ready(function() {
-	 
-	 $('#colorSelector').ColorPicker({
-			color: '#0000ff',
-			onShow: function (colpkr) {
-				$(colpkr).fadeIn(500);
-				return false;
-			},
-			onHide: function (colpkr) {
-				$(colpkr).fadeOut(500);
-				return false;
-			},
-			onChange: function (hsb, hex, rgb) {
-				
-				$('#colorSelector div').css('backgroundColor', '#' + hex);
-				$('#getcode').val(hex);
-			}
+			$(".after:last").after($('.after:first').clone(true));
+
 		});
+		//colorpicker
+		 $('.colorset').change(function(){
+			$(this).children('.color').attr("value",$(this).children('.color').val());
+			$(this).children('.getcode').val($(this).children('.color').val().replace("#",""));
+			
+		}); 
+		 
+		// 상품코드 기준!
+		 $('.codeparent').change(function(){
+			 $('.codechild').val($('.codeparent').val());
+		 });
 
 	});
-
-</script> 
-상품 옵션 --------------------------------------------------------<br>
+</script>
+<p style="font-size: 15pt">상품 옵션 > 등록 폼 porFrom</p>
+<br>
 <div class="col-sm-10">
 	<form action="productOptionRegister" method="post">
-<!-- http://www.eyecon.ro/colorpicker/#about -->
+
+		<table class="table table-bordered">
+			<colgroup>
+				<col width="15%">
+				<col width="85%">
+			</colgroup>
+			<tbody>
+				<tr>
+					<th>상품 코드</th>
+					<td>
+					<input type="text" class="codeparent form-control">
+					</td>
+				</tr>
+
+				<tr class="after">
+					<th>옵션 
+					<input class="addoption" type="button" value="옵션추가">
+					</th>
+					
+					<td>
+					<div class="colorset" style="float:left">
+					<input type="color" class="color">
+					색상코드
+					<input class="getcode" name="prdtColorCode" type="text" readonly> 
+					</div>
+					
+
+					색상 이름
+					
+					<input type="text" name="colorName">
+					
+
+				
+					사이즈
+
+					
+						<select name="prdtSize">
+							<option>사이즈 선택</option>
+							<option value="small">Small</option>
+							<option value="medium">Medium</option>
+							<option value="large">Large</option>
+							<option value="free">Free</option>
+						</select>
+					
+				
+					재고
+					<input type="number" name="prdtLaveCount">
+					<input type="hidden" name="prdtCode" class="codechild">
+					<input type="hidden" name="rgsId" value="sieunlim">
+					 
+					</td>
+				</tr> 
 
 
-<table class="table table-bordered">		
-			        <colgroup>
-			            <col width="15%">
-			            <col width="85%">  
-			        </colgroup>
-			        <tbody>				
-					<tr>
-						<th class="col-md-2">상품코드</th> 
-						<td>
-						<input type="text" name="prdtCode" value="123" class="form-control">
-						</td>
-					</tr>
-					<tr>
-						<th>상품컬러코드 및 색상</th>
-						<td>
-							코드<button id="colorSelector"><div></div></button> 
-							 <input id="getcode" name="prdtColorCode" type="text" maxlength="6" size="6" readonly> 
-							컬러 이름<input type="text" name="colorName">
-							
-						</td>
-					</tr>
-					<tr>
-						<th>사이즈</th>
-						<td>
-							<input type="text" name="prdtSize" class="form-control">
-						</td>
-					</tr>
-					<tr>
-						<th>재고</th>
-						<td> 
-						   <input type="number" name="prdtLaveCount" class="form-control">
-						</td>
-					</tr>	
-					<tr>
-						<th>생성자 이름</th>
-						<td> 
-						  <input type="text" name="rgsId" value="idddd" class="form-control" readonly>
-						  <!-- 대표적으로 readonly 와 disabled  readonly는 form으로 넘길수있다 disabled는 안딤 --> 
-						</td>
-					</tr>
-					
-					
-					
-					</tbody>																					
-				</table>
-				<input type="submit" value="드으응록">
-</form>
+
+			</tbody>
+		</table>
+		<input type="submit" class="btn btn-default pull-right" value="등록">
+	</form>
 </div>

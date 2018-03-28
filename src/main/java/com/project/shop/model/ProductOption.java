@@ -1,5 +1,6 @@
 package com.project.shop.model;
 
+import java.util.List;
 
 /**
  * 상품 옵션 VO  
@@ -27,6 +28,12 @@ public class ProductOption {
 	private String modDtm;
 	/** 수정자 아이디*/
 	private String modId;
+	
+	private String mdprdtCode;
+	
+	private String mdprdtColorCode;
+	
+	private String mdprdtSize;
 	
 	public String getPrdtCode() {
 		return prdtCode;
@@ -77,7 +84,24 @@ public class ProductOption {
 	public String getModDtm() {
 		return modDtm;
 	}
+	public String getMdprdtCode() {
+		return mdprdtCode;
+	}
+	public void setMdprdtCode(String mdprdtCode) {
+		this.mdprdtCode = mdprdtCode;
+	}
+	public String getMdprdtColorCode() {
+		return mdprdtColorCode;
+	}
+	public void setMdprdtColorCode(String mdprdtColorCode) {
+		this.mdprdtColorCode = mdprdtColorCode;
+	}
+	public String getMdprdtSize() {
+		return mdprdtSize;
+	}
+	public void setMdprdtSize(String mdprdtSize) {
+		this.mdprdtSize = mdprdtSize;
+	}
 
-	
 	
 }

@@ -11,10 +11,6 @@
  
  $(document).ready(function(){
 	 
-	 var set = $('.colorset2').val();
-	
-	/* $('.colorset').css('background-color', set); */
-	
 	 $('.colorset').each(function(idx, obj) {
 		 $(this).css('background-color', $(this).val());
 		});
@@ -29,9 +25,9 @@
 			<tr>
 				<th>상품코드</th>
 				<th>색상 코드</th>
-				<th>생상 이름</th>
+				<th>색상 이름</th>
 				<th>사이즈</th>
-				<th colspan="3">재고</th>
+				<th>재고</th>
 				<th>상품등록일</th>			
 				<th>생성자</th>		
 				<th>수정/삭제</th>
@@ -45,30 +41,26 @@
 					<td>${option.prdtCode }</td>
 					
 					<td> <button class="colorset" value="${option.prdtColorCode }" style="border:1px solid black; width:15px; height:15px"></button>
-					<input class="colorset2" type="hidden" value="${option.prdtColorCode }">${option.prdtColorCode }</td>
+					${option.prdtColorCode }</td>
 					<td>${option.colorName }</td>
 					<td>${option.prdtSize }</td> 
-					<td>S:${option.prdtLaveCount }</td>
-					<td>M</td>
-					<td>L</td>
-					<td>${option.regtDtm }<%-- <fmt:formatDate value="" pattern="yyyy-MM-dd HH:mm:ss"/> --%></td>
+					<td>${option.prdtLaveCount } 개</td>
+					<td>${option.regtDtm }</td>
 					<td>${option.rgsId }</td>	
 					<td>
 						
-							<input type="hidden" name="modifydelete" value="${option.prdtCode }">
+							
 							<a href="javascript:goModify('${option.prdtCode}');"><button class="modify">수정</button></a>
 							<button type="submit" class="delete">삭제</button> 
 						
 					</td>	
-										    								      
+									    								      
 				</tr>  
-				
+			
 			</c:forEach> 
 			
 		</table>
 
 		<a href="/admin/porForm" class="btn btn-default pull-right">옵션등록</a>
 
-</div>		
-
-                          
+</div>

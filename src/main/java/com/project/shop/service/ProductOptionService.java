@@ -7,12 +7,12 @@ import com.project.shop.model.ProductOption;
 
 public interface ProductOptionService {
 
-	void registerProductOption(ProductOption dto);
+	void registerProductOption(List<ProductOption> list);
 	
 	List<ProductOption> getProductOptionList();
 	
-	ProductOption getProductOptionModify(String prdtCode);
+	List<ProductOption> getProductOptionModify(String modifydelete);
 	
-	void updateProductOption(ProductOption dto);
+	void updateProductOption(List<ProductOption> list);
 	
 }

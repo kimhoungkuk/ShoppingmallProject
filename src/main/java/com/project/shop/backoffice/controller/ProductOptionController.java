@@ -1,8 +1,11 @@
 package com.project.shop.backoffice.controller;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,8 +44,7 @@ public class ProductOptionController {
 	public String ProductOptionList(Model model) {
 		
 		List<ProductOption> list = productOptionService.getProductOptionList();
-	
-		
+
 		model.addAttribute("productOptionList",list);
 		
 		return "backoffice/productOption/productOptionList";
@@ -61,22 +63,30 @@ public class ProductOptionController {
 	
 	// 기능 : 상품 옵션 등록
 	@RequestMapping(value="/admin/productOptionRegister" , method=RequestMethod.POST)
-	public String ProductOptionRegister(HttpServletRequest request, Model model, ProductOption dto) {
+	public String ProductOptionRegister(HttpServletRequest request, Model model) {
+
+		String[] code = request.getParameterValues("prdtCode");
+		String[] colorcode = request.getParameterValues("prdtColorCode");
+		String[] colorname = request.getParameterValues("colorName");
+		String[] size = request.getParameterValues("prdtSize");
+		String[] count = request.getParameterValues("prdtLaveCount");
+		String[] rgsid = request.getParameterValues("rgsId");
+
+		List<ProductOption> list = new ArrayList<ProductOption>();
 		
+		for(int i = 0; i <= colorcode.length-1; i++) {
+		 ProductOption dto = new ProductOption();
+		 dto.setPrdtCode(code[i]);
+		 dto.setPrdtColorCode(colorcode[i]);
+		 dto.setColorName(colorname[i]);
+		 dto.setPrdtSize(size[i]);
+		 dto.setPrdtLaveCount(Integer.parseInt(count[i]));
+		 dto.setRgsId(rgsid[i]);
+		 list.add(dto);
+		}
 		
-		dto.setPrdtCode(request.getParameter("prdtCode"));
-		//dto.setPrdtColorCode(test2);
-		dto.setPrdtColorCode(request.getParameter("prdtColorCode"));
-		dto.setColorName(request.getParameter("colorName"));
-		dto.setPrdtSize(request.getParameter("prdtSize"));
-		dto.setPrdtLaveCount(Integer.parseInt(request.getParameter("prdtLaveCount")));
-		
-		
-		
-		
-		productOptionService.registerProductOption(dto);
-		
-	
+		productOptionService.registerProductOption(list);
+
 		return ("redirect:/admin/productOptionList");
 	}
 	
@@ -85,30 +95,51 @@ public class ProductOptionController {
 	
 	// 이동 & 기능: 상품 옵션 수정 폼과 수정 리스트 가져오기
 	@RequestMapping(value="/admin/pomForm/{modifydelete}", method=RequestMethod.GET)
-	public String PomForm(@PathVariable("modifydelete") String prdtCode,HttpServletRequest request, Model model) {
+	public String PomForm(@PathVariable("modifydelete") String modifydelete,HttpServletRequest request, Model model) {
 		
-		
-		
-		ProductOption dto = productOptionService.getProductOptionModify(prdtCode);
+		List<ProductOption> dto = productOptionService.getProductOptionModify(modifydelete);
 		
 		model.addAttribute("modify",dto);
+		model.addAttribute("modifydelete", modifydelete);
+		
 		
 		return "backoffice/productOption/productOptionModify";
 	}
 	
 	// 기능 : 상품 옵션 수정 
 	@RequestMapping(value="/admin/productOptionModify" , method=RequestMethod.POST)
-	public String ProductOptionModify(HttpServletRequest request, Model model, ProductOption dto) {
+	public String ProductOptionModify(HttpServletRequest request, Model model) {
 		
-		dto.setPrdtCode(request.getParameter("prdtCode"));
-		dto.setPrdtColorCode(request.getParameter("prdtColorCode"));
-		//dto.setPrdtColorCode(test2);
-		dto.setColorName(request.getParameter("colorName"));
-		dto.setPrdtSize(request.getParameter("prdtSize"));
-		dto.setPrdtLaveCount(Integer.parseInt(request.getParameter("prdtLaveCount")));
-		dto.setModId(request.getParameter("modId"));
+		String[] code = request.getParameterValues("prdtCode");
+		String[] colorcode = request.getParameterValues("prdtColorCode");
+		String[] colorname = request.getParameterValues("colorName");
+		String[] size = request.getParameterValues("prdtSize");
+		String[] count = request.getParameterValues("prdtLaveCount");
+		String[] modid = request.getParameterValues("modId");
+		//수정용
+		String[] mdprdtcode = request.getParameterValues("mdprdtCode");
+		String[] mdprdtcolorcode = request.getParameterValues("mdprdtColorCode");
+		String[] mdprdtsize = request.getParameterValues("mdprdtSize");
 		
-		productOptionService.updateProductOption(dto);
+		List<ProductOption> list = new ArrayList<ProductOption>();
+		
+		for(int i = 0; i <= colorcode.length-1; i++) {
+		 ProductOption dto = new ProductOption();
+		 dto.setPrdtCode(code[i]);
+		 dto.setPrdtColorCode(colorcode[i]);
+		 dto.setColorName(colorname[i]);
+		 dto.setPrdtSize(size[i]);
+		 dto.setPrdtLaveCount(Integer.parseInt(count[i]));
+		 dto.setModId(modid[i]);
+		 
+		 dto.setMdprdtCode(mdprdtcode[i]);
+		 dto.setMdprdtColorCode(mdprdtcolorcode[i]);
+		 dto.setMdprdtSize(mdprdtsize[i]);
+		 
+		 list.add(dto);
+		}
+		
+		productOptionService.updateProductOption(list);
 		
 		return ("redirect:/admin/productOptionList");
 	}
