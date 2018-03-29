@@ -1,8 +1,14 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript">
+	var productList = [];
+	
 	$(function($) {
+		//getProductList();
 		/*
 		* datepicker 설정
 		*/
@@ -74,12 +80,25 @@
     * 상품목록 ajax
     */
     function getProductList(){
-    	
+    	var me = this;
+    	$.ajax({
+	   	    url: '/admin/product/dcntProductList',
+	   	 	type: 'GET',
+			dataType: 'JSON',
+			async: false,
+			success: function(payload) {
+				console.log(payload);
+				productList = payload;
+			}, error: function(xhr, status, text) {
+				console.log('return false');
+				alert(status);
+			}
+		});
     }
 </script>
 <div class="col-sm-10">
 	<div class="page-header" style="margin-top:6px">
-	  <h4>상품할인 등록</h1>
+	  <h4 onclick="console.log(productList)">상품할인 등록</h1>
 	</div>
 	<form class="form-horizontal" action="/admin/discount/discountRegister" method="post" id="dcntForm" name="dcntForm">
 		<div class="form-group">
@@ -124,6 +143,49 @@
 				<label class="radio-inline">
 				  <input type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5"> 카테고리
 				</label> -->
+			 </div>
+			 <div class="col-sm-12">
+			 	<table class="table table-bordered table-hover"> 
+					<tr>
+						<th>상품코드</th>
+						<th>상품한글명</th>
+						<th>상품영문명</th>
+						<th>상품가격</th>
+						<th>상품전시여부</th>		
+						<th>선택</th>		
+					</tr>
+					<c:forEach items="${productList}" var="product" varStatus="prdtIdx">
+						<tr>
+							<td>
+								${product.prdtCode}
+							</td>
+							<td>
+								${product.prdtKorName}
+							</td>
+							<td>
+								${product.prdtEngName}
+							</td> 
+							<td>
+								<fmt:formatNumber value="${product.prdtSellPrice}" pattern="#,###" />
+							</td>
+							<td>
+								${product.prdtDispYn}
+							</td>
+							<td>
+								<a type="button" class="btn btn-default">선택</a>
+							</td>
+						</tr>  
+					</c:forEach>
+				</table>
+				
+				<c:import url="/admin/common/paging" charEncoding="utf-8">
+		             <c:param name="startPageNo" value="${product.startPageNo}" />
+		             <c:param name="endPageNo" value="${product.endPageNo}" />
+		             <c:param name="firstPageNo" value="${product.firstPageNo}" />
+		             <c:param name="nextPageNo" value="${product.nextPageNo}" />
+		             <c:param name="pageNo" value="${product.pageNo}" />
+		             <c:param name="pagegUrl" value="${product.pagegUrl}" />
+		         </c:import>	
 			 </div>
 		</div>
 		<div class="pull-right">

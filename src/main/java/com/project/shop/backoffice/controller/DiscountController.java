@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.project.shop.model.Discount;
 import com.project.shop.model.Product;
 import com.project.shop.service.DiscountService;
+import com.project.shop.service.ProductService;
 
 /**
  * 상품할인 컨트롤러
@@ -31,6 +32,9 @@ public class DiscountController {
 
 	@Autowired
 	private DiscountService discountService;
+	
+	@Autowired
+    private ProductService productService; 
 
 	/**
 	 * 상품 할인 리스트.
@@ -54,7 +58,16 @@ public class DiscountController {
      * 상품 할인 등록폼.
      */
     @RequestMapping(value = "/discountRegisterForm")
-    public ModelAndView discountRegisterForm(Model model) throws SQLException{
+    public ModelAndView discountRegisterForm(Model model, Product product, HttpServletRequest request) throws SQLException{
+    	// 리스트 총 카운트  및 페이징 처리
+    	product.setTotalCount(productService.getProductListTotalCount()); 
+    	// 리스트 페이징 URL 처리 
+    	product.setPagingUrl(request);
+    	
+    	List<Product>  productList = productService.getProductList(product);
+    	
+    	model.addAttribute("productList", productList);
+    	model.addAttribute("product", product);
 
     	return new ModelAndView("backoffice/discount/discountRegisterForm");
     	
@@ -79,14 +92,30 @@ public class DiscountController {
     /**
      * 상품 할인 수정폼.
      */
-    @RequestMapping(value = "/discountModify/{dcntSeq}")
-    public ModelAndView discountModifyForm(@PathVariable int dcntSeq, Model model) throws SQLException{
+    @RequestMapping(value = "/discountModifyForm/{dcntSeq}")
+    public ModelAndView discountModifyForm(@PathVariable int dcntSeq, Model model, Product product, HttpServletRequest request) throws SQLException{
 
     	Discount discount = discountService.selectDiscountInfo(dcntSeq);
     	
-    	model.addAttribute("discount",discount);
+    	model.addAttribute("discount", discount);
     	
     	return new ModelAndView("backoffice/discount/discountModifyForm");
+    	
+    }
+    
+    /**
+     * 상품 할인 수정.
+     */
+    @RequestMapping(value = "/discountModify", method=RequestMethod.POST)
+    public String discountModify(Discount discount) throws SQLException{
+
+    	int num = discountService.updateDiscount(discount);
+
+        if(num < 1){
+            throw new RuntimeException("상품 할인 등록 오류가 발생했습니다.");
+        }
+        
+    	return ("redirect:/admin/discount/discountModifyForm/"+discount.getDcntSeq());
     	
     }
 

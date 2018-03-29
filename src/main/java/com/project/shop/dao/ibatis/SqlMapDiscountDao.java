@@ -39,11 +39,19 @@ public class SqlMapDiscountDao implements DiscountDao {
 	}
 
 	/**
-	 *  상품 할인 정보
+	 * 상품 할인 정보
 	 */
 	@Override
 	public Discount selectDiscountInfo(int dcntSeq) {
-		return sqlSession.selectOne("DiscountSQL.selectDiscountInfo",dcntSeq);
+		return sqlSession.selectOne("DiscountSQL.selectDiscountInfo", dcntSeq);
+	}
+
+	/**
+	 * 상품 할인 업데이트
+	 */
+	@Override
+	public int updateDiscount(Discount discount) {
+		return sqlSession.update("DiscountSQL.updateDiscount", discount);
 	}
 
 }

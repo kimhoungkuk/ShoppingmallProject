@@ -38,5 +38,12 @@ public interface DiscountService {
 	 * @return
 	 */
 	Discount selectDiscountInfo(int dcntSeq);
+
+	/**
+	 * 상품 할인 업데이트 
+	 * @param discount
+	 * @return
+	 */
+	int updateDiscount(Discount discount);
     
 }

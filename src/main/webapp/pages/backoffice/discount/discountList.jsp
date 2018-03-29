@@ -10,7 +10,7 @@ function goRegister(){
 
 function goModify(dcntSeq){
 	var encodingUrl = encodeURIComponent("${discount.pagegUrl}${discount.pageNo}");
-	document.location.href = "/admin/discount/discountModify/"+dcntSeq+"?listUrl="+encodingUrl;
+	document.location.href = "/admin/discount/discountModifyForm/"+dcntSeq+"?listUrl="+encodingUrl;
 }
 
 </script>
@@ -43,10 +43,10 @@ function goModify(dcntSeq){
 						${discount.dcntType}
 					</td>
 					<td>
-						<fmt:formatDate value="${discount.dcntStartDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+						<fmt:formatDate value="${discount.dcntStartDate}" pattern="yyyy-MM-dd"/>
 					</td>
 					<td>
-						<fmt:formatDate value="${discount.dcntEndDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+						<fmt:formatDate value="${discount.dcntEndDate}" pattern="yyyy-MM-dd"/>
 					</td>
 					<td>
 						${discount.dcntRegId}

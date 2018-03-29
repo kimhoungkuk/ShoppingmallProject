@@ -10,13 +10,14 @@ import org.springframework.stereotype.Service;
 
 import com.project.shop.dao.DiscountDao;
 import com.project.shop.model.Discount;
-import com.project.shop.model.Product;
 import com.project.shop.service.DiscountService;
 
 @Service
 public class DiscountServiceImpl implements DiscountService {
 
 	Log log = LogFactory.getLog(this.getClass());
+	
+	static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 
 	@Autowired
 	private DiscountDao discountDao;
@@ -39,7 +40,6 @@ public class DiscountServiceImpl implements DiscountService {
 
 	@Override
 	public int createDiscount(Discount discount) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 		try {
 			discount.setDcntStartDate(dateFormat.parse(discount.getDcntStartDateStr()));
 			discount.setDcntEndDate(dateFormat.parse(discount.getDcntEndDateStr()));
@@ -49,22 +49,36 @@ public class DiscountServiceImpl implements DiscountService {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
-	
 
 	/**
 	 * 상품할인 정보
+	 * 
 	 * @param prdtCode
 	 * @return
 	 */
-    @Override
-	public Discount selectDiscountInfo(int dcntSeq){
-    	try
-    	{
-    		return this.discountDao.selectDiscountInfo(dcntSeq);
-    	}catch(Exception e){
-    		log.error(e.getMessage());
-    		throw new RuntimeException(e.getMessage());
-    	}
+	@Override
+	public Discount selectDiscountInfo(int dcntSeq) {
+		try {
+			return this.discountDao.selectDiscountInfo(dcntSeq);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+
+	/**
+	 * 상품할인 업데이트
+	 */
+	@Override
+	public int updateDiscount(Discount discount) {
+		try {
+			discount.setDcntStartDate(dateFormat.parse(discount.getDcntStartDateStr()));
+			discount.setDcntEndDate(dateFormat.parse(discount.getDcntEndDateStr()));
+			return this.discountDao.updateDiscount(discount);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 }

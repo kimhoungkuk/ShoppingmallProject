@@ -34,5 +34,12 @@ public interface DiscountDao{
 	 * @return
 	 */
 	public Discount selectDiscountInfo(int dcntSeq);
+
+	/**
+	 * 상품할인 업데이트 
+	 * @param discount
+	 * @return
+	 */
+	public int updateDiscount(Discount discount);
 	
 }

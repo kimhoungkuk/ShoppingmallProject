@@ -99,4 +99,19 @@
 				DCNT_SEQ = #{dcntSeq}
 	</select> 
 	
+	<update id="updateDiscount" parameterType="com.project.shop.model.Discount"> 
+		UPDATE 
+		  	SHOP_DISCOUNT
+		SET
+		  	DCNT_NAME = #{dcntName},
+			DCNT_PRICE = #{dcntPrice},
+			DCNT_TYPE = #{dcntType},
+			DCNT_START_DATE = #{dcntStartDate},
+			DCNT_END_DATE = #{dcntEndDate},
+			DCNT_MOD_ID = 'admin',
+			DCNT_MOD_DATE = SYSDATE
+	   WHERE
+	   	  	DCNT_SEQ = #{dcntSeq}
+	</update> 
+	
 </mapper>

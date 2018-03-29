@@ -54,7 +54,7 @@
             return;
         }
         */
-        document.prdtForm.submit();
+        document.dcntForm.submit();
         
 	}
 </script>
