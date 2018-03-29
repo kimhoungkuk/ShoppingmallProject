@@ -164,7 +164,7 @@
 
 
 <div class="col-sm-10 container fileDiv">
-	<form action="productImage" enctype="multipart/form-data" id="imgform" method="POST">
+	<form action="post" enctype="multipart/form-data" id="imgform" method="POST">
 		<table class="table table-board">
 			<thead>
 				<tr>
@@ -197,18 +197,18 @@
 					<td><footer>권장 100px*100px</footer></td>
 				</tr>
 
-				<input type="hidden" name="prdtCode" value="00">
+				<input type="hidden" name="prdtCode" value="01"/>
 				<!--상품 코드 넘겨주기-->
 				<!--	<input type="hidden" name="prdtImageCode" value="11">상품 이미지 코드 넘겨주기-->
 				<tr>
 					<td><span class="btn btn-primary btn-xs btn-file"> 사진등록
-							<input name="input_img" type="file" id="input_img1">
+							<input name="input_img" type="file" id="input_img1"/>
 					</span></td>
 					<td><span class="btn btn-primary btn-xs btn-file"> 사진등록
-							<input name="input_img" type="file" id="input_img2">
+							<input name="input_img" type="file" id="input_img2"/>
 					</span></td>
 					<td><span class="btn btn-primary btn-xs btn-file"> 사진등록
-							<input name="input_img" type="file" id="input_img3">
+							<input name="input_img" type="file" id="input_img3"/>
 					</span></td>
 				</tr>
 			</tbody>

@@ -101,8 +101,8 @@ public class ProductController {
   		//상세이미지 혹은 대표이미지의 캐러셀 이미지 리스트
   		List<MultipartFile> mFiles2 = multipartRequest.getFiles("input_imgs");
   		
-  		productImageService.insertProductImage(request, mFiles, prdtCode);  		
-  		productImageService.insertProductImage2(request, mFiles2, prdtCode);
+  		productImageService.ProductImageInsert(request, mFiles);  		
+  		productImageService.ProductImageInsert2(request, mFiles2);
   		
         if(num < 1){
             throw new RuntimeException("상품 등록시 오류 발생했습니다.");

@@ -2,15 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. --> 
 <mapper namespace="ProductImageSQL"> 
-	
+	<!-- 이미지 추가 -->
 	<insert id="insertProductImage" parameterType="com.project.shop.model.ProductImage"> 
 		INSERT INTO SHOP_PRODUCT_IMAGE
 		VALUES(#{prdtCode},#{prdtImageCode},#{prdtImagePath},SYSDATE,
 		#{prdtOrgImageName},#{prdtSaveImageName})
 	</insert> 
 
-
-	<select id="selectProductImage" parameterType="String">
-		select * from shop_product_image where prdt_code=#{prdtCode} order by prdt_image_code
+	<!-- 상품코드별 정보 -->
+	<select id="selectProductImage" parameterType="string" resultType="com.project.shop.model.ProductImage">
+		SELECT * FROM SHOP_PRODUCT_IMAGE WHERE PRDT_CODE=#{prdtCode} ORDER BY PRDT_IMAGE_CODE ASC
 	</select>
+	<!-- 상세이미지 정보 -->
+	<select id="selectProductImage2" parameterType="string" resultType="com.project.shop.model.ProductImage">
+		SELECT * FROM SHOP_PRODUCT_IMAGE WHERE PRDT_CODE=#{prdtCode} AND PRDT_IMAGE_CODE>='5' ORDER BY PRDT_IMAGE_CODE ASC
+	</select>
+	
+	<!-- 개별삭제 -->
+	<delete id="deleteProductImage" parameterType="com.project.shop.model.ProductImage">
+		DELETE FROM SHOP_PRODUCT_IMAGE
+		WHERE PRDT_CODE=#{prdtCode} AND PRDT_IMAGE_CODE=#{prdtImageCode}
+	</delete>
+	<!-- 상품코드 별 삭제 -->
+	<delete id="deleteProductImage2" parameterType="string">
+		DELETE FROM SHOP_PRODUCT_IMAGE
+		WHERE PRDT_CODE=#{prdtCode}
+	</delete>
+	
+<!-- 	<update id="updateProductImage" parameterType="com.project.shop.model.ProductImage">
+		UPDATE SHOP_PRODUCT_IMAGE SET PRDT_IMAGE_PATH=#{prdtImagePath}, PRDT_ORG_IMAGE_NAME=#{prdtOrgImageName}, PRDT_SAVE_IMAGE_NAME=#{prdtSaveImageName}
+		WHERE PRDT_CODE=#{prdtCode} AND PRDT_IMAGE_CODE=#{prdtImageCode}
+	</update> -->
 </mapper>

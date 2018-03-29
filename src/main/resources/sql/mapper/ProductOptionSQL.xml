@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="ProductOptionSQL">
+
+
+	<insert id="insertProductOption" parameterType="java.util.List">
+
+	 	<foreach collection="list" item="list" open="INSERT ALL " close="SELECT * FROM DUAL"> 
+        INTO SHOP_PRODUCT_OPTION 
+        (PRDT_CODE, PRDT_COLOR_CODE, PRDT_SIZE, PRDT_LAVE_COUNT, RGS_ID, REGT_DTM, COLOR_NAME)
+        values 
+        (#{list.prdtCode},#{list.prdtColorCode},#{list.prdtSize},#{list.prdtLaveCount},#{list.rgsId},SYSDATE,#{list.colorName})
+        
+        </foreach>
+
+	</insert>
+	
+	<select id="selectProductOption" resultType="com.project.shop.model.ProductOption">
+	
+		<!-- SELECT * FROM SHOP_PRODUCT_OPTION -->
+		
+		 SELECT * FROM SHOP_PRODUCT_OPTION ORDER BY REGT_DTM DESC
+		
+	
+	</select>
+	
+	<select id="selectProductOptionModify" resultType="com.project.shop.model.ProductOption" parameterType="com.project.shop.model.ProductOption">
+	
+		SELECT * FROM SHOP_PRODUCT_OPTION WHERE PRDT_CODE = #{modifydelete}
+	</select>
+	
+	<update id="updateProductOption" parameterType="java.util.List">
+	DECLARE BEGIN
+	<foreach collection="list" item="list">
+		UPDATE SHOP_PRODUCT_OPTION
+		SET
+		PRDT_CODE = #{list.prdtCode},
+		PRDT_COLOR_CODE = #{list.prdtColorCode},
+		PRDT_SIZE = #{list.prdtSize},
+		PRDT_LAVE_COUNT = #{list.prdtLaveCount},
+		MOD_DTM = SYSDATE,
+		MOD_ID = #{list.modId},
+		COLOR_NAME = #{list.colorName}
+		WHERE 
+		PRDT_CODE = #{list.mdprdtCode} AND PRDT_COLOR_CODE = #{list.mdprdtColorCode} AND PRDT_SIZE = #{list.mdprdtSize};
+	</foreach>
+	END;
+	</update>
+
+</mapper>

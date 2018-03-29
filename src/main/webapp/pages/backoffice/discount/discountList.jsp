@@ -2,7 +2,18 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<script type="text/javascript">
+function goRegister(){
+	var encodingUrl = encodeURIComponent("${discount.pagegUrl}${discount.pageNo}");
+	document.location.href = "/admin/discount/discountRegisterForm?listUrl="+encodingUrl;
+}
 
+function goModify(dcntSeq){
+	var encodingUrl = encodeURIComponent("${discount.pagegUrl}${discount.pageNo}");
+	document.location.href = "/admin/discount/discountModify/"+dcntSeq+"?listUrl="+encodingUrl;
+}
+
+</script>
 	<div class="col-sm-10">
 		<table class="table table-bordered table-hover"> 
 			<tr>
@@ -21,7 +32,9 @@
 						${status.count}
 					</td>
 					<td>
-						${discount.dcntName}
+						<a href="javascript:goModify('${discount.dcntSeq}');">
+							${discount.dcntName}
+						</a>
 					</td>
 					<td>
 						<fmt:formatNumber value="${discount.dcntPrice}" pattern="#,###" />
@@ -45,7 +58,7 @@
 			</c:forEach>
 		</table>
 
-		<a  href="/admin/discount/discountRegisterForm" class="btn btn-default pull-right">작성하기</a>
+		<a href="javascript:goRegister();" class="btn btn-default pull-right">작성하기</a>
 
          <c:import url="/admin/common/paging" charEncoding="utf-8">
              <c:param name="startPageNo" value="${discount.startPageNo}" />

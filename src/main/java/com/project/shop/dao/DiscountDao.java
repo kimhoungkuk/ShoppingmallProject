@@ -3,6 +3,7 @@ package com.project.shop.dao;
 import java.util.List;
 
 import com.project.shop.model.Discount;
+import com.project.shop.model.Product;
 
 public interface DiscountDao{
 
@@ -26,5 +27,12 @@ public interface DiscountDao{
      * @return
      */
 	public int createDiscount(Discount discount);
+
+	/**
+	 * 상품할인 정보 
+	 * @param dcntSeq
+	 * @return
+	 */
+	public Discount selectDiscountInfo(int dcntSeq);
 	
 }

@@ -51,6 +51,9 @@ public class Discount extends PageVO{
 	 */
 	private Date dcntModDate;
 	
+	private String dcntStartDateStr;
+	private String dcntEndDateStr;
+	
 	public int getDcntSeq() {
 		return dcntSeq;
 	}
@@ -110,6 +113,18 @@ public class Discount extends PageVO{
 	}
 	public void setDcntModDate(Date dcntModDate) {
 		this.dcntModDate = dcntModDate;
+	}
+	public String getDcntStartDateStr() {
+		return dcntStartDateStr;
+	}
+	public void setDcntStartDateStr(String dcntStartDateStr) {
+		this.dcntStartDateStr = dcntStartDateStr;
+	}
+	public String getDcntEndDateStr() {
+		return dcntEndDateStr;
+	}
+	public void setDcntEndDateStr(String dcntEndDateStr) {
+		this.dcntEndDateStr = dcntEndDateStr;
 	}
 
 }
