@@ -99,14 +99,23 @@ public class DiscountServiceImpl implements DiscountService {
 			// 미등록
 		}else if(discount.getPrdtDcntOption() == 2){
 			// 전체등록
-			List<String> list = productDao.selectProductCodeList();
+			List<String> list = this.productDao.selectProductCodeList();
 			System.out.println(list.size());
 			
 			List<ProductDiscount> productDiscounts = new ArrayList<>(); 
+			ProductDiscount productDiscount;
 			for(String prdtCode : list){
-				
+				productDiscount = new ProductDiscount();
+				productDiscount.setDcntSeq(discount.getDcntSeq());
+				productDiscount.setPrdtCode(prdtCode);
+				productDiscount.setPrdtDcntRegid("admin");
+				productDiscounts.add(productDiscount);
+			}
+			if(productDiscounts.size() > 0){
+				this.discountDao.createProductDiscounts(productDiscounts);
 			}
 		}
+		System.out.println("=====================================================");
 		
 	}
 
