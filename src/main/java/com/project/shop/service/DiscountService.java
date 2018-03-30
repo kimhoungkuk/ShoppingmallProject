@@ -45,5 +45,11 @@ public interface DiscountService {
 	 * @return
 	 */
 	int updateDiscount(Discount discount);
+
+	/**
+	 * 매핑 상품 리스트 등록 
+	 * @param discount
+	 */
+	void createProductDiscount(Discount discount);
     
 }

@@ -1,6 +1,7 @@
 package com.project.shop.serviceImpl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.shop.dao.DiscountDao;
+import com.project.shop.dao.ProductDao;
 import com.project.shop.model.Discount;
+import com.project.shop.model.ProductDiscount;
 import com.project.shop.service.DiscountService;
 
 @Service
@@ -21,6 +24,9 @@ public class DiscountServiceImpl implements DiscountService {
 
 	@Autowired
 	private DiscountDao discountDao;
+	
+	@Autowired
+	private ProductDao productDao;
 
 	/**
 	 * 상품 할인 목록 총 카운트
@@ -38,6 +44,9 @@ public class DiscountServiceImpl implements DiscountService {
 		return this.discountDao.selectDiscountList(discount);
 	}
 
+	/**
+	 * 상품 할인 등록 
+	 */
 	@Override
 	public int createDiscount(Discount discount) {
 		try {
@@ -79,6 +88,26 @@ public class DiscountServiceImpl implements DiscountService {
 			log.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		}
+	}
+
+	/**
+	 * 매핑 상품리스트 등록 
+	 */
+	@Override
+	public void createProductDiscount(Discount discount) {
+		if(discount.getPrdtDcntOption() == 1){
+			// 미등록
+		}else if(discount.getPrdtDcntOption() == 2){
+			// 전체등록
+			List<String> list = productDao.selectProductCodeList();
+			System.out.println(list.size());
+			
+			List<ProductDiscount> productDiscounts = new ArrayList<>(); 
+			for(String prdtCode : list){
+				
+			}
+		}
+		
 	}
 
 }

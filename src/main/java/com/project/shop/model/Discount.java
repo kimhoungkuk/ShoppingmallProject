@@ -1,6 +1,7 @@
 package com.project.shop.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.project.shop.common.PageVO;
 
@@ -53,6 +54,8 @@ public class Discount extends PageVO{
 	
 	private String dcntStartDateStr;
 	private String dcntEndDateStr;
+	private List<Product> productList;
+	private int prdtDcntOption;			// 1: 미등록, 2: 전체등록 
 	
 	public int getDcntSeq() {
 		return dcntSeq;
@@ -125,6 +128,18 @@ public class Discount extends PageVO{
 	}
 	public void setDcntEndDateStr(String dcntEndDateStr) {
 		this.dcntEndDateStr = dcntEndDateStr;
+	}
+	public List<Product> getProductList() {
+		return productList;
+	}
+	public void setProductList(List<Product> productList) {
+		this.productList = productList;
+	}
+	public int getPrdtDcntOption() {
+		return prdtDcntOption;
+	}
+	public void setPrdtDcntOption(int prdtDcntOption) {
+		this.prdtDcntOption = prdtDcntOption;
 	}
 
 }

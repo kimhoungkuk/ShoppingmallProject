@@ -3,7 +3,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/resources/js/common.js"></script>
 <script type="text/javascript">
 	var productList = [];
 	
@@ -65,13 +65,62 @@
 	*/
 	function frmSubmit(){
 		
-        /* validation check
-        if(isEmpty($("#prdtKorName").val())) {
-            alert("상품한글명을 입력해주세요.");
-            $("#prdtKorName").focus();
+        // validation check
+        if(isEmpty($("#dcntName").val())) {
+            alert("상품할인명을 입력해주세요.");
+            $("#dcntName").focus();
             return;
         }
-        */
+        
+        if(isEmpty($("#dcntStartDateStr").val())) {
+            alert("할인 시작일을 입력해주세요.");
+            $("#dcntStartDateStr").focus();
+            return;
+        }
+        
+        if(isEmpty($("#dcntEndDateStr").val())) {
+            alert("할인 종료일을 입력해주세요.");
+            $("#dcntEndDateStr").focus();
+            return;
+        }
+        
+        if(isEmpty($("#dcntPrice").val())) {
+            alert("할인가를 입력해주세요.");
+            $("#dcntPrice").focus();
+            return;
+        }
+        
+        if(!$.isNumeric($("#dcntPrice").val())) {
+            alert("할인가를 숫자로 입력해주세요.");
+            $("#dcntPrice").focus();
+            return;
+        }
+        
+        // 가격 타입에 따른 validation
+        if($("#dcntType").val() == 1){
+        	
+        }
+        
+        
+        /* var formData = $("#dcntForm").serialize();
+        formData.productList = [];
+        console.log(formData);
+        $.ajax({
+            type: "POST",
+            url: "/admin/discount/discountRegister",
+            dataType: 'JSON',
+            data: formData,
+            //contentType: 'application/json;charset=utf-8',
+            success: function(json) {
+                // 받아온 데이터 파싱 후 
+                var json_data = JSON.stringify(json);
+                var parse_data = JSON.parse(json_data);
+         
+            },
+            error: function() {
+            }        
+        }); */
+
         document.dcntForm.submit();
         
 	}
@@ -79,7 +128,7 @@
     /*
     * 상품목록 ajax
     */
-    function getProductList(){
+    /* function getProductList(){
     	var me = this;
     	$.ajax({
 	   	    url: '/admin/product/dcntProductList',
@@ -94,7 +143,7 @@
 				alert(status);
 			}
 		});
-    }
+    } */
 </script>
 <div class="col-sm-10">
 	<div class="page-header" style="margin-top:6px">
@@ -128,14 +177,14 @@
 			<label for="dcntPrice" class="col-sm-2 control-label">상품선택</label>
 			<div class="col-sm-10 ">
 				<label class="radio-inline">
-				  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked="true"> 미등록
+				  <input type="radio" name="prdtDcntOption" id="inlineRadio1" value="1" checked="true"> 미등록
 				</label>
 				<label class="radio-inline">
-				  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 전체상품
+				  <input type="radio" name="prdtDcntOption" id="inlineRadio2" value="2"> 전체상품
 				</label>
-				<label class="radio-inline">
+				<!-- <label class="radio-inline">
 				  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 특정상품
-				</label>
+				</label> -->
 				<!-- 차후 기능 추가 -->
 				<!-- <label class="radio-inline">
 				  <input type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4"> 제외상품
@@ -144,7 +193,7 @@
 				  <input type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5"> 카테고리
 				</label> -->
 			 </div>
-			 <div class="col-sm-12">
+			 <div class="col-sm-12" style="display:none">
 			 	<table class="table table-bordered table-hover"> 
 					<tr>
 						<th>상품코드</th>

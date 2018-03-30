@@ -30,6 +30,13 @@
  	    <include refid="PageSQL.pagingFooterSql"/>
 	</select> 
 	
+	<select id="selectProductCodeList" resultType="String" > 
+		SELECT 
+			PRDT_CODE
+		FROM 
+		 	SHOP_PRODUCT
+	</select> 
+	
     <insert id="createProduct" parameterType="com.project.shop.model.Product"> 
 		<selectKey keyProperty="prdtCode" resultType="string" order="BEFORE">		
 			SELECT
