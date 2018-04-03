@@ -12,8 +12,9 @@ $(document).ready(function() {
 		$('.addoption').click(function() {
 
 			$(".after:last").after($('.after:first').clone(true));
-
+			$(".after:last .addoption").attr('type','hidden');
 		});
+		
 		//colorpicker
 		 $('.colorset').change(function(){
 			$(this).children('.color').attr("value",$(this).children('.color').val());

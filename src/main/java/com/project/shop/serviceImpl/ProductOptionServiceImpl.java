@@ -25,7 +25,10 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 		// TODO Auto-generated method stub
 		
 				try {
-					 this.productOptionDao.insertProductOption(list);
+					for(int i = 0 ; i <= list.size()-1; i++) {
+					ProductOption dto = new ProductOption();
+					dto = list.get(i);
+					 this.productOptionDao.insertProductOption(dto);}
 					
 				}catch(Exception e) {
 					log.error(e.getMessage());
@@ -44,10 +47,10 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	}
 
 	@Override
-	public List<ProductOption> getProductOptionModify(String modifydelete) {
+	public List<ProductOption> getProductOptionModify(String modifycode) {
 		// TODO Auto-generated method stub
 		try {
-			return this.productOptionDao.selectProductOptionModify(modifydelete);
+			return this.productOptionDao.selectProductOptionModify(modifycode);
 			
 		}catch(Exception e) {
 			log.error(e.getMessage());
@@ -59,12 +62,31 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	@Override
 	public void updateProductOption(List<ProductOption> list) {
 		try {
-			this.productOptionDao.updateProductOption(list);
+			for(int i = 0 ; i <= list.size()-1; i++) {
+					ProductOption dto = new ProductOption();
+					dto = list.get(i);
+					this.productOptionDao.updateProductOption(dto);
+				}
+			
 			
 		}catch(Exception e) {
 			log.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		}
+		
+	}
+
+	@Override
+	public void deleteProductOption(String optionSeq) {
+		try {
+			this.productOptionDao.deleteProductOption(optionSeq);
+			
+		}catch(Exception e) {
+			log.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
+		}
+		
+		
 		
 	}
 

@@ -3,49 +3,54 @@
 <!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
 <mapper namespace="ProductOptionSQL">
 
-
-	<insert id="insertProductOption" parameterType="java.util.List">
-
-	 	<foreach collection="list" item="list" open="INSERT ALL " close="SELECT * FROM DUAL"> 
-        INTO SHOP_PRODUCT_OPTION 
-        (PRDT_CODE, PRDT_COLOR_CODE, PRDT_SIZE, PRDT_LAVE_COUNT, RGS_ID, REGT_DTM, COLOR_NAME)
+	<insert id="insertProductOption" parameterType="com.project.shop.model.ProductOption">
+        INSERT INTO SHOP_PRODUCT_OPTION 
+        (PRDT_CODE, PRDT_COLOR_CODE, PRDT_SIZE, PRDT_LAVE_COUNT, RGS_ID, REGT_DTM, COLOR_NAME, OPTION_SEQ)
         values 
-        (#{list.prdtCode},#{list.prdtColorCode},#{list.prdtSize},#{list.prdtLaveCount},#{list.rgsId},SYSDATE,#{list.colorName})
-        
-        </foreach>
-
+        (#{prdtCode},#{prdtColorCode},#{prdtSize},#{prdtLaveCount},#{rgsId},SYSDATE,#{colorName},OPTION_SEQ.NEXTVAL)
 	</insert>
 	
 	<select id="selectProductOption" resultType="com.project.shop.model.ProductOption">
 	
 		<!-- SELECT * FROM SHOP_PRODUCT_OPTION -->
 		
-		 SELECT * FROM SHOP_PRODUCT_OPTION ORDER BY REGT_DTM DESC
+		 SELECT * FROM SHOP_PRODUCT_OPTION ORDER BY OPTION_SEQ DESC
 		
 	
 	</select>
 	
-	<select id="selectProductOptionModify" resultType="com.project.shop.model.ProductOption" parameterType="com.project.shop.model.ProductOption">
+	<select id="selectProductOptionModify" resultType="com.project.shop.model.ProductOption" parameterType="String">
 	
-		SELECT * FROM SHOP_PRODUCT_OPTION WHERE PRDT_CODE = #{modifydelete}
+		SELECT * FROM SHOP_PRODUCT_OPTION WHERE PRDT_CODE = #{modifycode}
 	</select>
 	
-	<update id="updateProductOption" parameterType="java.util.List">
-	DECLARE BEGIN
-	<foreach collection="list" item="list">
+	<update id="updateProductOption" parameterType="com.project.shop.model.ProductOption">
 		UPDATE SHOP_PRODUCT_OPTION
 		SET
-		PRDT_CODE = #{list.prdtCode},
-		PRDT_COLOR_CODE = #{list.prdtColorCode},
-		PRDT_SIZE = #{list.prdtSize},
-		PRDT_LAVE_COUNT = #{list.prdtLaveCount},
+		PRDT_CODE = #{prdtCode},
+		PRDT_COLOR_CODE = #{prdtColorCode},
+		PRDT_SIZE = #{prdtSize},
+		PRDT_LAVE_COUNT = #{prdtLaveCount},
 		MOD_DTM = SYSDATE,
-		MOD_ID = #{list.modId},
-		COLOR_NAME = #{list.colorName}
-		WHERE 
-		PRDT_CODE = #{list.mdprdtCode} AND PRDT_COLOR_CODE = #{list.mdprdtColorCode} AND PRDT_SIZE = #{list.mdprdtSize};
-	</foreach>
-	END;
+		MOD_ID = #{modId},
+		COLOR_NAME = #{colorName}
+		WHERE (SELECT PRDT_CODE FROM SHOP_PRODUCT_OPTION WHERE OPTION_SEQ = #{optionSeq}) != #{prdtCode}
+		OR (SELECT PRDT_COLOR_CODE FROM SHOP_PRODUCT_OPTION WHERE OPTION_SEQ = #{optionSeq}) != #{prdtColorCode}
+		OR (SELECT PRDT_SIZE FROM SHOP_PRODUCT_OPTION WHERE OPTION_SEQ = #{optionSeq}) != #{prdtSize}
+		OR (SELECT PRDT_LAVE_COUNT FROM SHOP_PRODUCT_OPTION WHERE OPTION_SEQ = #{optionSeq}) != #{prdtLaveCount}
+		OR (SELECT COLOR_NAME FROM SHOP_PRODUCT_OPTION WHERE OPTION_SEQ = #{optionSeq}) != #{colorName}
+		AND OPTION_SEQ = #{optionSeq}
+		<!-- OPTION_SEQ = #{optionSeq} -->
 	</update>
+	
+	
+	<delete id="deleteProductOption" parameterType="String">
+	DELETE FROM
+	SHOP_PRODUCT_OPTION
+	WHERE
+	OPTION_SEQ = #{optionSeq}
+	<!-- PRDT_CODE = #{mdprdtCode} AND PRDT_COLOR_CODE = #{mdprdtColorCode} AND PRDT_SIZE = #{mdprdtSize} -->
+	
+	</delete>
 
 </mapper>

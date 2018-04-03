@@ -2,10 +2,8 @@ package com.project.shop.backoffice.controller;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.shop.model.ProductOption;
 import com.project.shop.service.ProductOptionService;
@@ -94,13 +93,13 @@ public class ProductOptionController {
 //Modify
 	
 	// 이동 & 기능: 상품 옵션 수정 폼과 수정 리스트 가져오기
-	@RequestMapping(value="/admin/pomForm/{modifydelete}", method=RequestMethod.GET)
-	public String PomForm(@PathVariable("modifydelete") String modifydelete,HttpServletRequest request, Model model) {
+	@RequestMapping(value="/admin/pomForm/{modifycode}", method=RequestMethod.GET)
+	public String PomForm(@PathVariable("modifycode") String modifycode,HttpServletRequest request, Model model) {
 		
-		List<ProductOption> dto = productOptionService.getProductOptionModify(modifydelete);
+		List<ProductOption> dto = productOptionService.getProductOptionModify(modifycode);
 		
 		model.addAttribute("modify",dto);
-		model.addAttribute("modifydelete", modifydelete);
+		model.addAttribute("modifycode", modifycode);
 		
 		
 		return "backoffice/productOption/productOptionModify";
@@ -117,9 +116,10 @@ public class ProductOptionController {
 		String[] count = request.getParameterValues("prdtLaveCount");
 		String[] modid = request.getParameterValues("modId");
 		//수정용
-		String[] mdprdtcode = request.getParameterValues("mdprdtCode");
-		String[] mdprdtcolorcode = request.getParameterValues("mdprdtColorCode");
-		String[] mdprdtsize = request.getParameterValues("mdprdtSize");
+//		String[] mdprdtcode = request.getParameterValues("mdprdtCode");
+//		String[] mdprdtcolorcode = request.getParameterValues("mdprdtColorCode");
+//		String[] mdprdtsize = request.getParameterValues("mdprdtSize");
+		String[] optionseq = request.getParameterValues("optionSeq");
 		
 		List<ProductOption> list = new ArrayList<ProductOption>();
 		
@@ -132,9 +132,10 @@ public class ProductOptionController {
 		 dto.setPrdtLaveCount(Integer.parseInt(count[i]));
 		 dto.setModId(modid[i]);
 		 
-		 dto.setMdprdtCode(mdprdtcode[i]);
+		 /*dto.setMdprdtCode(mdprdtcode[i]);
 		 dto.setMdprdtColorCode(mdprdtcolorcode[i]);
-		 dto.setMdprdtSize(mdprdtsize[i]);
+		 dto.setMdprdtSize(mdprdtsize[i]);*/
+		 dto.setOptionSeq(Integer.parseInt(optionseq[i]));
 		 
 		 list.add(dto);
 		}
@@ -144,6 +145,29 @@ public class ProductOptionController {
 		return ("redirect:/admin/productOptionList");
 	}
 	
+	//Delete
+	
+	@RequestMapping(value="/admin/pod/{optionSeq}", method=RequestMethod.DELETE)
+	@ResponseBody
+	public HashMap<String, String> delete(@PathVariable("optionSeq") String optionSeq) {
+		/*@PathVariable("code") String code,@PathVariable("colorcode") String colorcode,@PathVariable("size") String size
+		dto.setMdprdtCode(code);
+		dto.setMdprdtColorCode(colorcode);
+		dto.setMdprdtSize(size);*/
+		
+		productOptionService.deleteProductOption(optionSeq);
+		
+		HashMap<String, String> resultMap = new HashMap<String, String>();
+		
+		String resultYn = "Y";
+		String resultMsg = "삭제되었습니다";
+		
+		resultMap.put("resultYn", resultYn);
+		resultMap.put("resultMsg", resultMsg);
+		
+		
+		return resultMap;
+	}
 	
 	
 }

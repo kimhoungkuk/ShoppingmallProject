@@ -35,6 +35,8 @@ public class ProductOption {
 	
 	private String mdprdtSize;
 	
+	private int optionSeq;
+	
 	public String getPrdtCode() {
 		return prdtCode;
 	}
@@ -101,6 +103,12 @@ public class ProductOption {
 	}
 	public void setMdprdtSize(String mdprdtSize) {
 		this.mdprdtSize = mdprdtSize;
+	}
+	public int getOptionSeq() {
+		return optionSeq;
+	}
+	public void setOptionSeq(int optionSeq) {
+		this.optionSeq = optionSeq;
 	}
 
 	

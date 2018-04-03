@@ -11,8 +11,10 @@ public interface ProductOptionService {
 	
 	List<ProductOption> getProductOptionList();
 	
-	List<ProductOption> getProductOptionModify(String modifydelete);
+	List<ProductOption> getProductOptionModify(String modifycode);
 	
 	void updateProductOption(List<ProductOption> list);
+	
+	void deleteProductOption(String optionSeq);
 	
 }

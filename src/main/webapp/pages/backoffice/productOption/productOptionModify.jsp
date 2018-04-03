@@ -10,6 +10,25 @@ font-size:13px;
 }
 </style>
 <script>
+
+function goDelete(optionSeq, prdtcode){
+	$.ajax({
+		url: '/admin/pod/' + optionSeq
+		, type: 'DELETE'
+		, dataType: 'JSON'
+		, success: function(data) {
+			if (data && data.resultYn == 'Y') {
+				location.href = '/admin/pomForm/'+ prdtcode;
+				alert(data.resultMsg);
+			} else {
+				alert('error');				
+			}
+		}, error: function(xhr, status, text) {
+			alert(text);
+		}
+	});
+}
+
 $(document).ready(function() {
 	//시작과 동시에 색갈 변경
 	$('.colorset').click(function(){
@@ -35,6 +54,8 @@ $(document).ready(function() {
 </script>
 상품 옵션 수정수정수정수정이 --------------------------------------------------------
 
+<form id="deleteForm"></form>
+
 <br>
 <div class="col-sm-10">
 	<form action="/admin/productOptionModify" method="post">
@@ -48,7 +69,7 @@ $(document).ready(function() {
 					상품코드
 					</th>
 					<td>
-					<input type="text" class="codeparent form-control" value="${modifydelete}">
+					<input type="text" name="modifycode" class="codeparent form-control" value="${modifycode}">
 					</td>
 				</tr>
 		</table>
@@ -62,9 +83,10 @@ $(document).ready(function() {
 					<input type="hidden" name="prdtCode" class="codechild" value="${modi.prdtCode }">
 					<input type="hidden" name="modId" value="session">
 					<!-- 수정용 -->
-					<input type="hidden" name="mdprdtCode" value="${modi.prdtCode }">
+					<!-- <input type="hidden" name="mdprdtCode" value="${modi.prdtCode }">
 					<input type="hidden" name="mdprdtColorCode" value="${modi.prdtColorCode }">
-					<input type="hidden" name="mdprdtSize" value="${modi.prdtSize }">
+					<input type="hidden" name="mdprdtSize" value="${modi.prdtSize }">  -->
+					<input type="hidden" name="optionSeq" value="${modi.optionSeq }">
 					</th>
 					<td rowspan="2">
 					<div class="colorset" style="float:left">
@@ -81,6 +103,8 @@ $(document).ready(function() {
 							<option value="free">Free</option>
 						</select> 
 						재고<input type="number" name="prdtLaveCount" value="${modi.prdtLaveCount }">
+						<%-- <a href="javascript:goDelete('${modi.prdtCode }', '${modi.prdtColorCode }', '${modi.prdtSize }');"><input type="button" value="삭제"></a> --%>
+						<a href="javascript:goDelete('${modi.optionSeq }','${modi.prdtCode }');"><input type="button" value="삭제"></a>
 					</td>
 						<th class="rgsmod">생성자 <br> 생성일</th>
 						<td class="rgsmod">${modi.rgsId } <br> ${modi.regtDtm }</td>

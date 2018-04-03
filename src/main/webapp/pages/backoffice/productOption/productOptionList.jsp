@@ -14,6 +14,7 @@
 	 $('.colorset').each(function(idx, obj) {
 		 $(this).css('background-color', $(this).val());
 		});
+
 	
  });
  
@@ -37,8 +38,8 @@
 			 <c:forEach items="${productOptionList}" var="option">
 			 
 				<tr>
-				
-					<td>${option.prdtCode }</td>
+					
+					<td class="prdtcode">${option.prdtCode }</td>
 					
 					<td> <button class="colorset" value="${option.prdtColorCode }" style="border:1px solid black; width:15px; height:15px"></button>
 					${option.prdtColorCode }</td>
@@ -50,8 +51,8 @@
 					<td>
 						
 							
-							<a href="javascript:goModify('${option.prdtCode}');"><button class="modify">수정</button></a>
-							<button type="submit" class="delete">삭제</button> 
+							<a href="javascript:goModify('${option.prdtCode}');"><button class="modify">수정/삭제</button></a>
+							
 						
 					</td>	
 									    								      
