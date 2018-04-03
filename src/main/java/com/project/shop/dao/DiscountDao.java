@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.project.shop.model.Discount;
 import com.project.shop.model.Product;
+import com.project.shop.model.ProductDiscount;
 
 public interface DiscountDao{
 
@@ -41,5 +42,12 @@ public interface DiscountDao{
 	 * @return
 	 */
 	public int updateDiscount(Discount discount);
+
+	/**
+	 * 매핑 상품 리스트 등록 
+	 * @param productDiscounts
+	 * @return 
+	 */
+	public int createProductDiscounts(List<ProductDiscount> productDiscounts);
 	
 }

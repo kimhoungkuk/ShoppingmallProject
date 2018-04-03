@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.shop.dao.DiscountDao;
 import com.project.shop.model.Discount;
+import com.project.shop.model.ProductDiscount;
 
 @Repository
 public class SqlMapDiscountDao implements DiscountDao {
@@ -52,6 +53,15 @@ public class SqlMapDiscountDao implements DiscountDao {
 	@Override
 	public int updateDiscount(Discount discount) {
 		return sqlSession.update("DiscountSQL.updateDiscount", discount);
+	}
+
+	/**
+	 * 매핑 상품 리스트 등록 
+	 * @return 
+	 */
+	@Override
+	public int createProductDiscounts(List<ProductDiscount> productDiscounts) {
+		return sqlSession.insert("DiscountSQL.createProductDiscounts", productDiscounts);
 	}
 
 }
