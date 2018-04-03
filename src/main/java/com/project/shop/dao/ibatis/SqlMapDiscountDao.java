@@ -60,8 +60,8 @@ public class SqlMapDiscountDao implements DiscountDao {
 	 * @return 
 	 */
 	@Override
-	public int createProductDiscounts(List<ProductDiscount> productDiscounts) {
-		return sqlSession.insert("DiscountSQL.createProductDiscounts", productDiscounts);
+	public int createProductDiscounts(ProductDiscount productDiscount) {
+		return sqlSession.insert("DiscountSQL.createProductDiscounts", productDiscount);
 	}
 
 }

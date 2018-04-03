@@ -45,9 +45,9 @@ public interface DiscountDao{
 
 	/**
 	 * 매핑 상품 리스트 등록 
-	 * @param productDiscounts
+	 * @param pd
 	 * @return 
 	 */
-	public int createProductDiscounts(List<ProductDiscount> productDiscounts);
+	public int createProductDiscounts(ProductDiscount pd);
 	
 }

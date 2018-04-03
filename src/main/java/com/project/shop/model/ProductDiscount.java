@@ -20,6 +20,7 @@ public class ProductDiscount {
 	 * 등록일 
 	 */
 	private Date prdtDcntRegdate;
+	
 	public String getPrdtCode() {
 		return prdtCode;
 	}

@@ -81,24 +81,21 @@
 	   )
 	</insert> 
 	
-	<insert id="createProductDiscounts" parameterType="java.util.List">
-		
-	    <if test="productDiscounts.size > 0">
-	        INSERT INTO SHOP_PRODUCT_DISCOUNT(
-	            PRDT_CODE,
-	            DCNT_SEQ,
-	            PRDT_DCNT_REGID,
-	            PRDT_DCNT_REGDATE
-	        )values
-	        <foreach collection="productDiscounts" item="pd" separator=",">
-	        (
-	            #{pd.prdtCode},
-	            #{pd.dcntSeq},
-	            #{pd.prdtDcntRegid},
-	            SYSDATE
-	        )
-	        </foreach>
-	    </if>
+	<!-- merge into 처리 추가하기 -->
+	<insert id="createProductDiscounts" parameterType="com.project.shop.model.ProductDiscount">
+       INSERT INTO SHOP_PRODUCT_DISCOUNT(
+            PRDT_CODE,
+            DCNT_SEQ,
+            PRDT_DCNT_REGID,
+            PRDT_DCNT_REGDATE
+        )
+        VALUES
+        (
+            #{prdtCode},
+            #{dcntSeq},
+           	#{prdtDcntRegid},
+            SYSDATE
+        )
 	</insert>
 	
 	<select id="selectDiscountInfo" resultType="com.project.shop.model.Discount" parameterType="int"> 

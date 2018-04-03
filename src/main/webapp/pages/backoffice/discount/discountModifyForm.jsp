@@ -87,27 +87,6 @@
 				</select>
 			 </div>
 		</div>
-		<div class="form-group">
-			<label for="dcntPrice" class="col-sm-2 control-label">상품선택</label>
-			<div class="col-sm-10 ">
-				<label class="radio-inline">
-				  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked="true"> 미등록
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 전체상품
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 특정상품
-				</label>
-				<!-- 차후 기능 추가 -->
-				<!-- <label class="radio-inline">
-				  <input type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4"> 제외상품
-				</label>
-				<label class="radio-inline">
-				  <input type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5"> 카테고리
-				</label> -->
-			 </div>
-		</div>
 		<div class="pull-right">
 			<button type="button" class="btn btn-primary" id="list">목록</button>
 			<button type="button" class="btn btn-primary" id="register">작성하기</button>
