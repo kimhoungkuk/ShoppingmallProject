@@ -29,6 +29,7 @@ $(function($) {
 
 var selectSeq;
 var discount = {};
+var productList = [];
 
 function saveFile(){
 	// 파일 확장자 검사 추가하기 
@@ -83,6 +84,7 @@ function getProductList(){
 	     url: "/admin/discount/getProductList.ajax?dcntSeq=" + selectSeq,
 	     type: 'GET',
 	     success: function(data){
+	    	 productList = data;
 	         console.log(data);
 	         var div = document.querySelector('#productDialog tbody');
 	         var html = '';
@@ -90,10 +92,36 @@ function getProductList(){
 	             html += '<tr><td>' + data[i].prdtCode
 	                     + '</td><td> ' + data[i].prdtKorName 
 	                     + '</td><td> ' + data[i].prdtSellPrice 
+	                     + '</td><td><a href="javascript:;" class="btn btn-default btn-danger" onclick="deletePrdtDcnt(' + i + ')">'
+	                     + '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ';
 	                     + '</td></tr>';
 	         }
 	         console.log(html);
 	         div.innerHTML = html;
+	     },
+	     error:function(request,status,error){
+	    	 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	     }
+	 })
+}
+
+function deletePrdtDcnt(i){
+	var obj = {};
+	obj.prdtCode = productList[i].prdtCode;
+	obj.dcntSeq = selectSeq;
+	$.ajax({
+	     url: '/admin/discount/deletePrdtDcnt.ajax',
+	     type: 'POST',
+	     dataType: 'json',
+	     data: JSON.stringify(obj),
+	     contentType: 'application/json;charset=utf-8',
+	     success: function(data){
+	    	 if(data){
+		         alert('삭제 완료');
+		         getProductList();
+	    	 }else{
+	    		 alert('삭제 실패');
+	    	 }
 	     },
 	     error:function(request,status,error){
 	    	 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -176,10 +204,9 @@ function getProductList(){
 		</form> 
 	</div>
 	
-	<!-- 등록된 상품 리스트 확인 모달 추가하기 -->
-	<!-- 모달 내 등록된 상품 삭제 기능 추가 -->
+	<!-- 페이징 추가 -->
 	<div id="productDialog" style="display:none;">
-		<a href="javascript:;" class="btn btn-info" id="fileUploadBtn" onclick="showDialog()">
+		<a href="javascript:;" class="btn btn-default" id="fileUploadBtn" onclick="showDialog()">
 			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 상품등록
 		</a>
 		<table class="table table-bordered table-hover" style="margin-top:20px"> 
@@ -188,6 +215,7 @@ function getProductList(){
 					<th>상품코드</th>
 					<th>상품한글명</th>
 					<th>상품가격</th>
+					<th>삭제</th>
 				</tr>
 			</thead>
 			<tbody>

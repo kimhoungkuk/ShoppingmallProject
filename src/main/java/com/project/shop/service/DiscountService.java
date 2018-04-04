@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.project.shop.model.Discount;
 import com.project.shop.model.Product;
+import com.project.shop.model.ProductDiscount;
 
 /**
  * 상품할인
@@ -59,5 +60,13 @@ public interface DiscountService {
 	 * @return
 	 */
 	List<Product> getProductList(int dcntSeq);
+
+	/**
+	 * 등록된 할인 상품 삭제 
+	 * @param dcntSeq
+	 * @param prdtCode
+	 * @return
+	 */
+	int deletePrdtDcnt(ProductDiscount productDiscount);
     
 }

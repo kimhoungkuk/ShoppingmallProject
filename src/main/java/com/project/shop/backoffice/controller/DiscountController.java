@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.project.shop.model.Discount;
 import com.project.shop.model.Product;
+import com.project.shop.model.ProductDiscount;
 import com.project.shop.service.DiscountService;
 import com.project.shop.service.ProductService;
 import com.project.shop.utils.ExcelReadUtil;
@@ -175,6 +177,23 @@ public class DiscountController {
 		logger.info("getProductList dcntSeq : "+dcntSeq);
 		List<Product> list = discountService.getProductList(dcntSeq);
 		return list;
+	}
+	
+	/**
+	 * 등록된 할인 상품 삭제 
+	 * @param dcntSeq
+	 * @param prdtCode
+	 * @return
+	 * @throws SQLException
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/deletePrdtDcnt.ajax", method = RequestMethod.POST)
+	public int deletePrdtDcnt(
+			@RequestBody ProductDiscount productDiscount) throws SQLException {
+		
+		logger.info("deletePrdtDcnt");
+		
+		return discountService.deletePrdtDcnt(productDiscount);
 	}
 
 }

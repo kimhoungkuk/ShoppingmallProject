@@ -119,4 +119,13 @@ public class DiscountServiceImpl implements DiscountService {
 		return list;
 	}
 
+	/**
+	 * 등록된 할인 상품 삭제 
+	 */
+	@Override
+	public int deletePrdtDcnt(ProductDiscount productDiscount) {
+		// TODO Auto-generated method stub
+		return this.discountDao.deletePrdtDcnt(productDiscount);
+	}
+
 }

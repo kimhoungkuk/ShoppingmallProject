@@ -152,4 +152,12 @@
 	   	  	DCNT_SEQ = #{dcntSeq}
 	</update> 
 	
+	<delete id="deletePrdtDcnt" parameterType="com.project.shop.model.ProductDiscount">
+		DELETE FROM
+			SHOP_PRODUCT_DISCOUNT
+		WHERE
+			DCNT_SEQ = #{dcntSeq}
+			AND PRDT_CODE = #{prdtCode}
+	</delete>
+	
 </mapper>

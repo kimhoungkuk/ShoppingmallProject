@@ -73,4 +73,12 @@ public class SqlMapDiscountDao implements DiscountDao {
 		return sqlSession.selectList("DiscountSQL.selectProductList", dcntSeq);
 	}
 
+	/**
+	 * 등록된 할인 상품 삭제 
+	 */
+	@Override
+	public int deletePrdtDcnt(ProductDiscount productDiscount) {
+		return sqlSession.delete("DiscountSQL.deletePrdtDcnt", productDiscount);
+	}
+
 }

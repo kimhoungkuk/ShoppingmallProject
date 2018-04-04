@@ -56,5 +56,13 @@ public interface DiscountDao{
 	 * @return
 	 */
 	public List<Product> getProductList(int dcntSeq);
+
+	/**
+	 * 등록된 할인 상품 삭제 
+	 * @param dcntSeq
+	 * @param prdtCode
+	 * @return
+	 */
+	public int deletePrdtDcnt(ProductDiscount productDiscount);
 	
 }
