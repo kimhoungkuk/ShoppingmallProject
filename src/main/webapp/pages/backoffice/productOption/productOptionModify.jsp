@@ -48,6 +48,23 @@ $(document).ready(function() {
 		$(this).children('.getcode').val($(this).children('.color').val().replace("#",""));
 		
 	}); 
+		//옵션추가 
+		$('.addoption').click(function() {
+
+			$(".after:last").after($('.after:first').clone(true));
+			$(".after:last .addoption").attr('type','hidden');
+			$(".after:last .optionseq").attr('value','0');
+			$(".after:last .delete").attr('type','hidden');
+			$(".after:last .rgsmod").hide();
+			$(".after:last .deleteoption").attr('type','button');
+			
+		});
+		
+		//옵션취소
+	$('.deleteoption').click(function(){
+			
+			$(this).parents('.after:last').remove();
+		});
 
 	});
 	
@@ -63,6 +80,7 @@ $(document).ready(function() {
 		<table class="table table-bordered">
 		<colgroup>
 				<col width="10%">
+				
 		</colgroup>
 				<tr>
 					<th>
@@ -75,20 +93,28 @@ $(document).ready(function() {
 		</table>
 		
 		<table class="table table-bordered">
-			<tbody>
-			
+			<colgroup>
+				<col width="10%">
+				<col width="50%">
+				<col width="10%">
+				<col width="10%">
+				<col width="10%">
+				<col width="10%">
+			</colgroup>
+			<tbody>			
 			<c:forEach items="${modify }" var="modi" >
-				<tr>
-					<th rowspan="2" colspan="3">옵션
+				<tr class="after">
+					<th>옵션
+					<!-- 추가 insert -->
+					<input class="addoption" type="button" value="옵션추가">
+					<input class="deleteoption" type="hidden" value="취소">
+					<!-- hidden -->
 					<input type="hidden" name="prdtCode" class="codechild" value="${modi.prdtCode }">
 					<input type="hidden" name="modId" value="session">
-					<!-- 수정용 -->
-					<!-- <input type="hidden" name="mdprdtCode" value="${modi.prdtCode }">
-					<input type="hidden" name="mdprdtColorCode" value="${modi.prdtColorCode }">
-					<input type="hidden" name="mdprdtSize" value="${modi.prdtSize }">  -->
-					<input type="hidden" name="optionSeq" value="${modi.optionSeq }">
+					<input class="optionseq" type="hidden" name="optionSeq" value="${modi.optionSeq }">
+					<input type="hidden" name="rgsId" value="sieun">
 					</th>
-					<td rowspan="2">
+					<td>
 					<div class="colorset" style="float:left">
 					<input type="color" class="color">
 					색상코드
@@ -104,23 +130,19 @@ $(document).ready(function() {
 						</select> 
 						재고<input type="number" name="prdtLaveCount" value="${modi.prdtLaveCount }">
 						<%-- <a href="javascript:goDelete('${modi.prdtCode }', '${modi.prdtColorCode }', '${modi.prdtSize }');"><input type="button" value="삭제"></a> --%>
-						<a href="javascript:goDelete('${modi.optionSeq }','${modi.prdtCode }');"><input type="button" value="삭제"></a>
-					</td>
-						<th class="rgsmod">생성자 <br> 생성일</th>
-						<td class="rgsmod">${modi.rgsId } <br> ${modi.regtDtm }</td>
+						<a href="javascript:goDelete('${modi.optionSeq }','${modi.prdtCode }');"><input class="delete" type="button" value="삭제"></a>
 					
-				</tr>
-					
-
-				<tr class="rgsmod">
-					<th>수정자 <br>수정일</th>
+						<th>생성자<br>생성일</th>
+						<td><div class="rgsmod">${modi.rgsId }<br>${modi.regtDtm }</div></td>
+				    <th>수정자<br>수정일</th>
 					<td>
+					<div class="rgsmod">
 					<c:choose>
 						<c:when test="${modi.modId eq null}">
 							수정 이력 없음
 						</c:when>
 						<c:when test="${modi.modId != null }">
-							 ${modi.modId } <br> 
+							 ${modi.modId }  <br>
 						</c:when>
 					</c:choose>
 					
@@ -132,8 +154,10 @@ $(document).ready(function() {
 							 ${modi.modDtm } 
 						</c:when>
 					</c:choose>
+					</div>
 					</td>
-				</tr>
+					
+					</tr>
 				
 			</c:forEach>
 			</tbody>

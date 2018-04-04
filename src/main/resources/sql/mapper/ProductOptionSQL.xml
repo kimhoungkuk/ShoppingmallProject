@@ -6,8 +6,7 @@
 	<insert id="insertProductOption" parameterType="com.project.shop.model.ProductOption">
         INSERT INTO SHOP_PRODUCT_OPTION 
         (PRDT_CODE, PRDT_COLOR_CODE, PRDT_SIZE, PRDT_LAVE_COUNT, RGS_ID, REGT_DTM, COLOR_NAME, OPTION_SEQ)
-        values 
-        (#{prdtCode},#{prdtColorCode},#{prdtSize},#{prdtLaveCount},#{rgsId},SYSDATE,#{colorName},OPTION_SEQ.NEXTVAL)
+        VALUES (#{prdtCode},#{prdtColorCode},#{prdtSize},#{prdtLaveCount},#{rgsId},SYSDATE,#{colorName},OPTION_SEQ.NEXTVAL)
 	</insert>
 	
 	<select id="selectProductOption" resultType="com.project.shop.model.ProductOption">
@@ -25,7 +24,11 @@
 	</select>
 	
 	<update id="updateProductOption" parameterType="com.project.shop.model.ProductOption">
-		UPDATE SHOP_PRODUCT_OPTION
+		MERGE INTO SHOP_PRODUCT_OPTION
+		USING DUAL
+		ON (OPTION_SEQ = #{optionSeq})
+		WHEN MATCHED THEN
+		UPDATE
 		SET
 		PRDT_CODE = #{prdtCode},
 		PRDT_COLOR_CODE = #{prdtColorCode},
@@ -40,7 +43,10 @@
 		OR (SELECT PRDT_LAVE_COUNT FROM SHOP_PRODUCT_OPTION WHERE OPTION_SEQ = #{optionSeq}) != #{prdtLaveCount}
 		OR (SELECT COLOR_NAME FROM SHOP_PRODUCT_OPTION WHERE OPTION_SEQ = #{optionSeq}) != #{colorName})
 		AND OPTION_SEQ = #{optionSeq}
-		<!-- OPTION_SEQ = #{optionSeq} -->
+		WHEN NOT MATCHED THEN
+		INSERT 
+		(PRDT_CODE, PRDT_COLOR_CODE, PRDT_SIZE, PRDT_LAVE_COUNT, REGT_DTM, RGS_ID, COLOR_NAME, OPTION_SEQ)
+        VALUES (#{prdtCode},#{prdtColorCode},#{prdtSize},#{prdtLaveCount},SYSDATE,#{rgsId},#{colorName},OPTION_SEQ.NEXTVAL)
 	</update>
 	
 	

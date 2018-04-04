@@ -15,7 +15,6 @@
 		 $(this).css('background-color', $(this).val());
 		});
 
-	
  });
  
 

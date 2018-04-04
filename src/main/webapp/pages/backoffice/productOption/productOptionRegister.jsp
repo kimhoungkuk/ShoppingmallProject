@@ -13,6 +13,11 @@ $(document).ready(function() {
 
 			$(".after:last").after($('.after:first').clone(true));
 			$(".after:last .addoption").attr('type','hidden');
+			$(".after:last .deleteoption").attr('type','button');
+		});
+		$('.deleteoption').click(function(){
+			
+			$(this).parents('.after:last').remove();
 		});
 		
 		//colorpicker
@@ -50,6 +55,7 @@ $(document).ready(function() {
 				<tr class="after">
 					<th>可记 
 					<input class="addoption" type="button" value="可记眠啊">
+					<input class="deleteoption" type="hidden" value="秒家">
 					</th>
 					
 					<td>

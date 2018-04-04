@@ -115,6 +115,7 @@ public class ProductOptionController {
 		String[] size = request.getParameterValues("prdtSize");
 		String[] count = request.getParameterValues("prdtLaveCount");
 		String[] modid = request.getParameterValues("modId");
+		String[] rgsid = request.getParameterValues("rgsId");
 		//수정용
 //		String[] mdprdtcode = request.getParameterValues("mdprdtCode");
 //		String[] mdprdtcolorcode = request.getParameterValues("mdprdtColorCode");
@@ -131,6 +132,7 @@ public class ProductOptionController {
 		 dto.setPrdtSize(size[i]);
 		 dto.setPrdtLaveCount(Integer.parseInt(count[i]));
 		 dto.setModId(modid[i]);
+		 dto.setRgsId(rgsid[i]);
 		 
 		 /*dto.setMdprdtCode(mdprdtcode[i]);
 		 dto.setMdprdtColorCode(mdprdtcolorcode[i]);
