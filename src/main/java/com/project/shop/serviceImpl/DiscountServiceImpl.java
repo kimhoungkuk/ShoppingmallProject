@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.shop.dao.DiscountDao;
 import com.project.shop.model.Discount;
+import com.project.shop.model.Product;
 import com.project.shop.model.ProductDiscount;
 import com.project.shop.service.DiscountService;
 
@@ -87,35 +88,6 @@ public class DiscountServiceImpl implements DiscountService {
 	}
 
 	/**
-	 * 매핑 상품리스트 등록
-	 */
-//	@Override
-//	public void createProductDiscount(Discount discount) {
-//		if (discount.getPrdtDcntOption() == 1) {
-//			// 미등록
-//		} else if (discount.getPrdtDcntOption() == 2) {
-//			// 전체등록
-//			List<String> list = this.productDao.selectProductCodeList();
-//			System.out.println(list.size());
-//
-//			List<ProductDiscount> productDiscounts = new ArrayList<>();
-//			ProductDiscount productDiscount;
-//			for (String prdtCode : list) {
-//				productDiscount = new ProductDiscount();
-//				productDiscount.setDcntSeq(discount.getDcntSeq());
-//				productDiscount.setPrdtCode(prdtCode);
-//				productDiscount.setPrdtDcntRegid("admin");
-//				productDiscounts.add(productDiscount);
-//			}
-//			if (productDiscounts.size() > 0) {
-//				this.discountDao.createProductDiscounts(productDiscounts);
-//			}
-//		}
-//		System.out.println("=====================================================");
-//
-//	}
-
-	/**
 	 * 할인 상품 리스트 등록
 	 */
 	@Override
@@ -136,6 +108,15 @@ public class DiscountServiceImpl implements DiscountService {
 			}
 		}
 		
+	}
+
+	/**
+	 * 등록된 상품 리스트 
+	 */
+	@Override
+	public List<Product> getProductList(int dcntSeq) {
+		List<Product> list = this.discountDao.getProductList(dcntSeq);
+		return list;
 	}
 
 }

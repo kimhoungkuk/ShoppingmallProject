@@ -58,9 +58,9 @@
         
 	}
 </script>
-		<div class="col-sm-10">
-<div class="page-header" style="margin-top:6px">
-	  <h4>상품할인 등록</h1>
+<div class="col-sm-10">
+	<div class="page-header" style="margin-top:6px">
+	  	<h4>상품할인 등록</h4>
 	</div>
 	<form class="form-horizontal" action="/admin/discount/discountModify" method="post" id="dcntForm" name="dcntForm">
 		<input type="hidden" id="dcntSeq" name="dcntSeq" value="${discount.dcntSeq}">

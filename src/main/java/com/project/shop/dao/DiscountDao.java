@@ -49,5 +49,12 @@ public interface DiscountDao{
 	 * @return 
 	 */
 	public int createProductDiscounts(ProductDiscount pd);
+
+	/**
+	 * 등록된 상품 리스트 
+	 * @param dcntSeq
+	 * @return
+	 */
+	public List<Product> getProductList(int dcntSeq);
 	
 }

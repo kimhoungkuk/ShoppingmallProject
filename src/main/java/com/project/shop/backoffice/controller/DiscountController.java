@@ -161,5 +161,20 @@ public class DiscountController {
 		}
 
 	}
+	
+	/**
+	 * 등록된 상품 리스트 
+	 * @param dcntSeq
+	 * @return
+	 * @throws SQLException
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getProductList.ajax", method = RequestMethod.GET)
+	public List<Product> getProductList(@RequestParam int dcntSeq) throws SQLException {
+		
+		logger.info("getProductList dcntSeq : "+dcntSeq);
+		List<Product> list = discountService.getProductList(dcntSeq);
+		return list;
+	}
 
 }

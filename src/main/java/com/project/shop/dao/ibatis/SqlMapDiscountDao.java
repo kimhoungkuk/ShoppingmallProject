@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.shop.dao.DiscountDao;
 import com.project.shop.model.Discount;
+import com.project.shop.model.Product;
 import com.project.shop.model.ProductDiscount;
 
 @Repository
@@ -62,6 +63,14 @@ public class SqlMapDiscountDao implements DiscountDao {
 	@Override
 	public int createProductDiscounts(ProductDiscount productDiscount) {
 		return sqlSession.insert("DiscountSQL.createProductDiscounts", productDiscount);
+	}
+
+	/**
+	 * 등록된 상품 리스트 
+	 */
+	@Override
+	public List<Product> getProductList(int dcntSeq) {
+		return sqlSession.selectList("DiscountSQL.selectProductList", dcntSeq);
 	}
 
 }

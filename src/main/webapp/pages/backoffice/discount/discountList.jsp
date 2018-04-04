@@ -19,9 +19,16 @@ $(function($) {
 	  	]
 	});
 	
+	$( "#productDialog" ).dialog({
+		title: "상품리스트",
+		autoOpen: false,
+		width:600
+	});
+	
 });
 
 var selectSeq;
+var discount = {};
 
 function saveFile(){
 	// 파일 확장자 검사 추가하기 
@@ -41,15 +48,24 @@ function saveFile(){
 	         }else{
 	        	 alert('저장실패');
 	         }
+	     },
+	     error:function(request,status,error){
+	    	 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 	     }
 	 })
 }
 
-function showDialog(dcntSeq, dcntName){
-	console.log(dcntName);
+function showDialog(){
+	//selectSeq = dcntSeq;
+	//$("#dcntName").html(dcntName);
+	$( "#dialog" ).dialog( "open" );
+}
+
+function showListDialog(dcntSeq, dcntName){
 	selectSeq = dcntSeq;
 	$("#dcntName").html(dcntName);
-	$( "#dialog" ).dialog( "open" );
+	getProductList();
+	$( "#productDialog" ).dialog( "open" );
 }
 
 function goRegister(){
@@ -60,6 +76,29 @@ function goRegister(){
 function goModify(dcntSeq){
 	var encodingUrl = encodeURIComponent("${discount.pagegUrl}${discount.pageNo}");
 	document.location.href = "/admin/discount/discountModifyForm/"+dcntSeq+"?listUrl="+encodingUrl;
+}
+
+function getProductList(){
+	$.ajax({
+	     url: "/admin/discount/getProductList.ajax?dcntSeq=" + selectSeq,
+	     type: 'GET',
+	     success: function(data){
+	         console.log(data);
+	         var div = document.querySelector('#productDialog tbody');
+	         var html = '';
+	         for (var i = 0; i < data.length; i++) {
+	             html += '<tr><td>' + data[i].prdtCode
+	                     + '</td><td> ' + data[i].prdtKorName 
+	                     + '</td><td> ' + data[i].prdtSellPrice 
+	                     + '</td></tr>';
+	         }
+	         console.log(html);
+	         div.innerHTML = html;
+	     },
+	     error:function(request,status,error){
+	    	 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	     }
+	 })
 }
 
 </script>
@@ -74,7 +113,7 @@ function goModify(dcntSeq){
 				<th class="text-center">할인종료일</th>		
 				<th class="text-center">등록자</th>		
 				<th class="text-center">등록일</th>			
-				<th class="text-center">상품등록</th>		
+				<th class="text-center">상품목록</th>		
 				<!-- 상품할인 삭제 추가하기 -->	
 				<!-- <th class="text-center">삭제</th> -->
 			</tr>
@@ -107,7 +146,9 @@ function goModify(dcntSeq){
 						<fmt:formatDate value="${discount.dcntRegDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 					</td>										    								      
 					<td class="text-center">
-						<a href="javascript:;" class="btn btn-default btn-xs" id="fileUploadBtn" onclick="showDialog('${discount.dcntSeq}','${discount.dcntName}')">등록</a>
+						<a href="javascript:;" class="btn btn-default" onclick="showListDialog('${discount.dcntSeq}','${discount.dcntName}')">
+							<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+						</a>
 					</td>										    								      
 				</tr>  
 			</c:forEach>
@@ -137,3 +178,19 @@ function goModify(dcntSeq){
 	
 	<!-- 등록된 상품 리스트 확인 모달 추가하기 -->
 	<!-- 모달 내 등록된 상품 삭제 기능 추가 -->
+	<div id="productDialog" style="display:none;">
+		<a href="javascript:;" class="btn btn-info" id="fileUploadBtn" onclick="showDialog()">
+			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 상품등록
+		</a>
+		<table class="table table-bordered table-hover" style="margin-top:20px"> 
+			<thead>
+				<tr>
+					<th>상품코드</th>
+					<th>상품한글명</th>
+					<th>상품가격</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
