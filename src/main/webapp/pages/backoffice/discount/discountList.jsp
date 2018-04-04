@@ -27,14 +27,29 @@ $(function($) {
 	
 });
 
-var selectSeq;
-var discount = {};
-var productList = [];
+var selectSeq;			// 선택된 Discount
+//var discount = {};		
+var productList = [];	// 선택된 Discount의 Product List
 
+/**
+ * 엑셀 파일 등록 ajax
+ */
 function saveFile(){
-	// 파일 확장자 검사 추가하기 
-	var form = new FormData(document.getElementById('uploadForm'));
-
+	var element = document.getElementById('uploadForm');
+	var files = element.elements['fileId'].files;
+	console.log(files[0])
+	if(files.length < 1){
+		alert('파일을 첨부해 주세요.');
+		return;
+	}
+	var fileExtension = files[0].name.substring(files[0].name.lastIndexOf('.') + 1);
+	if(fileExtension.toLowerCase() != 'xls' && fileExtension.toLowerCase() != 'xlsx'){
+		alert('엑셀파일만 등록 가능합니다(.xls, .xlsx)');
+		return;
+	}
+	
+	var form = new FormData(element);
+	
 	 $.ajax({
 	     url: "/admin/discount/saveFile.ajax?dcntSeq=" + selectSeq,
 	     data: form,
@@ -56,12 +71,16 @@ function saveFile(){
 	 })
 }
 
+/**
+ * 파일 등록 모달 Show
+ */
 function showDialog(){
-	//selectSeq = dcntSeq;
-	//$("#dcntName").html(dcntName);
 	$( "#dialog" ).dialog( "open" );
 }
 
+/**
+ * 상품 리스트 모달 Show
+ */
 function showListDialog(dcntSeq, dcntName){
 	selectSeq = dcntSeq;
 	$("#dcntName").html(dcntName);
@@ -69,23 +88,15 @@ function showListDialog(dcntSeq, dcntName){
 	$( "#productDialog" ).dialog( "open" );
 }
 
-function goRegister(){
-	var encodingUrl = encodeURIComponent("${discount.pagegUrl}${discount.pageNo}");
-	document.location.href = "/admin/discount/discountRegisterForm?listUrl="+encodingUrl;
-}
-
-function goModify(dcntSeq){
-	var encodingUrl = encodeURIComponent("${discount.pagegUrl}${discount.pageNo}");
-	document.location.href = "/admin/discount/discountModifyForm/"+dcntSeq+"?listUrl="+encodingUrl;
-}
-
+/**
+ * Get 상품 리스트
+ */
 function getProductList(){
 	$.ajax({
 	     url: "/admin/discount/getProductList.ajax?dcntSeq=" + selectSeq,
 	     type: 'GET',
 	     success: function(data){
 	    	 productList = data;
-	         console.log(data);
 	         var div = document.querySelector('#productDialog tbody');
 	         var html = '';
 	         for (var i = 0; i < data.length; i++) {
@@ -96,7 +107,6 @@ function getProductList(){
 	                     + '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ';
 	                     + '</td></tr>';
 	         }
-	         console.log(html);
 	         div.innerHTML = html;
 	     },
 	     error:function(request,status,error){
@@ -105,6 +115,9 @@ function getProductList(){
 	 })
 }
 
+/**
+ * 선택된 상품 DiscountProduct 삭제 
+ */
 function deletePrdtDcnt(i){
 	var obj = {};
 	obj.prdtCode = productList[i].prdtCode;
@@ -129,6 +142,9 @@ function deletePrdtDcnt(i){
 	 })
 }
 
+/**
+ * Discount 삭제
+ */
 function deleteDiscount(dcntSeq){
 	$.ajax({
 	     url: '/admin/discount/deleteDiscount.ajax?dcntSeq='+dcntSeq,
@@ -147,6 +163,16 @@ function deleteDiscount(dcntSeq){
 	 })
 }
 
+function goRegister(){
+	var encodingUrl = encodeURIComponent("${discount.pagegUrl}${discount.pageNo}");
+	document.location.href = "/admin/discount/discountRegisterForm?listUrl="+encodingUrl;
+}
+
+function goModify(dcntSeq){
+	var encodingUrl = encodeURIComponent("${discount.pagegUrl}${discount.pageNo}");
+	document.location.href = "/admin/discount/discountModifyForm/"+dcntSeq+"?listUrl="+encodingUrl;
+}
+
 </script>
 	<div class="col-sm-10">
 		<table class="table table-bordered table-hover"> 
@@ -159,8 +185,7 @@ function deleteDiscount(dcntSeq){
 				<th class="text-center">할인종료일</th>		
 				<th class="text-center">등록자</th>		
 				<th class="text-center">등록일</th>			
-				<th class="text-center">상품목록</th>		
-				<!-- 상품할인 삭제 추가하기 -->	
+				<th class="text-center">상품목록</th>	
 				<th class="text-center">삭제</th>
 			</tr>
 			<c:forEach items="${discountList}" var="discount" varStatus="status">
