@@ -120,21 +120,23 @@
 	   )
 	</insert> 
 	
-	<!-- merge into 처리 추가하기 -->
 	<insert id="createProductDiscounts" parameterType="com.project.shop.model.ProductDiscount">
-       INSERT INTO SHOP_PRODUCT_DISCOUNT(
-            PRDT_CODE,
-            DCNT_SEQ,
-            PRDT_DCNT_REGID,
-            PRDT_DCNT_REGDATE
-        )
-        VALUES
-        (
-            #{prdtCode},
-            #{dcntSeq},
-           	#{prdtDcntRegid},
-            SYSDATE
-        )
+		MERGE INTO SHOP_PRODUCT_DISCOUNT SPD
+            USING dual
+               on (SPD.PRDT_CODE=#{prdtCode} AND 
+                      SPD.DCNT_SEQ=#{dcntSeq}) 
+			WHEN MATCHED THEN
+             	UPDATE SET
+                	SPD.PRDT_DCNT_REGID = #{prdtDcntRegid},
+                	SPD.PRDT_DCNT_REGDATE = SYSDATE
+            WHEN NOT MATCHED THEN
+		       INSERT VALUES
+		        (
+		            #{prdtCode},
+		            #{dcntSeq},
+		           	#{prdtDcntRegid},
+		            SYSDATE
+		        )
 	</insert>
 	
 	<update id="updateDiscount" parameterType="com.project.shop.model.Discount"> 
@@ -152,7 +154,7 @@
 	   	  	DCNT_SEQ = #{dcntSeq}
 	</update> 
 	
-	<delete id="deletePrdtDcnt" parameterType="com.project.shop.model.ProductDiscount">
+	<delete id="deleteOnePrdtDcnt" parameterType="com.project.shop.model.ProductDiscount">
 		DELETE FROM
 			SHOP_PRODUCT_DISCOUNT
 		WHERE
