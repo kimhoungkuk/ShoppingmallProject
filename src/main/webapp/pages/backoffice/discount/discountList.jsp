@@ -28,7 +28,7 @@ $(function($) {
 });
 
 var selectSeq;			// 선택된 Discount
-//var discount = {};		
+var discount = {};		
 var productList = [];	// 선택된 Discount의 Product List
 
 /**
@@ -37,7 +37,6 @@ var productList = [];	// 선택된 Discount의 Product List
 function saveFile(){
 	var element = document.getElementById('uploadForm');
 	var files = element.elements['fileId'].files;
-	console.log(files[0])
 	if(files.length < 1){
 		alert('파일을 첨부해 주세요.');
 		return;
@@ -80,12 +79,16 @@ function showDialog(){
 
 /**
  * 상품 리스트 모달 Show
- */
 function showListDialog(dcntSeq, dcntName){
 	selectSeq = dcntSeq;
 	$("#dcntName").html(dcntName);
 	getProductList();
 	$( "#productDialog" ).dialog( "open" );
+}
+ */
+function showListDialog(discount){
+	 selectSeq = discount.dcntSeq;
+	console.log(discount);
 }
 
 /**
@@ -100,10 +103,11 @@ function getProductList(){
 	         var div = document.querySelector('#productDialog tbody');
 	         var html = '';
 	         for (var i = 0; i < data.length; i++) {
-	             html += '<tr><td>' + data[i].prdtCode
+	             html += '<tr><td  class="text-center">' + data[i].prdtCode
 	                     + '</td><td> ' + data[i].prdtKorName 
 	                     + '</td><td> ' + data[i].prdtSellPrice 
-	                     + '</td><td><a href="javascript:;" class="btn btn-default btn-danger" onclick="deletePrdtDcnt(' + i + ')">'
+	                     + '</td><td> ' + getDiscountPrice(data[i].prdtSellPrice) 
+	                     + '</td><td class="text-center"><a href="javascript:;" class="btn btn-default btn-danger" onclick="deletePrdtDcnt(' + i + ')">'
 	                     + '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ';
 	                     + '</td></tr>';
 	         }
@@ -115,52 +119,62 @@ function getProductList(){
 	 })
 }
 
+function getDiscountPrice(price){
+	//if()
+}
+
 /**
  * 선택된 상품 DiscountProduct 삭제 
  */
 function deletePrdtDcnt(i){
-	var obj = {};
-	obj.prdtCode = productList[i].prdtCode;
-	obj.dcntSeq = selectSeq;
-	$.ajax({
-	     url: '/admin/discount/deletePrdtDcnt.ajax',
-	     type: 'POST',
-	     dataType: 'json',
-	     data: JSON.stringify(obj),
-	     contentType: 'application/json;charset=utf-8',
-	     success: function(data){
-	    	 if(data > 0){
-		         alert('삭제 완료');
-		         getProductList();
-	    	 }else{
-	    		 alert('삭제 실패');
-	    	 }
-	     },
-	     error:function(request,status,error){
-	    	 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	     }
-	 })
+	var result = confirm('정말 삭제하시겠습니까?\n삭제 시 복구가 불가능합니다.');
+	if(result){
+		var obj = {};
+		obj.prdtCode = productList[i].prdtCode;
+		obj.dcntSeq = selectSeq;
+		$.ajax({
+		     url: '/admin/discount/deletePrdtDcnt.ajax',
+		     type: 'POST',
+		     dataType: 'json',
+		     data: JSON.stringify(obj),
+		     contentType: 'application/json;charset=utf-8',
+		     success: function(data){
+		    	 if(data > 0){
+			         alert('삭제 완료');
+			         getProductList();
+		    	 }else{
+		    		 alert('삭제 실패');
+		    	 }
+		     },
+		     error:function(request,status,error){
+		    	 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		     }
+		 })
+	}
 }
 
 /**
  * Discount 삭제
  */
 function deleteDiscount(dcntSeq){
-	$.ajax({
-	     url: '/admin/discount/deleteDiscount.ajax?dcntSeq='+dcntSeq,
-	     type: 'GET',
-	     success: function(data){
-	    	 if(data > 0){
-		         alert('삭제 완료');
-		         location.reload();
-	    	 }else{
-	    		 alert('삭제 실패');
-	    	 }
-	     },
-	     error:function(request,status,error){
-	    	 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	     }
-	 })
+	var result = confirm('정말 삭제하시겠습니까?\n삭제 시 복구가 불가능합니다.');
+	if(result){
+		$.ajax({
+		     url: '/admin/discount/deleteDiscount.ajax?dcntSeq='+dcntSeq,
+		     type: 'GET',
+		     success: function(data){
+		    	 if(data > 0){
+			         alert('삭제 완료');
+			         location.reload();
+		    	 }else{
+		    		 alert('삭제 실패');
+		    	 }
+		     },
+		     error:function(request,status,error){
+		    	 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		     }
+		 })
+	}
 }
 
 function goRegister(){
@@ -180,7 +194,7 @@ function goModify(dcntSeq){
 				<th class="text-center">NO</th>
 				<th class="text-center">할인명</th>
 				<th class="text-center">할인가격</th>
-				<th class="text-center">할인타입</th>
+				<th class="text-center">할인타입</th><!-- 필터 설정 -->
 				<th class="text-center">할인시작일</th>
 				<th class="text-center">할인종료일</th>		
 				<th class="text-center">등록자</th>		
@@ -202,7 +216,14 @@ function goModify(dcntSeq){
 						<fmt:formatNumber value="${discount.dcntPrice}" pattern="#,###" />
 					</td> 
 					<td>
-						${discount.dcntType}
+						<c:choose>
+							<c:when test="${discount.dcntType == 1}">
+								%
+							</c:when>
+							<c:when test="${discount.dcntType == 2}">
+								 -
+							</c:when>
+						</c:choose>
 					</td>
 					<td class="text-center">
 						<fmt:formatDate value="${discount.dcntStartDate}" pattern="yyyy-MM-dd"/>
@@ -217,7 +238,8 @@ function goModify(dcntSeq){
 						<fmt:formatDate value="${discount.dcntRegDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 					</td>										    								      
 					<td class="text-center">
-						<a href="javascript:;" class="btn btn-default" onclick="showListDialog('${discount.dcntSeq}','${discount.dcntName}')">
+						<%-- <a href="javascript:;" class="btn btn-default" onclick="showListDialog('${discount.dcntSeq}','${discount.dcntName}')"> --%>
+						<a href="javascript:;" class="btn btn-default" onclick="showListDialog('${discount}')">
 							<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 						</a>
 					</td>										    								      
@@ -254,19 +276,23 @@ function goModify(dcntSeq){
 	
 	<!-- 페이징 추가 -->
 	<div id="productDialog" style="display:none;">
+		<div style="height:500px">
 		<a href="javascript:;" class="btn btn-default" id="fileUploadBtn" onclick="showDialog()">
 			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 상품등록
 		</a>
 		<table class="table table-bordered table-hover" style="margin-top:20px"> 
 			<thead>
 				<tr>
-					<th>상품코드</th>
-					<th>상품한글명</th>
-					<th>상품가격</th>
-					<th>삭제</th>
+					<th class="text-center">상품코드</th>
+					<th class="text-center">상품한글명</th>
+					<th class="text-center">상품가격</th>
+					<th class="text-center">할인된 가격</th>
+					<th class="text-center">삭제</th>
 				</tr>
 			</thead>
 			<tbody>
 			</tbody>
 		</table>
+		
+		</div>
 	</div>

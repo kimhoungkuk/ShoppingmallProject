@@ -44,6 +44,8 @@
 				DCNT_MOD_DATE
 			FROM 
 			 	SHOP_DISCOUNT
+			ORDER BY
+			 	DCNT_REG_DATE DESC
  	    <include refid="pagingFooterSql"/>
 	</select> 
 	

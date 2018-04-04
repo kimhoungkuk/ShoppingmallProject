@@ -47,13 +47,50 @@
 	}); 
 
 	function frmSubmit(){
-		 /* validation check
-        if(isEmpty($("#prdtKorName").val())) {
-            alert("상품한글명을 입력해주세요.");
-            $("#prdtKorName").focus();
+		// validation check
+        if(isEmpty($("#dcntName").val())) {
+            alert("상품할인명을 입력해주세요.");
+            $("#dcntName").focus();
             return;
         }
-        */
+        
+        if(isEmpty($("#dcntStartDateStr").val())) {
+            alert("할인 시작일을 입력해주세요.");
+            $("#dcntStartDateStr").focus();
+            return;
+        }
+        
+        if(isEmpty($("#dcntEndDateStr").val())) {
+            alert("할인 종료일을 입력해주세요.");
+            $("#dcntEndDateStr").focus();
+            return;
+        }
+        
+        if(isEmpty($("#dcntPrice").val())) {
+            alert("할인가를 입력해주세요.");
+            $("#dcntPrice").focus();
+            return;
+        }
+        
+        if(!$.isNumeric($("#dcntPrice").val())) {
+            alert("할인가를 숫자로 입력해주세요.");
+            $("#dcntPrice").focus();
+            return;
+        }
+        
+        // 가격 타입에 따른 validation
+        if($("#dcntType").val() == 1){
+        	if($("#dcntPrice").val() < 0 || $("#dcntPrice").val() > 100){
+        		alert("할인율을 0 ~ 100 사이로 지정해주세요.");
+        		return;
+        	}
+        }else{
+        	if($("#dcntPrice").val() < 0){
+        		alert("할인율을 0보다 큰 수로 입력해주세요.");
+        		return;
+        	}
+        }
+        
         document.dcntForm.submit();
         
 	}

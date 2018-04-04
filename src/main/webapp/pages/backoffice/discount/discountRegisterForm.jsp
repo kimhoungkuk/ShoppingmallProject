@@ -5,10 +5,7 @@
 	pageEncoding="UTF-8"%>
 <script type="text/javascript" src="/resources/js/common.js"></script>
 <script type="text/javascript">
-	var productList = [];
-	
 	$(function($) {
-		//getProductList();
 		/*
 		* datepicker 설정
 		*/
@@ -50,14 +47,6 @@
 	    	var decodingUrl = decodeURIComponent("${param.listUrl}");
 	    	document.location.href="${param.listUrl}";
 	    });
-	    
-	    $("input[name='inlineRadioOptions']").change(function(){
-	        if ($("#inlineRadio1").is(':checked')) {
-				console.log('inlineRadio1');
-	        } else if($("#inlineRadio2").is(':checked')) {
-	        	console.log('inlineRadio2');
-			}
-	    });
 	});
 	
 	/*
@@ -98,56 +87,25 @@
         
         // 가격 타입에 따른 validation
         if($("#dcntType").val() == 1){
-        	
+        	if($("#dcntPrice").val() < 0 || $("#dcntPrice").val() > 100){
+        		alert("할인율을 0 ~ 100 사이로 지정해주세요.");
+        		return;
+        	}
+        }else{
+        	if($("#dcntPrice").val() < 0){
+        		alert("할인율을 0보다 큰 수로 입력해주세요.");
+        		return;
+        	}
         }
         
-        
-        /* var formData = $("#dcntForm").serialize();
-        formData.productList = [];
-        console.log(formData);
-        $.ajax({
-            type: "POST",
-            url: "/admin/discount/discountRegister",
-            dataType: 'JSON',
-            data: formData,
-            //contentType: 'application/json;charset=utf-8',
-            success: function(json) {
-                // 받아온 데이터 파싱 후 
-                var json_data = JSON.stringify(json);
-                var parse_data = JSON.parse(json_data);
-         
-            },
-            error: function() {
-            }        
-        }); */
-
         document.dcntForm.submit();
         
 	}
 	
-    /*
-    * 상품목록 ajax
-    */
-    /* function getProductList(){
-    	var me = this;
-    	$.ajax({
-	   	    url: '/admin/product/dcntProductList',
-	   	 	type: 'GET',
-			dataType: 'JSON',
-			async: false,
-			success: function(payload) {
-				console.log(payload);
-				productList = payload;
-			}, error: function(xhr, status, text) {
-				console.log('return false');
-				alert(status);
-			}
-		});
-    } */
 </script>
 <div class="col-sm-10">
 	<div class="page-header" style="margin-top:6px">
-	  <h4 onclick="console.log(productList)">상품할인 등록</h1>
+	  <h4>상품할인 등록</h4>
 	</div>
 	<form class="form-horizontal" action="/admin/discount/discountRegister" method="post" id="dcntForm" name="dcntForm">
 		<div class="form-group">
