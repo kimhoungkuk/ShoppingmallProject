@@ -116,9 +116,27 @@ function deletePrdtDcnt(i){
 	     data: JSON.stringify(obj),
 	     contentType: 'application/json;charset=utf-8',
 	     success: function(data){
-	    	 if(data){
+	    	 if(data > 0){
 		         alert('삭제 완료');
 		         getProductList();
+	    	 }else{
+	    		 alert('삭제 실패');
+	    	 }
+	     },
+	     error:function(request,status,error){
+	    	 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	     }
+	 })
+}
+
+function deleteDiscount(dcntSeq){
+	$.ajax({
+	     url: '/admin/discount/deleteDiscount.ajax?dcntSeq='+dcntSeq,
+	     type: 'GET',
+	     success: function(data){
+	    	 if(data > 0){
+		         alert('삭제 완료');
+		         location.reload();
 	    	 }else{
 	    		 alert('삭제 실패');
 	    	 }
@@ -143,7 +161,7 @@ function deletePrdtDcnt(i){
 				<th class="text-center">등록일</th>			
 				<th class="text-center">상품목록</th>		
 				<!-- 상품할인 삭제 추가하기 -->	
-				<!-- <th class="text-center">삭제</th> -->
+				<th class="text-center">삭제</th>
 			</tr>
 			<c:forEach items="${discountList}" var="discount" varStatus="status">
 				<tr>
@@ -176,6 +194,11 @@ function deletePrdtDcnt(i){
 					<td class="text-center">
 						<a href="javascript:;" class="btn btn-default" onclick="showListDialog('${discount.dcntSeq}','${discount.dcntName}')">
 							<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+						</a>
+					</td>										    								      
+					<td class="text-center">
+						<a href="javascript:;" class="btn btn-danger" onclick="deleteDiscount('${discount.dcntSeq}')">
+							<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 						</a>
 					</td>										    								      
 				</tr>  

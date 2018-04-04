@@ -196,4 +196,11 @@ public class DiscountController {
 		return discountService.deletePrdtDcnt(productDiscount);
 	}
 
+	@ResponseBody
+	@RequestMapping(value = "/deleteDiscount.ajax", method = RequestMethod.GET)
+	public int deleteDiscount(
+			@RequestParam int dcntSeq) throws SQLException {
+		
+		return discountService.deleteDiscount(dcntSeq);
+	}
 }

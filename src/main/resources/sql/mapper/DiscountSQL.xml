@@ -160,4 +160,18 @@
 			AND PRDT_CODE = #{prdtCode}
 	</delete>
 	
+	<delete id="deleteDiscount" parameterType="int">
+		DELETE FROM
+			SHOP_DISCOUNT
+		WHERE
+			DCNT_SEQ = #{dcntSeq}
+	</delete>
+	
+	<delete id="deleteProductDiscount" parameterType="int">
+		DELETE FROM
+			SHOP_PRODUCT_DISCOUNT
+		WHERE
+			DCNT_SEQ = #{dcntSeq}
+	</delete>
+	
 </mapper>

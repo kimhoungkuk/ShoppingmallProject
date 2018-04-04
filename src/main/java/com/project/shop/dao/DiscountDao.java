@@ -58,11 +58,25 @@ public interface DiscountDao{
 	public List<Product> getProductList(int dcntSeq);
 
 	/**
-	 * 등록된 할인 상품 삭제 
+	 * 등록된 할인 상품 단일 삭제 
 	 * @param dcntSeq
 	 * @param prdtCode
 	 * @return
 	 */
-	public int deletePrdtDcnt(ProductDiscount productDiscount);
+	public int deleteOnePrdtDcnt(ProductDiscount productDiscount);
+
+	/**
+	 * 상품 할인 삭제 
+	 * @param dcntSeq
+	 * @return 
+	 */
+	public int deleteDiscount(int dcntSeq);
+
+	/**
+	 * 등록된 할인 상품 전체 삭제 
+	 * @param dcntSeq
+	 * @return
+	 */
+	public int deleteProductDiscount(int dcntSeq);
 	
 }

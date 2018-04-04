@@ -125,7 +125,17 @@ public class DiscountServiceImpl implements DiscountService {
 	@Override
 	public int deletePrdtDcnt(ProductDiscount productDiscount) {
 		// TODO Auto-generated method stub
-		return this.discountDao.deletePrdtDcnt(productDiscount);
+		return this.discountDao.deleteOnePrdtDcnt(productDiscount);
+	}
+
+	/**
+	 * 상품 할인 삭제 
+	 */
+	@Override
+	public int deleteDiscount(int dcntSeq) {
+		this.discountDao.deleteProductDiscount(dcntSeq);
+		
+		return this.discountDao.deleteDiscount(dcntSeq);
 	}
 
 }

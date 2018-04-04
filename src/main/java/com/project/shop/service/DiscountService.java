@@ -68,5 +68,12 @@ public interface DiscountService {
 	 * @return
 	 */
 	int deletePrdtDcnt(ProductDiscount productDiscount);
+
+	/**
+	 * 상품 할인 삭제 
+	 * @param dcntSeq
+	 * @return
+	 */
+	int deleteDiscount(int dcntSeq);
     
 }
