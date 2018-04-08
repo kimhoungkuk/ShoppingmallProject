@@ -79,17 +79,19 @@ function showDialog(){
 
 /**
  * 상품 리스트 모달 Show
+ */
 function showListDialog(dcntSeq, dcntName){
 	selectSeq = dcntSeq;
 	$("#dcntName").html(dcntName);
 	getProductList();
 	$( "#productDialog" ).dialog( "open" );
 }
- */
+/*
 function showListDialog(discount){
 	 selectSeq = discount.dcntSeq;
 	console.log(discount);
 }
+ */
 
 /**
  * Get 상품 리스트
@@ -106,7 +108,7 @@ function getProductList(){
 	             html += '<tr><td  class="text-center">' + data[i].prdtCode
 	                     + '</td><td> ' + data[i].prdtKorName 
 	                     + '</td><td> ' + data[i].prdtSellPrice 
-	                     + '</td><td> ' + getDiscountPrice(data[i].prdtSellPrice) 
+	                     // + '</td><td> ' + getDiscountPrice(data[i].prdtSellPrice) 
 	                     + '</td><td class="text-center"><a href="javascript:;" class="btn btn-default btn-danger" onclick="deletePrdtDcnt(' + i + ')">'
 	                     + '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ';
 	                     + '</td></tr>';
@@ -238,8 +240,8 @@ function goModify(dcntSeq){
 						<fmt:formatDate value="${discount.dcntRegDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 					</td>										    								      
 					<td class="text-center">
-						<%-- <a href="javascript:;" class="btn btn-default" onclick="showListDialog('${discount.dcntSeq}','${discount.dcntName}')"> --%>
-						<a href="javascript:;" class="btn btn-default" onclick="showListDialog('${discount}')">
+						<a href="javascript:;" class="btn btn-default" onclick="showListDialog('${discount.dcntSeq}','${discount.dcntName}')">
+						<%-- <a href="javascript:;" class="btn btn-default" onclick="showListDialog('${discount}')"> --%>
 							<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 						</a>
 					</td>										    								      
@@ -286,7 +288,7 @@ function goModify(dcntSeq){
 					<th class="text-center">상품코드</th>
 					<th class="text-center">상품한글명</th>
 					<th class="text-center">상품가격</th>
-					<th class="text-center">할인된 가격</th>
+					<!-- <th class="text-center">할인된 가격</th> -->
 					<th class="text-center">삭제</th>
 				</tr>
 			</thead>
