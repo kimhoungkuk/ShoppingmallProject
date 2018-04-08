@@ -27,8 +27,8 @@ $(function($) {
 	
 });
 
-var selectSeq;			// 선택된 Discount
-var discount = {};		
+// var selectSeq;			// 선택된 Discount
+var discount = {};		// 선택된 Discount
 var productList = [];	// 선택된 Discount의 Product List
 
 /**
@@ -50,7 +50,7 @@ function saveFile(){
 	var form = new FormData(element);
 	
 	 $.ajax({
-	     url: "/admin/discount/saveFile.ajax?dcntSeq=" + selectSeq,
+	     url: "/admin/discount/saveFile.ajax?dcntSeq=" + discount.dcntSeq, //selectSeq,
 	     data: form,
 	     dataType: 'text', 
 	     processData: false, 
@@ -80,9 +80,13 @@ function showDialog(){
 /**
  * 상품 리스트 모달 Show
  */
-function showListDialog(dcntSeq, dcntName){
-	selectSeq = dcntSeq;
+function showListDialog(dcntSeq, dcntName, dcntPrice, dcntType){
+	//selectSeq = dcntSeq;
 	$("#dcntName").html(dcntName);
+	$("#dcntPrice").html((dcntType == 1)?dcntPrice + ' %': '- ' + dcntPrice);
+	discount.dcntSeq = dcntSeq;
+	discount.dcntPrice = dcntPrice;
+	discount.dcntType = dcntType;
 	getProductList();
 	$( "#productDialog" ).dialog( "open" );
 }
@@ -98,7 +102,7 @@ function showListDialog(discount){
  */
 function getProductList(){
 	$.ajax({
-	     url: "/admin/discount/getProductList.ajax?dcntSeq=" + selectSeq,
+	     url: "/admin/discount/getProductList.ajax?dcntSeq=" + discount.dcntSeq, //selectSeq,
 	     type: 'GET',
 	     success: function(data){
 	    	 productList = data;
@@ -108,7 +112,7 @@ function getProductList(){
 	             html += '<tr><td  class="text-center">' + data[i].prdtCode
 	                     + '</td><td> ' + data[i].prdtKorName 
 	                     + '</td><td> ' + data[i].prdtSellPrice 
-	                     // + '</td><td> ' + getDiscountPrice(data[i].prdtSellPrice) 
+	                     + '</td><td> ' + getDiscountPrice(data[i].prdtSellPrice) 
 	                     + '</td><td class="text-center"><a href="javascript:;" class="btn btn-default btn-danger" onclick="deletePrdtDcnt(' + i + ')">'
 	                     + '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ';
 	                     + '</td></tr>';
@@ -122,7 +126,18 @@ function getProductList(){
 }
 
 function getDiscountPrice(price){
-	//if()
+	var result = 0;
+	if( discount.dcntType  == 1 ) {
+		result = price - (price * (discount.dcntPrice / 100));
+	}else if( discount.dcntType  == 2 ) {
+		result = price - discount.dcntPrice;
+	}
+	
+	if(result > 0){
+		return result
+	}else{
+		return 0;
+	}
 }
 
 /**
@@ -133,7 +148,7 @@ function deletePrdtDcnt(i){
 	if(result){
 		var obj = {};
 		obj.prdtCode = productList[i].prdtCode;
-		obj.dcntSeq = selectSeq;
+		obj.dcntSeq = discount.dcntSeq; //selectSeq;
 		$.ajax({
 		     url: '/admin/discount/deletePrdtDcnt.ajax',
 		     type: 'POST',
@@ -240,7 +255,7 @@ function goModify(dcntSeq){
 						<fmt:formatDate value="${discount.dcntRegDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 					</td>										    								      
 					<td class="text-center">
-						<a href="javascript:;" class="btn btn-default" onclick="showListDialog('${discount.dcntSeq}','${discount.dcntName}')">
+						<a href="javascript:;" class="btn btn-default" onclick="showListDialog('${discount.dcntSeq}','${discount.dcntName}','${discount.dcntPrice}','${discount.dcntType}')">
 						<%-- <a href="javascript:;" class="btn btn-default" onclick="showListDialog('${discount}')"> --%>
 							<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 						</a>
@@ -279,22 +294,26 @@ function goModify(dcntSeq){
 	<!-- 페이징 추가 -->
 	<div id="productDialog" style="display:none;">
 		<div style="height:500px">
-		<a href="javascript:;" class="btn btn-default" id="fileUploadBtn" onclick="showDialog()">
-			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 상품등록
-		</a>
-		<table class="table table-bordered table-hover" style="margin-top:20px"> 
-			<thead>
-				<tr>
-					<th class="text-center">상품코드</th>
-					<th class="text-center">상품한글명</th>
-					<th class="text-center">상품가격</th>
-					<!-- <th class="text-center">할인된 가격</th> -->
-					<th class="text-center">삭제</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
+			<a href="javascript:;" class="btn btn-default" id="fileUploadBtn" onclick="showDialog()">
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 상품등록
+			</a>
+			
+			<table class="table table-bordered table-hover" style="margin-top:20px"> 
+				<caption>
+					<label>할인금액 : </label><span id="dcntPrice"></span>
+				</caption>
+				<thead>
+					<tr>
+						<th class="text-center">상품코드</th>
+						<th class="text-center">상품한글명</th>
+						<th class="text-center">상품가격</th>
+						<th class="text-center">할인된 가격</th>
+						<th class="text-center">삭제</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
 		
 		</div>
 	</div>
