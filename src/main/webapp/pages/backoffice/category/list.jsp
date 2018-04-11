@@ -17,8 +17,11 @@
 			categories = new Array();
 			<c:forEach items="${categoryList }" var="category">
 			categories.push({'id': '${category.ctgrId }'
-												 , 'parent': ('${category.prntCtgrId }' == '') ? '#' : '${category.prntCtgrId }'
+												 , 'parent': ('${category.prntCtgrId}' == '') ? '#' : '${category.prntCtgrId}'
 												 , 'text': '${category.ctgrName}'
+												 , 'state': {
+													 'disabled': '${category.useYn }' == 'N' ? true : false 
+													}
 												});
 			</c:forEach>
 		</c:if>
@@ -39,7 +42,74 @@
 			"plugins" : [
 				// Drag&Drop
 				"dnd"
-			],
+				
+				// 우클릭 옵션
+				, 'contextmenu'
+			]
+			, "contextmenu": {
+				"items": function($node) {
+					
+					// 해당 노드가 삭제 상태라면 활성화 Context 노출
+					if ($tree.is_disabled($node)) {
+						return {
+							"Enable": {
+								"label": "Enable",
+								"action": function(obj) {
+									if (confirm('사용 처리 하시겠습니까?')) {
+										$target.jstree("enable_node", $node);
+									}
+								}
+							}
+						}
+					}
+					
+					/* return {
+						"Enable": {
+							"label": "Enable",
+							"action": function(obj) {
+								$target.jstree("enable_node", $node);
+							}
+						}
+						/* "Disable": {
+							"label": "Disable",
+							"action": function( obj ) {
+								$target.jstree( "disable_node", $node );
+							}
+						},
+						"Rename": {
+                            "label": "Rename",
+                            "action": function (data) {
+                                var inst = $.jstree.reference(data.reference);
+                                    obj = inst.get_node(data.reference);
+                                inst.edit(obj);
+                            }
+                        },
+                        "Delete": {
+                            "label": "Delete",
+                            "action": function (data) {
+                                var ref = $.jstree.reference(data.reference),
+                                    sel = ref.get_selected();
+                                if(!sel.length) { return false; }
+                                ref.delete_node(sel);
+
+                            }
+                        },
+                        "Create": {
+                            "label": "Create",
+                            "action": function (data) {
+                                var ref = $.jstree.reference(data.reference);
+                                    sel = ref.get_selected();
+                                if(!sel.length) { return false; }
+                                sel = sel[0];
+                                sel = ref.create_node(sel, {"type":"file"});
+                                if(sel) {
+                                    ref.edit(sel);
+                                }
+                            }
+                        }
+					} */
+				}
+			},
 
 			"core": {
 				
@@ -54,6 +124,8 @@
 				 	position : custom information (second argument)
 				*/
 				"check_callback": function(operation, node, parent, position, more) {
+					
+					console.log(operation);
 					
 					/* console.log('callback', operation);
 					console.log('node', node); */
@@ -128,7 +200,7 @@
 						
 						return _is_success;
 						
-					} else if (operation == 'delete_node') {
+					} else if (operation == 'delete_node' || operation == 'enable_node') {
 						var _is_success = false;
 						
 						$.ajax({
@@ -137,10 +209,10 @@
 							, dataType: 'JSON'
 							, async: false
 							, data: {
-								useYn: 'N'
+								useYn: (operation == 'delete_node') ? 'N' : 'Y'
 							}, success: function(payload) {
 								if (payload && payload.resultYn == 'Y') {
-									alert('카테고리가 삭제되었습니다.');
+									alert('카테고리가 ' + ((operation == 'delete_node') ? '미사용' : '사용') + '처리 되었습니다.');
 									_is_success = true;
 								} else {
 									alert((payload && payload.resultMsg) ? payload.resultMsg : '처리 중 오류가 발생하였습니다.');
@@ -167,10 +239,18 @@
 		})
 		.on("loaded.jstree", function(event, data) {
 			console.log("loaded.jstree");
+			$.each(data.instance._model.data, function (i) {
+				if (data.instance._model.data[i].state.disabled) {
+					console.log(data.instance._model.data[i]);
+				}
+			});
 		})
 		.on("select_node.jstree", function(event, data) {
 			console.log("select_node.jstree");
 			$('#text-ctgr-name').val(data.node.text);
+		})
+		.on("enable_node.jstree", function(event, data) {
+			console.log("enable_node.jstree");
 		})
 		.on("open_node.jstree", function(event, data) {
 			console.log("open_node.jstree");
@@ -338,7 +418,6 @@
 		</tr>
 		<tr>
 			<td id="categoryTree"></td>
-			<!-- <td><a href="javascript:create_node();">카테고리 생성</a></td> -->
 			<td id="td-category-detail">
 				<input type="text" value="" id="text-ctgr-name" name="text-ctgr-name" />
 				<input type="hidden" value="" id="hidden-ctgr-id" name="hidden-ctgr-id" />

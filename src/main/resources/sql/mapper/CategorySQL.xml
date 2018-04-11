@@ -17,10 +17,8 @@
 		        , MOD_DT
 		FROM	SHOP_CATEGORY A
 		        , (
-			        SELECT  CTGR_ID
+			        SELECT  DISTINCT(CTGR_ID)
 			        FROM    SHOP_CATEGORY
-			        WHERE   USE_YN = 'Y'
-			        GROUP BY CTGR_ID
 		        ) B
 		WHERE   A.CTGR_ID = B.CTGR_ID
 		START WITH A.PRNT_CTGR_ID = '9999'
