@@ -28,8 +28,8 @@ public class SqlMapProductOptionDao implements ProductOptionDao{
 	}
 
 	@Override
-	public ProductOption selectProductOptionModify(String prdtCode) {
-		return sqlsession.selectOne("ProductOptionSQL.selectProductOptionModify", prdtCode);
+	public List<ProductOption> selectProductOptionModify(String modifycode) {
+		return sqlsession.selectList("ProductOptionSQL.selectProductOptionModify", modifycode);
 		
 	}
 
@@ -38,6 +38,13 @@ public class SqlMapProductOptionDao implements ProductOptionDao{
 		sqlsession.update("ProductOptionSQL.updateProductOption", dto);
 		
 	}
+
+	@Override
+	public void deleteProductOption(String optionSeq) {
+		sqlsession.delete("ProductOptionSQL.deleteProductOption",optionSeq);
+		
+	}
+
 
 	
 

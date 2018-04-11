@@ -44,13 +44,56 @@
 				DCNT_MOD_DATE
 			FROM 
 			 	SHOP_DISCOUNT
+			ORDER BY
+			 	DCNT_REG_DATE DESC
  	    <include refid="pagingFooterSql"/>
 	</select> 
 	
+	<select id="selectProductList" resultType="com.project.shop.model.Product" parameterType="int"> 
+		SELECT 
+			P.PRDT_CODE,
+		  	P.PRDT_KOR_NAME,
+		  	P.PRDT_ENG_NAME,
+		  	P.PRDT_SELL_PRICE,
+		  	P.PRDT_BRAND_ID,
+			P.PRDT_DISP_YN,
+			P.PRDT_DETAIL,
+			P.PRDT_REG_ID,
+			P.PRDT_REG_DT,
+		  	P.PRDT_MOD_ID,
+		  	P.PRDT_MOD_DT
+		FROM 
+		 	SHOP_PRODUCT P 
+		 	JOIN SHOP_PRODUCT_DISCOUNT PD
+		 	ON P.PRDT_CODE = PD.PRDT_CODE
+		WHERE
+			PD.DCNT_SEQ = #{dcntSeq}
+	</select> 
+	
+	<select id="selectDiscountInfo" resultType="com.project.shop.model.Discount" parameterType="int"> 
+			SELECT 
+				 DCNT_SEQ,
+				DCNT_NAME,
+				DCNT_PRICE,
+				DCNT_TYPE,
+				DCNT_START_DATE,
+				DCNT_END_DATE,
+				DCNT_REG_ID,
+				DCNT_REG_DATE,
+				DCNT_MOD_ID,
+				DCNT_MOD_DATE
+			FROM 
+			 	SHOP_DISCOUNT
+			WHERE
+				DCNT_SEQ = #{dcntSeq}
+	</select> 
+	
 	<insert id="createDiscount" parameterType="com.project.shop.model.Discount"> 
-		<!-- <selectKey keyProperty="dcntSeq" resultType="int" order="BEFORE">
-		    select DCNT_SEQ.nextval FROM DCNT_SEQUENCE
-	  	</selectKey> -->
+		<selectKey keyProperty="dcntSeq" resultType="int" order="BEFORE">
+		   SELECT
+				NVL(MAX(DCNT_SEQ+1), 1)
+			FROM SHOP_DISCOUNT
+	  	</selectKey>
 		INSERT INTO SHOP_DISCOUNT
 		(
 			DCNT_SEQ,
@@ -66,7 +109,7 @@
 	   )
 	   VALUES
 	   (
-			2
+			#{dcntSeq}
 			,#{dcntName}
 			,#{dcntPrice}
 			,#{dcntType}
@@ -78,5 +121,61 @@
 			,SYSDATE
 	   )
 	</insert> 
+	
+	<insert id="createProductDiscounts" parameterType="com.project.shop.model.ProductDiscount">
+		MERGE INTO SHOP_PRODUCT_DISCOUNT SPD
+            USING dual
+               on (SPD.PRDT_CODE=#{prdtCode} AND 
+                      SPD.DCNT_SEQ=#{dcntSeq}) 
+			WHEN MATCHED THEN
+             	UPDATE SET
+                	SPD.PRDT_DCNT_REGID = #{prdtDcntRegid},
+                	SPD.PRDT_DCNT_REGDATE = SYSDATE
+            WHEN NOT MATCHED THEN
+		       INSERT VALUES
+		        (
+		            #{prdtCode},
+		            #{dcntSeq},
+		           	#{prdtDcntRegid},
+		            SYSDATE
+		        )
+	</insert>
+	
+	<update id="updateDiscount" parameterType="com.project.shop.model.Discount"> 
+		UPDATE 
+		  	SHOP_DISCOUNT
+		SET
+		  	DCNT_NAME = #{dcntName},
+			DCNT_PRICE = #{dcntPrice},
+			DCNT_TYPE = #{dcntType},
+			DCNT_START_DATE = #{dcntStartDate},
+			DCNT_END_DATE = #{dcntEndDate},
+			DCNT_MOD_ID = 'admin',
+			DCNT_MOD_DATE = SYSDATE
+	   WHERE
+	   	  	DCNT_SEQ = #{dcntSeq}
+	</update> 
+	
+	<delete id="deleteOnePrdtDcnt" parameterType="com.project.shop.model.ProductDiscount">
+		DELETE FROM
+			SHOP_PRODUCT_DISCOUNT
+		WHERE
+			DCNT_SEQ = #{dcntSeq}
+			AND PRDT_CODE = #{prdtCode}
+	</delete>
+	
+	<delete id="deleteDiscount" parameterType="int">
+		DELETE FROM
+			SHOP_DISCOUNT
+		WHERE
+			DCNT_SEQ = #{dcntSeq}
+	</delete>
+	
+	<delete id="deleteProductDiscount" parameterType="int">
+		DELETE FROM
+			SHOP_PRODUCT_DISCOUNT
+		WHERE
+			DCNT_SEQ = #{dcntSeq}
+	</delete>
 	
 </mapper>

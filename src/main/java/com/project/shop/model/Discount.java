@@ -1,6 +1,7 @@
 package com.project.shop.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.project.shop.common.PageVO;
 
@@ -50,6 +51,11 @@ public class Discount extends PageVO{
 	 * 상품 할인 수정일
 	 */
 	private Date dcntModDate;
+	
+	private String dcntStartDateStr;
+	private String dcntEndDateStr;
+	private List<Product> productList;
+	private int prdtDcntOption;			// 1: 미등록, 2: 전체등록 
 	
 	public int getDcntSeq() {
 		return dcntSeq;
@@ -110,6 +116,30 @@ public class Discount extends PageVO{
 	}
 	public void setDcntModDate(Date dcntModDate) {
 		this.dcntModDate = dcntModDate;
+	}
+	public String getDcntStartDateStr() {
+		return dcntStartDateStr;
+	}
+	public void setDcntStartDateStr(String dcntStartDateStr) {
+		this.dcntStartDateStr = dcntStartDateStr;
+	}
+	public String getDcntEndDateStr() {
+		return dcntEndDateStr;
+	}
+	public void setDcntEndDateStr(String dcntEndDateStr) {
+		this.dcntEndDateStr = dcntEndDateStr;
+	}
+	public List<Product> getProductList() {
+		return productList;
+	}
+	public void setProductList(List<Product> productList) {
+		this.productList = productList;
+	}
+	public int getPrdtDcntOption() {
+		return prdtDcntOption;
+	}
+	public void setPrdtDcntOption(int prdtDcntOption) {
+		this.prdtDcntOption = prdtDcntOption;
 	}
 
 }

@@ -19,6 +19,12 @@ public interface ProductDao{
      * @return
      */
 	public List<Product> selectProductList(Product product);
+	
+	/**
+	 * 상품코드 목록 
+	 * @return
+	 */
+	List<String> selectProductCodeList();
 
     /**
      * 상품등록

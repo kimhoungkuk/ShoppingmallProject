@@ -21,20 +21,22 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	ProductOptionDao productOptionDao;
 
 	@Override
-	public void registerProductOption(ProductOption dto) {
+	public void registerProductOption(List<ProductOption> list) {
 		// TODO Auto-generated method stub
-		try {
-			this.productOptionDao.insertProductOption(dto);
-			
-		}catch(Exception e) {
-			log.error(e.getMessage());
-			throw new RuntimeException(e.getMessage());
+		
+				try {
+					for(int i = 0 ; i <= list.size()-1; i++) {
+					ProductOption dto = new ProductOption();
+					dto = list.get(i);
+					 this.productOptionDao.insertProductOption(dto);}
+					
+				}catch(Exception e) {
+					log.error(e.getMessage());
+					throw new RuntimeException(e.getMessage());
+				}
+				
 		}
-		
-		
-		
-	}
-
+	
 	@Override
 	public List<ProductOption> getProductOptionList() {
 		// TODO Auto-generated method stub
@@ -45,10 +47,10 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	}
 
 	@Override
-	public ProductOption getProductOptionModify(String prdtCode) {
+	public List<ProductOption> getProductOptionModify(String modifycode) {
 		// TODO Auto-generated method stub
 		try {
-			return this.productOptionDao.selectProductOptionModify(prdtCode);
+			return this.productOptionDao.selectProductOptionModify(modifycode);
 			
 		}catch(Exception e) {
 			log.error(e.getMessage());
@@ -58,9 +60,14 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	}
 
 	@Override
-	public void updateProductOption(ProductOption dto) {
+	public void updateProductOption(List<ProductOption> list) {
 		try {
-			this.productOptionDao.updateProductOption(dto);
+			for(int i = 0 ; i <= list.size()-1; i++) {
+					ProductOption dto = new ProductOption();
+					dto = list.get(i);
+					this.productOptionDao.updateProductOption(dto);
+				}
+			
 			
 		}catch(Exception e) {
 			log.error(e.getMessage());
@@ -69,4 +76,20 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 		
 	}
 
-}
+	@Override
+	public void deleteProductOption(String optionSeq) {
+		try {
+			this.productOptionDao.deleteProductOption(optionSeq);
+			
+		}catch(Exception e) {
+			log.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
+		}
+		
+		
+		
+	}
+
+	
+	}
+

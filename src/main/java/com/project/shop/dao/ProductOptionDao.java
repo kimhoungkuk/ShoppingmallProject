@@ -18,8 +18,10 @@ public interface ProductOptionDao {
 	
 	public List<ProductOption> selectProductOption();
 	
-	public ProductOption selectProductOptionModify(String prdtCode);
+	public List<ProductOption> selectProductOptionModify(String modifycode);
 	
 	public void updateProductOption(ProductOption dto);
+	
+	public void deleteProductOption(String optionSeq);
 	
 }
